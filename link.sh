@@ -28,7 +28,7 @@ do
 done
 
 #create .config file if it does not exist
-if [ ! -e $dir/config ];
+if [ ! -e ~/.config ];
 then
     echo "Creating config dir"
     mkdir -p ~/.config
@@ -37,12 +37,12 @@ fi
 # same as above but with the .config directory
 for file in $(ls $dir/config);
 do
-    if [ -e ~/.$file ] && [ ! -L ~/.$file ];
+    if [ -e ~/.config/$file ] && [ ! -L ~/.config/$file ];
     then
         echo "config/$file exists moving to $old/config dir"
-        mv ~/.$file $olddir/config/$file
+        mv ~/.config/$file $olddir/config/$file
     fi
-    if [ ! -L ~/.$file ];
+    if [ ! -L ~/.config/$file ];
     then
         echo "Creating symlink to config/$file in home directory."
         ln -s $dir/config/$file ~/.config/$file
