@@ -1,7 +1,7 @@
 [color]
-	ui = auto
+  ui = auto
 [user]
-	name = Ian Foster
+  name = Ian Foster
   email = mrlanrat@gmail.com
 [color]
   ui = true
