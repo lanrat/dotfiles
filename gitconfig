@@ -7,3 +7,4 @@
   ui = true
 [core]
   editor = vim
+	excludesfile = /home/lanrat/.gitignore_global
