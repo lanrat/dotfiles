@@ -1,0 +1,9 @@
+[color]
+	ui = auto
+[user]
+	name = Ian Foster
+  email = mrlanrat@gmail.com
+[color]
+  ui = true
+[core]
+  editor = vim
