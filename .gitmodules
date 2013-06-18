@@ -1,0 +1,6 @@
+[submodule "revelation"]
+	path = config/awesome/revelation
+	url = git://github.com/bioe007/awesome-revelation.git
+[submodule "awesome-freedesktop"]
+	path = config/awesome/awesome-freedesktop
+	url = git://github.com/terceiro/awesome-freedesktop.git
