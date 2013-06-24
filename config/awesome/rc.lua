@@ -56,7 +56,7 @@ editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 web_browser = "google-chrome"
 file_manager = "thunar"
-lock_command = ".config/awesome/lock.sh"
+lock_command = "xscreensaver-command -lock"
 exit_command = "cb-exit"
 
 -- Default modkey.
@@ -474,4 +474,4 @@ end
 --TODO make autostart script
 run_once("nm-applet")
 run_once("dropbox start")
-run_once("xautolock -time 10 -locker " .. lock_command) --lock the screen after 10 minutes
+run_once("xscreensaver -no-splash")
