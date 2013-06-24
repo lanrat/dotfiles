@@ -21,6 +21,9 @@ require('awesome-freedesktop/freedesktop.menu')
 vicious = require("vicious")
 
 
+--set default naughty timeout
+naughty.config.default_preset.timeout = 2
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -475,3 +478,8 @@ end
 run_once("nm-applet")
 run_once("dropbox start")
 run_once("xscreensaver -no-splash")
+run_once("pnmixer")
+run_once("xfce4-volumed")
+run_once("xfce4-power-manager")
+run_once("xset b off")
+run_once(awful.util.getdir("config") .. "../../scripts/touchpad.sh")
