@@ -8,7 +8,7 @@
 
 -- {{{ Main
 theme = {}
-theme.wallpaper_cmd = { "awsetbg -a wall2.jpg" }
+theme.wallpaper_cmd = { "awsetbg -a .wallpaper.jpg" }
 -- }}}
 
 -- {{{ Styles

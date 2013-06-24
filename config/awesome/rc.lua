@@ -51,13 +51,13 @@ end
 beautiful.init(".config/awesome/zenburn_LR/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
---terminal = "x-terminal-emulator"
 terminal = "terminator"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 web_browser = "google-chrome"
+file_manager = "thunar"
 lock_command = ".config/awesome/lock.sh"
-exit_command = ".config/awesome/shutdown.sh"
+exit_command = "cb-exit"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -131,59 +131,6 @@ separator.text = "|"
 --space widget
 space = widget({ type = "textbox" })
 space.text = " "
-
--- Battery Widget
-batterywidget = widget({type = "textbox", name = "batterywidget", align="right"})
-vicious.register(batterywidget, vicious.widgets.bat, "$1 $2% $3 ", 61, "BAT0")
-
--- Volume widget
-volumecfg = {}
---volumecfg.cardid  = 0
-volumecfg.channel = "Master"
-volumecfg.device = "-D pulse "
-volumecfg.widget = widget({ type = "textbox", name = "volumecfg.widget", align = "right" })
-volumecfg_t = awful.tooltip({ objects = { volumecfg.widget },})
-volumecfg_t:set_text("Volume")
--- command must start with a space!
-volumecfg.mixercommand = function (command)
-       --local fd = io.popen("amixer -c " .. volumecfg.cardid .. command)
-       local fd = io.popen("amixer ".. command)
-       local status = fd:read("*all")
-       fd:close()
-
-       local volume = string.match(status, "(%d?%d?%d)%%")
-       volume = string.format("% 3d", volume)
-       status = string.match(status, "%[(o[^%]]*)%]")
-       if string.find(status, "on", 1, true) then
-               volume = volume .. "%"
-       else
-               volume = volume .. "M"
-       end
-       volumecfg.widget.text = volume
-end
-volumecfg.update = function ()
-       volumecfg.mixercommand(" sget " .. volumecfg.channel)
-end
-volumecfg.up = function ()
-       --volumecfg.mixercommand(" sset " .. volumecfg.channel .. " 1%+")
-       volumecfg.mixercommand(" sset " .. volumecfg.channel .. " 3+")
-       volumecfg.update()
-end
-volumecfg.down = function ()
-       --volumecfg.mixercommand(" sset " .. volumecfg.channel .. " 1%-")
-       volumecfg.mixercommand(" sset " .. volumecfg.channel .. " 3-")
-       volumecfg.update()
-end
-volumecfg.toggle = function ()
-       volumecfg.mixercommand(" sset " .. volumecfg.device .. volumecfg.channel .. " toggle")
-       volumecfg.update()
-end
-volumecfg.widget:buttons({
-       button({ }, 4, function () volumecfg.up() end),
-       button({ }, 5, function () volumecfg.down() end),
-       button({ }, 1, function () volumecfg.toggle() end)
-})
-volumecfg.update()
 
 -- RAM usage widget
 memwidget = awful.widget.progressbar()
@@ -308,10 +255,6 @@ for s = 1, screen.count() do
         cpuwidget.widget,
         space,
         separator,
-        batterywidget,
-        separator,
-        space,
-        volumecfg.widget,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
@@ -329,11 +272,6 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-
-    --for volume
-    awful.key({ }, "XF86AudioRaiseVolume", function () volumecfg.up() end),
-    awful.key({ }, "XF86AudioLowerVolume", function () volumecfg.down() end),
-    awful.key({ }, "XF86AudioMute", function () volumecfg.toggle() end),
 
     --plugins
     awful.key({ modkey, }, "e", revelation),
@@ -372,6 +310,7 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
     awful.key({ modkey,           }, "w", function () awful.util.spawn(web_browser) end), --hotkey to start web-browser
+    awful.key({ modkey,           }, "f", function () awful.util.spawn(file_manager) end), --hotkey to start my file manager
     awful.key({ modkey, "Control" }, "l", function () awful.util.spawn(lock_command) end), --lock screen
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
@@ -400,7 +339,7 @@ globalkeys = awful.util.table.join(
 )
 
 clientkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
+    awful.key({ modkey, "Control" }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
@@ -532,6 +471,7 @@ function run_once(cmd)
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
 
+--TODO make autostart script
 run_once("nm-applet")
 run_once("dropbox start")
 run_once("xautolock -time 10 -locker " .. lock_command) --lock the screen after 10 minutes
