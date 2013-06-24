@@ -1,0 +1,20 @@
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+
+"start pathogen to load all plugins
+execute pathogen#infect()
+
+
+" key used to launch nerdtree
+map <C-d> :NERDTreeToggle<CR>
+" have nerdtree open when vim started wih no file
+autocmd vimenter * if !argc() | NERDTree | endif
+" close nerdtree if it is the last window open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+
+
+syntax on
+filetype plugin indent on
+
+
+

@@ -1,10 +1,8 @@
-[color]
-	ui = auto
 [user]
 	name = Ian Foster
 	email = mrlanrat@gmail.com
 [color]
-	ui = true
+	ui = auto
 [core]
 	editor = vim
 	excludesfile = /home/lanrat/.gitignore_global

@@ -4,3 +4,9 @@
 [submodule "config/awesome/awesome-freedesktop"]
 	path = config/awesome/awesome-freedesktop
 	url = git://github.com/terceiro/awesome-freedesktop.git
+[submodule "home/vim/bundle/vim-pathogen"]
+	path = home/vim/bundle/vim-pathogen
+	url = https://github.com/tpope/vim-pathogen.git
+[submodule "home/vim/bundle/nerdtree"]
+	path = home/vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
