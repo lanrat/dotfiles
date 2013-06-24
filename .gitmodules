@@ -10,3 +10,9 @@
 [submodule "home/vim/bundle/nerdtree"]
 	path = home/vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
+[submodule "home/vim/bundle/autoclose"]
+	path = home/vim/bundle/autoclose
+	url = https://github.com/Townk/vim-autoclose.git
+[submodule "home/vim/bundle/base16"]
+	path = home/vim/bundle/base16
+	url = https://github.com/chriskempson/base16-vim.git

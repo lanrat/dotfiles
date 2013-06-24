@@ -1,6 +1,121 @@
-runtime bundle/vim-pathogen/autoload/pathogen.vim
+" ##########################################
+"               Vim Settings
+" ##########################################
 
+" This setting prevents vim from emulating the original vi's bugs and limitations.
+set nocompatible
+
+" Remove Lag
+set ttyfast
+
+" Map ; to : in normal mode for mega-easy vim commands.
+nnoremap ; :
+
+" Encoding
+set encoding=utf-8  " Set file encoding
+set termencoding=utf-8
+
+"The first setting tells vim to use 'autoindent' (that is, use the current
+"line's indent level to set the indent level of new lines). The second makes
+"vim attempt to intelligently guess the indent level of any new line based on
+"the previous line, assuming the source file is in a C-like language.
+"Combined, they are very useful in writing well-formatted source code.
+set autoindent
+set smartindent
+
+"Use 4-space tabs. The first setting sets up 4-space
+"tabs, and the second tells vi to use 4 spaces when text is indented
+set tabstop=4
+set shiftwidth=4 "indent width for autoindent
+set expandtab " no real tabs please, turn tabs into whitespace
+set shiftround " when at 3 spaces, and I hit > ... go to 4, not 5
+set softtabstop=4 " when hitting tab or backspace, how many spaces should a tab be (see expandtab)
+filetype plugin indent on "indent depends on filetype
+
+" show matching brackets
+set showmatch
+
+"This setting ensures that each window contains a statusline that displays the
+"current cursor position.
+set ruler
+
+"With this nifty option, vim will search for text as you enter it.
+set incsearch
+"highlight search results
+set hlsearch
+
+"ignore search case with all lowercase, use case when all uppercase
+set ignorecase
+set smartcase
+
+"we plan to use a dark background
+set background=dark
+
+"syntax stuff
+syntax on
+syntax sync fromstart "increases syntax accuracy
+
+"STFU
+set noerrorbells
+set vb t_vb=""
+
+" use mouse everywhere
+set mouse=a
+
+" turn on command line completion wild style
+set wildmenu
+
+"ignore these list file extensions
+set wildignore=*.dll,*.o,*.obj,*.exe,*.pyc,*.jpg,*.gif,*.png
+set wildmode=list:longest " turn on wild mode huge list
+
+"Keep the cursor n lines from the top and bottom
+set scrolloff=2
+set sidescrolloff=2 " Keep n lines at the side
+
+" always show the status line
+set laststatus=2
+
+" we do what to show tabs, to ensure we get them  out of my files
+set list
+" show tabs and trailing
+set listchars=tab:>-,trail:-
+
+"show line numbers
+set number
+
+" Show number of lines changed by : commands
+set report=0
+
+" show the command being typed
+set showcmd
+
+" do not wrap line
+set nowrap
+
+"statusline
+set statusline=%F%m%r%h%w\ [%Y,%{&ff}]\ [%l/%L,%c][%p%%]
+
+"Highlight current line in insert mode
+autocmd InsertEnter,InsertLeave * set cul!
+
+"the following lines change the statusbar color on mode
+" first, enable status line always
+set laststatus=2
+" now set it up to change the status line based on mode
+if version >= 700
+    au InsertEnter * hi StatusLine term=reverse ctermbg=5 gui=undercurl guisp=Magenta
+    au InsertLeave * hi StatusLine term=reverse ctermfg=0 ctermbg=2 gui=bold,reverse
+endif
+
+" make backspace always work
+set backspace=indent,eol,start
+
+" ##########################################
+"               Plugin Code
+" ##########################################
 "start pathogen to load all plugins
+runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
 
@@ -13,8 +128,26 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 
 
-syntax on
-filetype plugin indent on
+" ##########################################
+"               Old Bits
+" ##########################################
 
+"make code compoletion nicer
+nnoremap <C-Space> <C-p>
+"auto-backup stuff
+"set backup
+"set backupdir=~/.vim/backup
+
+"Enable indent folding
+set foldenable
+"set fdm=indent
+
+"color scheme
+set t_Co=256
+colorscheme base16-default
+
+"fix arrow key problem with indent plugin
+set ttimeout
+set ttimeoutlen=100
 
 
