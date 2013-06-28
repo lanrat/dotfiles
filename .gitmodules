@@ -13,6 +13,9 @@
 [submodule "home/vim/bundle/autoclose"]
 	path = home/vim/bundle/autoclose
 	url = https://github.com/Townk/vim-autoclose.git
-[submodule "home/vim/bundle/base16"]
-	path = home/vim/bundle/base16
-	url = https://github.com/chriskempson/base16-vim.git
+[submodule "home/vim/bundle/vim-powerline"]
+	path = home/vim/bundle/vim-powerline
+	url = https://github.com/Lokaltog/vim-powerline.git
+[submodule "home/vim/bundle/jellybeans"]
+	path = home/vim/bundle/jellybeans
+	url = https://github.com/nanotech/jellybeans.vim.git
