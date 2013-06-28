@@ -22,3 +22,6 @@
 [submodule "home/vim/bundle/vim-fugitive"]
 	path = home/vim/bundle/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive.git
+[submodule "home/vim/bundle/SearchComplete"]
+	path = home/vim/bundle/SearchComplete
+	url = https://github.com/vim-scripts/SearchComplete.git
