@@ -118,7 +118,7 @@ autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 "color scheme
-"set t_Co=256
+set t_Co=256 "this forces vim to use 256 colors even if the console says it is not supported
 "set background=dark
 colorscheme jellybeans
 
