@@ -68,7 +68,7 @@ set wildmode=list:longest " turn on wild mode huge list
 
 "Keep the cursor n lines from the top and bottom
 set scrolloff=2
-set sidescrolloff=2 " Keep n lines at the side
+set sidescrolloff=4 " Keep n lines at the side
 
 " always show the status line
 set laststatus=2
@@ -96,8 +96,8 @@ set showbreak=↪
 "replaced by vim-powerline plugin
 "set statusline=%F%m%r%h%w\ [%Y,%{&ff}]\ [%l/%L,%c][%p%%]
 
-"Highlight current line in insert mode
-autocmd InsertEnter,InsertLeave * set cul!
+"Highlight current line
+set cursorline
 
 " make backspace always work
 set backspace=indent,eol,start
@@ -126,12 +126,17 @@ colorscheme jellybeans
 "let g:Powerline_symbols = 'fancy' "does not work with vim-tiny
 
 " ##########################################
-"               Old Bits
+"               Testing
 " ##########################################
 
 "auto-backup
-"set backup
-"set backupdir=~/.vim/backup
+set backup
+set backupdir     =$HOME/.vim/backup/
+set backupext     =.bak
+
+"keep temp files in separate dir
+"set directory     =$HOME/.vim/tmp/swap/
+set viminfo       ='100,n$HOME/.vim/tmp/viminfo
 
 "Enable indent folding
 "set foldenable
@@ -140,4 +145,5 @@ colorscheme jellybeans
 "fix arrow key problem with indent plugin
 "set ttimeout
 "set ttimeoutlen=100
+
 
