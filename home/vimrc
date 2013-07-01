@@ -125,6 +125,10 @@ colorscheme jellybeans
 "powerline statusbar
 "let g:Powerline_symbols = 'fancy' "does not work with vim-tiny
 
+"tagbar
+"requires ctags to be installed
+nmap <F8> :TagbarToggle<CR>
+
 " ##########################################
 "               Testing
 " ##########################################
