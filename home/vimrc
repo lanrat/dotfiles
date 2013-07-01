@@ -126,7 +126,7 @@ colorscheme jellybeans
 "let g:Powerline_symbols = 'fancy' "does not work with vim-tiny
 
 "tagbar
-"requires ctags to be installed
+"requires ctags [exuberant-ctags] to be installed
 nmap <F8> :TagbarToggle<CR>
 
 " ##########################################
