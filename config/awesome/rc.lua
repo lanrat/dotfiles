@@ -26,6 +26,14 @@ require('awesome-freedesktop/freedesktop.menu')
 require("vicious")
 
 
+--local keydoc = require("keydoc")
+
+--make pretty things
+--this will crash if oocairo is not installed
+--bug: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=681279
+--require("blingbling")
+
+
 --------------------------------------
 ----           Variables          ----
 --------------------------------------
@@ -317,11 +325,14 @@ root.buttons(awful.util.table.join(
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
 
+    --keydoc.group("Layout manipulation"),
+
     --plugins
     awful.key({ modkey, }, "e", revelation),
+    --awful.key({ modkey, }, "F1", keydoc.display), --TODO finish this, needs arg string as last param
 
 
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
+    awful.key({ modkey,           }, "Left",   awful.tag.viewprev      ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
@@ -438,7 +449,7 @@ root.keys(globalkeys)
 --------------------------------------
 
 clientkeys = awful.util.table.join(
-    awful.key({ modkey, "Control" }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
+    awful.key({ modkey, }, "F11",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
