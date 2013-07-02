@@ -37,3 +37,6 @@
 [submodule "home/vim/bundle/dwm"]
 	path = home/vim/bundle/dwm
 	url = https://github.com/spolu/dwm.vim.git
+[submodule "config/awesome/blingbling"]
+	path = config/awesome/blingbling
+	url = https://github.com/cedlemo/blingbling.git
