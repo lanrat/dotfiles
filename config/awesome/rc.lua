@@ -1,28 +1,68 @@
+--------------------------------------
+----            Includes          ----
+--------------------------------------
 -- Standard awesome library
 require("awful")
 require("awful.autofocus")
 require("awful.rules")
+
 -- Theme handling library
 require("beautiful")
+
 -- Notification library
 require("naughty")
 
 --Expose plugin
 require("revelation")
 
+--calendaar popup
 require('calendar2')
 
 --freedesktop menus
 require('awesome-freedesktop/freedesktop.utils')
 require('awesome-freedesktop/freedesktop.menu')
 
-
 --for widgets
-vicious = require("vicious")
+require("vicious")
 
+
+--------------------------------------
+----           Variables          ----
+--------------------------------------
+
+-- {{{ Variable definitions
+-- This is used later as the default terminal and editor to run.
+terminal = "terminator"
+editor = os.getenv("EDITOR") or "vim"
+editor_cmd = terminal .. " -e " .. editor
+web_browser = "google-chrome"
+file_manager = "thunar"
+lock_command = "xscreensaver-command -lock"
+exit_command = "cb-exit"
+
+-- Default modkey.
+-- Usually, Mod4 is the key with a logo between Control and Alt.
+-- If you do not like this or do not have such a key,
+-- I suggest you to remap Mod4 to another key using xmodmap or other tools.
+-- However, you can use another modifier like Mod1, but it may interact with others.
+modkey = "Mod4"
+
+
+--------------------------------------
+----        Plugin Settings       ----
+--------------------------------------
 
 --set default naughty timeout
 naughty.config.default_preset.timeout = 2
+
+
+-- Themes define colours, icons, and wallpapers
+beautiful.init( awful.util.getdir("config") .. "/zenburn_LR/theme.lua")
+
+
+--------------------------------------
+----        Error Handleing       ----
+--------------------------------------
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -49,25 +89,10 @@ do
 end
 -- }}}
 
--- {{{ Variable definitions
--- Themes define colours, icons, and wallpapers
-beautiful.init(".config/awesome/zenburn_LR/theme.lua")
 
--- This is used later as the default terminal and editor to run.
-terminal = "terminator"
-editor = os.getenv("EDITOR") or "vim"
-editor_cmd = terminal .. " -e " .. editor
-web_browser = "google-chrome"
-file_manager = "thunar"
-lock_command = "xscreensaver-command -lock"
-exit_command = "cb-exit"
-
--- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
+--------------------------------------
+----       Tags and Layout        ----
+--------------------------------------
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
@@ -99,6 +124,11 @@ for s = 1, screen.count() do
 end
 -- }}}
 
+
+--------------------------------------
+----             Menu             ----
+--------------------------------------
+
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
@@ -118,6 +148,11 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
 -- }}}
 
+
+--------------------------------------
+----             WiBox            ----
+--------------------------------------
+
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
@@ -125,6 +160,7 @@ mytextclock.buttons = awful.util.table.join(
         awful.button({ }, 1, function() naughty.notify({text = "it works"}) end)
 )
 
+--calendar plugin
 calendar2.addCalendarToWidget(mytextclock)
 
 --separator widget
@@ -167,7 +203,6 @@ vicious.register(cpuwidget, vicious.widgets.cpu,
                         cpuwidget_t:set_text("CPU Usage: " .. args[1] .. "%")
                         return args[1]
                     end)
-
 
 
 -- Create a systray
@@ -265,13 +300,19 @@ for s = 1, screen.count() do
 end
 -- }}}
 
--- {{{ Mouse bindings
+
+--------------------------------------
+----         Key bindings         ----
+--------------------------------------
+
+-- {{{ Change workspace on scroll
 root.buttons(awful.util.table.join(
     --awful.button({ }, 3, function () mymainmenu:toggle() end), --I dont want a menu when I click on the desktop
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
 -- }}}
+
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
@@ -318,6 +359,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
+    -- Standard program
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)    end),
     awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
@@ -341,26 +383,6 @@ globalkeys = awful.util.table.join(
               end)
 )
 
-clientkeys = awful.util.table.join(
-    awful.key({ modkey, "Control" }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
-    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-    awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
-    --awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
-    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
-    awful.key({ modkey,           }, "n",
-        function (c)
-            -- The client currently has the input focus, so it cannot be
-            -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
-        end),
-    awful.key({ modkey,           }, "m",
-        function (c)
-            c.maximized_horizontal = not c.maximized_horizontal
-            c.maximized_vertical   = not c.maximized_vertical
-        end)
-)
 
 -- Compute the maximum number of digit we need, limited to 9
 keynumber = 0
@@ -410,6 +432,32 @@ clientbuttons = awful.util.table.join(
 root.keys(globalkeys)
 -- }}}
 
+
+--------------------------------------
+---              Rules            ----
+--------------------------------------
+
+clientkeys = awful.util.table.join(
+    awful.key({ modkey, "Control" }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
+    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
+    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
+    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
+    awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
+    --awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
+    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
+    awful.key({ modkey,           }, "n",
+        function (c)
+            -- The client currently has the input focus, so it cannot be
+            -- minimized, since minimized clients can't have the focus.
+            c.minimized = true
+        end),
+    awful.key({ modkey,           }, "m",
+        function (c)
+            c.maximized_horizontal = not c.maximized_horizontal
+            c.maximized_vertical   = not c.maximized_vertical
+        end)
+)
+
 -- {{{ Rules
 awful.rules.rules = {
     -- All clients will match this rule.
@@ -431,6 +479,11 @@ awful.rules.rules = {
 }
 -- }}}
 
+
+--------------------------------------
+---         Signal Function       ----
+--------------------------------------
+
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
 client.add_signal("manage", function (c, startup)
@@ -438,6 +491,7 @@ client.add_signal("manage", function (c, startup)
     -- awful.titlebar.add(c, { modkey = modkey })
 
     -- Enable sloppy focus
+    -- window focus followes the mouse
     c:add_signal("mouse::enter", function(c)
         if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
             and awful.client.focus.filter(c) then
@@ -463,6 +517,9 @@ client.add_signal("unfocus", function(c) c.border_color = beautiful.border_norma
 -- }}}
 
 
+--------------------------------------
+----           Autostart          ----
+--------------------------------------
 
 --autostart applications
 function run_once(cmd)
@@ -474,6 +531,7 @@ function run_once(cmd)
   awful.util.spawn_with_shell("pgrep -u $USER -x " .. findme .. " > /dev/null || (" .. cmd .. ")")
 end
 
+
 --TODO make autostart script
 run_once("nm-applet")
 run_once("dropbox start")
@@ -483,3 +541,4 @@ run_once("xfce4-volumed")
 run_once("xfce4-power-manager")
 run_once("xset b off")
 run_once(awful.util.getdir("config") .. "../../scripts/touchpad.sh")
+
