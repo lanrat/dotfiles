@@ -331,7 +331,29 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, }, "e", revelation),
     --awful.key({ modkey, }, "F1", keydoc.display), --TODO finish this, needs arg string as last param
 
-
+    --Move Window to Workspace Left/Right
+    --only works with 3.5, For 3.4 visit link
+    --http://awesome.naquadah.org/wiki/Move_Window_to_Workspace_Left/Right
+    awful.key({ modkey, "Shift"   }, "Left",
+        function (c)
+            local curidx = awful.tag.getidx()
+            if curidx == 1 then
+                awful.client.movetotag(tags[client.focus.screen][9])
+            else
+                awful.client.movetotag(tags[client.focus.screen][curidx - 1])
+            end
+            --awful.tag.viewprev
+        end),
+    awful.key({ modkey, "Shift"   }, "Right",
+        function (c)
+            local curidx = awful.tag.getidx()
+            if curidx == 9 then
+                awful.client.movetotag(tags[client.focus.screen][1])
+            else
+                awful.client.movetotag(tags[client.focus.screen][curidx + 1])
+            end
+            --awful.tag.viewnext
+        end), 
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev      ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
