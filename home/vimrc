@@ -147,7 +147,7 @@ set viminfo       ='100,n$HOME/.vim/tmp/viminfo
 "set fdm=indent
 
 "fix arrow key problem with indent plugin
-"set ttimeout
-"set ttimeoutlen=100
+set ttimeout
+set ttimeoutlen=100
 
 
