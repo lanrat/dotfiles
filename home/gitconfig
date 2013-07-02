@@ -5,4 +5,4 @@
 	ui = auto
 [core]
 	editor = vim
-	excludesfile = /home/lanrat/.gitignore_global
+	excludesfile = ~/.gitignore_global

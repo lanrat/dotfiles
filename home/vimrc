@@ -102,6 +102,9 @@ set cursorline
 " make backspace always work
 set backspace=indent,eol,start
 
+" toggle paste mode
+set pastetoggle=<F2>
+
 " ##########################################
 "               Plugin Code
 " ##########################################
