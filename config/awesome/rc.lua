@@ -331,7 +331,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, }, "e", revelation),
     --awful.key({ modkey, }, "F1", keydoc.display), --TODO finish this, needs arg string as last param
 
-    --Move Window to Workspace Left/Right
+    --Move Client to Workspace Left/Right
     --only works with 3.5, For 3.4 visit link
     --http://awesome.naquadah.org/wiki/Move_Window_to_Workspace_Left/Right
     awful.key({ modkey, "Shift"   }, "Left",
@@ -475,7 +475,11 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-    awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
+    --awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
+    --Move Client to Monitor Left/Right
+    awful.key({ modkey,           }, "o",      function(c) awful.client.movetoscreen(c,c.screen-1) end ),
+    awful.key({ modkey,           }, "p",      function(c) awful.client.movetoscreen(c,c.screen+1) end ),
+    
     --awful.key({ modkey, "Shift"   }, "r",      function (c) c:redraw()                       end),
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
     awful.key({ modkey,           }, "n",
