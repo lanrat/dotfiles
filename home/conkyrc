@@ -31,7 +31,10 @@ alignment bottom_right
 
 # Create own window instead of using desktop (required in nautilus)
 own_window yes
- 
+
+#specify a window class name
+own_window_class Conky
+
 # If own_window is yes, you may use type normal, desktop or override
 own_window_type desktop
  
@@ -93,6 +96,7 @@ uppercase no
 # set to 1 to disable averaging
 cpu_avg_samples 1
  
+ wn_window_class Conky
 # number of net samples to average
 # set to 1 to disable averaging
 net_avg_samples 1
@@ -134,7 +138,7 @@ ${top_io name 2}$alignr${top_io io_read 2} ${top_io io_write 2}
 ${top_io name 3}$alignr${top_io io_read 3} ${top_io io_write 3}
 
 ${color grey}FILESYSTEMS ${hr 1}${color}
-${diskiograph 20,200}
+${diskiograph 20}
 Root ${alignr}${fs_free /} / ${fs_size /}
 ${fs_bar 4 /}${if_mounted /media/windows}
 Windows ${alignr}${fs_free /media/windows} / ${fs_size /media/windows}
@@ -163,9 +167,10 @@ Total: ${totaldown wlan0} ${alignr}Tota: ${totalup wlan0}
 ${endif}${if_existing /sys/class/net/usb0/operstate}IP (usb0):$alignr${addr usb0}
 Down: ${downspeed usb0}  ${alignr}Up: ${upspeed usb0}
 ${downspeedgraph usb0 20,90} ${alignr}${upspeedgraph usb0 20,90}
-Total: ${totaldown usb0} ${alignr}Total: ${totalup usb0}${endif}
+Total: ${totaldown usb0} ${alignr}Total: ${totalup usb0}
 
 ${endif}${if_existing /sys/class/net/ppp0/operstate}IP (ppp0):$alignr${addr ppp0}
 Down: ${downspeed ppp0}  ${alignr}Up: ${upspeed ppp0}
 ${downspeedgraph ppp0 20,90} ${alignr}${upspeedgraph ppp0 20,90}
-Total: ${totaldown ppp0} ${alignr}Total: ${totalup ppp0}${endif}
+Total: ${totaldown ppp0} ${alignr}Total: ${totalup ppp0}
+${endif}
