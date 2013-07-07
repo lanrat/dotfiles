@@ -29,6 +29,9 @@ total_run_times 0
 alignment bottom_right
 #alignment none
 
+#max window width
+maximum_width 200
+
 # Create own window instead of using desktop (required in nautilus)
 own_window yes
 
