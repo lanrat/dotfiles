@@ -29,9 +29,15 @@ total_run_times 0
 alignment bottom_right
 #alignment none
 
+#max window width
+maximum_width 200
+
 # Create own window instead of using desktop (required in nautilus)
 own_window yes
- 
+
+#specify a window class name
+own_window_class Conky
+
 # If own_window is yes, you may use type normal, desktop or override
 own_window_type desktop
  
@@ -107,10 +113,11 @@ CPU: ${alignr} ${cpu}% ${freq_g} GHz
 Processes: ${alignr}$processes ($running_processes running)
 Load: ${alignr}$loadavg
 
-${if_existing /sys/devices/system/cpu/cpu0}CPU1 ${cpubar cpu1 4,60} ${alignr}${if_existing /sys/devices/system/cpu/cpu1}CPU2 ${cpubar cpu2 4,60}
-${if_existing /sys/devices/system/cpu/cpu2}CPU3 ${cpubar cpu3 4,60} ${alignr}${if_existing /sys/devices/system/cpu/cpu3}CPU4 ${cpubar cpu4 4,60}
-${if_existing /sys/devices/system/cpu/cpu4}CPU5 ${cpubar cpu5 4,60} ${alignr}${if_existing /sys/devices/system/cpu/cpu5}CPU6 ${cpubar cpu6 4,60}
-${if_existing /sys/devices/system/cpu/cpu6}CPU7 ${cpubar cpu7 4,60} ${alignr}${if_existing /sys/devices/system/cpu/cpu7}CPU8 ${cpubar cpu8 4,60}
+${if_existing /sys/devices/system/cpu/cpu0}CPU1 ${cpubar cpu1 4,60} ${endif}${alignr}${if_existing /sys/devices/system/cpu/cpu1}CPU2 ${cpubar cpu2 4,60}
+${endif}${if_existing /sys/devices/system/cpu/cpu2}CPU3 ${cpubar cpu3 4,60} ${endif}${alignr}${if_existing /sys/devices/system/cpu/cpu3}CPU4 ${cpubar cpu4 4,60}
+${endif}${if_existing /sys/devices/system/cpu/cpu4}CPU5 ${cpubar cpu5 4,60} ${endif}${alignr}${if_existing /sys/devices/system/cpu/cpu5}CPU6 ${cpubar cpu6 4,60}
+${endif}${if_existing /sys/devices/system/cpu/cpu6}CPU7 ${cpubar cpu7 4,60} ${endif}${alignr}${if_existing /sys/devices/system/cpu/cpu7}CPU8 ${cpubar cpu8 4,60}
+${endif}
 ${cpugraph 20}
  
 Ram ${alignr}$mem / $memmax ($memperc%)
@@ -134,20 +141,14 @@ ${top_io name 2}$alignr${top_io io_read 2} ${top_io io_write 2}
 ${top_io name 3}$alignr${top_io io_read 3} ${top_io io_write 3}
 
 ${color grey}FILESYSTEMS ${hr 1}${color}
-${diskiograph 20,200}
+${diskiograph 20}
 Root ${alignr}${fs_free /} / ${fs_size /}
 ${fs_bar 4 /}${if_mounted /media/windows}
 Windows ${alignr}${fs_free /media/windows} / ${fs_size /media/windows}
 ${fs_bar 4 /media/windows}${endif}${if_mounted /media/data}
 Data ${alignr}${fs_free /media/data} / ${fs_size /media/data}
-${fs_bar 4 /media/data}${endif}${if_mounted /media/disk-2}
-Disk3 ${alignr}${fs_free /media/disk-2} / ${fs_size /media/disk-2}
-${fs_bar 4 /media/disk-2}${endif}${if_mounted /media/disk-3}
-Disk4 ${alignr}${fs_free /media/disk-3} / ${fs_size /media/disk-3}
-${fs_bar 4 /media/disk-3}${endif}${if_mounted /media/disk-4}
-Disk5 ${alignr}${fs_free /media/disk-4} / ${fs_size /media/disk-4}
-${fs_bar 4 /media/disk-4}${endif}
- 
+${fs_bar 4 /media/data}${endif}
+
 ${color grey}NETWORK ${hr 1}${color}
 ${if_existing /sys/class/net/eth0/operstate up}IP (eth0):$alignr${addr eth0}
 Down: ${downspeed eth0} ${alignr}Up: ${upspeed eth0} 
@@ -163,9 +164,10 @@ Total: ${totaldown wlan0} ${alignr}Tota: ${totalup wlan0}
 ${endif}${if_existing /sys/class/net/usb0/operstate}IP (usb0):$alignr${addr usb0}
 Down: ${downspeed usb0}  ${alignr}Up: ${upspeed usb0}
 ${downspeedgraph usb0 20,90} ${alignr}${upspeedgraph usb0 20,90}
-Total: ${totaldown usb0} ${alignr}Total: ${totalup usb0}${endif}
+Total: ${totaldown usb0} ${alignr}Total: ${totalup usb0}
 
 ${endif}${if_existing /sys/class/net/ppp0/operstate}IP (ppp0):$alignr${addr ppp0}
 Down: ${downspeed ppp0}  ${alignr}Up: ${upspeed ppp0}
 ${downspeedgraph ppp0 20,90} ${alignr}${upspeedgraph ppp0 20,90}
-Total: ${totaldown ppp0} ${alignr}Total: ${totalup ppp0}${endif}
+Total: ${totaldown ppp0} ${alignr}Total: ${totalup ppp0}
+${endif}
