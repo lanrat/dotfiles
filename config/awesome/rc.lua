@@ -301,7 +301,7 @@ for s = 1, screen.count() do
         cpuwidget.widget,
         space,
         separator,
-        s == 1 and mysystray or nil,
+        s == 1 and mysystray or nil,  --only place the systray on the primary screen
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
