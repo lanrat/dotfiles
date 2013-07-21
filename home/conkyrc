@@ -116,7 +116,10 @@ Load: ${alignr}$loadavg
 ${if_existing /sys/devices/system/cpu/cpu0}CPU1 ${cpubar cpu1 4,60} ${endif}${alignr}${if_existing /sys/devices/system/cpu/cpu1}CPU2 ${cpubar cpu2 4,60}
 ${endif}${if_existing /sys/devices/system/cpu/cpu2}CPU3 ${cpubar cpu3 4,60} ${endif}${alignr}${if_existing /sys/devices/system/cpu/cpu3}CPU4 ${cpubar cpu4 4,60}
 ${endif}${if_existing /sys/devices/system/cpu/cpu4}CPU5 ${cpubar cpu5 4,60} ${endif}${alignr}${if_existing /sys/devices/system/cpu/cpu5}CPU6 ${cpubar cpu6 4,60}
-${endif}${if_existing /sys/devices/system/cpu/cpu6}CPU7 ${cpubar cpu7 4,60} ${endif}${alignr}${if_existing /sys/devices/system/cpu/cpu7}CPU8 ${cpubar cpu8 4,60}${endif}
+${endif}${if_existing /sys/devices/system/cpu/cpu6}CPU7 ${cpubar cpu7 4,60} ${endif}${alignr}${if_existing /sys/devices/system/cpu/cpu7}CPU8 ${cpubar cpu8 4,60}
+${endif}${if_existing /sys/devices/system/cpu/cpu8}CPU9 ${cpubar cpu9 4,60} ${endif}${alignr}${if_existing /sys/devices/system/cpu/cpu9}CPU10 ${cpubar cpu10 4,60}
+${endif}${if_existing /sys/devices/system/cpu/cpu10}CPU11 ${cpubar cpu11 4,60} ${endif}${alignr}${if_existing /sys/devices/system/cpu/cpu11}CPU12 ${cpubar cpu12 4,60}
+${endif}
 ${cpugraph 20}
  
 Ram ${alignr}$mem / $memmax ($memperc%)
