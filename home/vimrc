@@ -105,6 +105,9 @@ set backspace=indent,eol,start
 " toggle paste mode
 set pastetoggle=<F2>
 
+" toggle spellcheck
+map <F7> :setlocal spell! spelllang=en_us<CR>
+
 " ##########################################
 "               Plugin Code
 " ##########################################
