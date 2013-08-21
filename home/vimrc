@@ -32,6 +32,9 @@ set shiftround " when at 3 spaces, and I hit > ... go to 4, not 5
 set softtabstop=4 " when hitting tab or backspace, how many spaces should a tab be (see expandtab)
 filetype plugin indent on "indent depends on filetype
 
+"allow tabs on makefiles
+autocmd FileType make set noexpandtab
+
 " show matching brackets
 set showmatch
 
