@@ -17,3 +17,5 @@
   lola = log --graph --pretty=format:'%C(yellow)%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cblue(%cr)%Creset' --abbrev-commit --date=relative --all
   ls = ls-files
   ad = add .
+  pl = pull
+  ps = push
