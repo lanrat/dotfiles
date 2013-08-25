@@ -33,7 +33,7 @@ set softtabstop=4 " when hitting tab or backspace, how many spaces should a tab 
 filetype plugin indent on "indent depends on filetype
 
 "allow tabs on makefiles
-autocmd FileType make set noexpandtab
+autocmd FileType make setlocal noexpandtab
 
 " show matching brackets
 set showmatch
