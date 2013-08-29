@@ -1,7 +1,9 @@
 [global_config]
+  geometry_hinting = False
   title_transmit_bg_color = "#000000"
-  focus = mouse
   title_inactive_bg_color = "#000000"
+  focus = mouse
+  borderless = True
 [keybindings]
   hide_window = <Shift><Control>a
 [profiles]
