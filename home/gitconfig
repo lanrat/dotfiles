@@ -1,11 +1,11 @@
 [user]
-	name = Ian Foster
-	email = mrlanrat@gmail.com
+    name = Ian Foster
+    email = mrlanrat@gmail.com
 [color]
-	ui = auto
+    ui = auto
 [core]
-	editor = vim
-	excludesfile = ~/.gitignore_global
+    editor = vim
+    excludesfile = ~/.gitignore_global
 [alias]
   st = status
   ci = commit
@@ -19,3 +19,8 @@
   ad = add .
   pl = pull
   ps = push
+    vd = difftool
+[diff]
+    tool = vimdiff
+[difftool]
+    prompt = false
