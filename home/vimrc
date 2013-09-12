@@ -35,6 +35,9 @@ filetype plugin indent on "indent depends on filetype
 "allow tabs on makefiles
 autocmd FileType make setlocal noexpandtab
 
+"aura cmp files
+au BufNewFile,BufRead *.cmp set filetype=html
+
 " show matching brackets
 set showmatch
 
