@@ -16,7 +16,8 @@ use_xft yes
 xftalpha 0.9
  
 # Update interval in seconds
-update_interval 1.0
+update_interval 1
+update_interval_on_battery 5
  
 # This is the number of times Conky will update before quitting.
 # Set to zero to run forever.
