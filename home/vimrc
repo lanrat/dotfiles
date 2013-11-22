@@ -128,6 +128,8 @@ map <C-d> :NERDTreeToggle<CR>
 autocmd vimenter * if !argc() | NERDTree | endif
 " close nerdtree if it is the last window open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" have nerdtree ignore certian file types
+let NERDTreeIgnore=['\.o$', '\~$', '\.ln']
 
 "color scheme
 set t_Co=256 "this forces vim to use 256 colors even if the console says it is not supported
