@@ -2,107 +2,136 @@
 
 # the dir this script is in
 cwd="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-config_backup_dir="~/config_backup"
-home="~/"
 
 #helper functions
-function link target src {
-    if [ -e $src ] && [ ! -L $src ];
-    then
-        echo "$src exists moving to $config_backup_dir dir"
-        mkdir -p $config_backup_dir
-        mv $src $config_backup_dir/
-    fi
+function link {
+    target=$1
+    src=$2
     if [ -L $src ];
     then
         rm $src
     fi
-    echo "Creating symlink for $src in home directory."
-    ln -s $target $src
+    mkdir -p `dirname $src`
+    echo "Creating symlink for $src"
+    ln -sf $target $src
 }
 
-function downloadSubmodules dir {
+function downloadSubmodules {
+    dir=$1
     if [ -e $dir/submodules ];
     then
         while read l;
         do
             read -a array <<< $l
-            git clone ${array[0]} $dir/${array[1]}
+            if [ ! -e $dir/${array[1]} ];
+            then
+                git clone ${array[0]} $dir/${array[1]}
+            else
+                echo "update git repo"
+                #TODO
+            fi
         done < $dir/submodules
     fi
 }
 
-#functions for each config
-function conky {
-    echo "Linking conky"
-    link $cwd/conky/conkyrc $home/.conkyrc
-    echo "Done!"
+function vim {
+    echo "Linking vim"
+    downloadSubmodules $cwd/vim
+    link $cwd/vim/vimrc ~/.vimrc
+    link $cwd/vim/vim ~/.vim
 }
 
-function git {
+function conky {
+    echo "Linking conky"
+    link $cwd/conky/conkyrc ~/.conkyrc
+}
+
+#can not be called git, conflicts with download submodules
+function git_config {
     echo "Linking git"
     for file in $(ls $cwd/git);
     do
-        link $cwd/git/$file $home/.file
+        link $cwd/git/$file ~/.$file
     done
-    echo "Done!"
 }
 
 function shell {
     echo "Linking shell"
     for file in $(ls $cwd/shell);
     do
-        link $cwd/shell/$file $home/.file
+        link $cwd/shell/$file ~/.$file
     done
-    echo "Done!"
 }
 
 function tmux {
     echo "Linking tmux"
-    link $cwd/tmux/tmux.conf $home/.tmux.conf
-    echo "Done!"
+    link $cwd/tmux/tmux.conf ~/.tmux.conf
 }
 
 function xscreensaver {
     echo "Linking xscreensaver"
-    link $cwd/xscreensaver/xscreensaver $home/.xscreensaver
-    echo "Done!"
-}
-
-function vim {
-    echo "Linking vim"
-    downloadSubmodules $cwd/vim
-    link $cwd/vim/vimrc $home/.vimrc
-    link $cwd/vim/vim $home/.vim
-    echo "Done!"
+    link $cwd/xscreensaver/xscreensaver ~/.xscreensaver
 }
 
 function awesome {
     echo "Linking awesome"
-    downloadSubmodules $cwd/vim
-    mkdir -p $home/.config
-    link $cwd/awesome/awesome $home/.config/awesome
-    echo "Done!"
+    downloadSubmodules $cwd/awesome
+    link $cwd/awesome/awesome ~/.config/awesome
 }
 
 function openbox {
     echo "Linking openbox"
-    link $cwd/openbox/openbox $home/.config/openbox
-    echo "Done!"
+    link $cwd/openbox/openbox ~/.config/openbox
 }
 
 function terminator {
     echo "Linking terminator"
-    link $cwd/terminator/terminator $home/.config/terminator
-    echo "Done!"
+    link $cwd/terminator/terminator ~/.config/terminator
 }
 
 function tint2 {
     echo "Linking tint2"
-    link $cwd/tint2/tint2 $home/.config/tint2
-    echo "Done!"
+    link $cwd/tint2/tint2 ~/.config/tint2
+}
+
+function scripts {
+    #DO NOTHING
+    echo "Skipping scripts"
+}
+
+function run {
+    if [ $1 == "git" ];
+    then
+        c="git_config"
+    else
+        c=$1
+    fi
+    eval ${c}
+}
+
+function all {
+    echo "Linking all configs"
+    for dir in $cwd/*/
+    do
+        dir=${dir%*/}
+        dir=${dir##*/}
+        if [ "$dir" != "~" ];
+        then
+            run ${dir}
+        fi
+    done
 }
 
 
 
+if [ "$#" -eq 0 ];
+then
+    echo "Usage: $0 [all | CONFIGS_TO_LINK ...]"
+    exit
+fi
 
+#for var in "$@"
+#do
+#    run ${var}
+#done
+run ${1}
