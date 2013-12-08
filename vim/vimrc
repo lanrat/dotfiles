@@ -32,6 +32,12 @@ set shiftround " when at 3 spaces, and I hit > ... go to 4, not 5
 set softtabstop=4 " when hitting tab or backspace, how many spaces should a tab be (see expandtab)
 filetype plugin indent on "indent depends on filetype
 
+"ignore whitespace in vimdiff
+if &diff
+    " diff mode
+    set diffopt+=iwhite
+endif
+
 "allow tabs on makefiles
 autocmd FileType make setlocal noexpandtab
 
@@ -128,6 +134,8 @@ map <C-d> :NERDTreeToggle<CR>
 autocmd vimenter * if !argc() | NERDTree | endif
 " close nerdtree if it is the last window open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" have nerdtree ignore certian file types
+let NERDTreeIgnore=['\.o$', '\~$', '\.ln']
 
 "color scheme
 set t_Co=256 "this forces vim to use 256 colors even if the console says it is not supported

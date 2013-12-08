@@ -1,53 +1,133 @@
 #!/usr/bin/env bash
-############################
-# link.sh
 
-########## Variables
-cwd="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # the dir this script is in
-old=old
-olddir=$cwd/$old             # old dotfiles backup directory
-me=$(basename $0)
-home_config=home
-##########
+# the dir this script is in
+cwd="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# move any existing dotfiles in homedir to old directory, then create symlinks 
-for file in $(ls $cwd/$home_config);
-do
-    if [ -e ~/.$file ] && [ ! -L ~/.$file ];
+#helper functions
+function link {
+    target=$1
+    src=$2
+    if [ -L $src ];
     then
-        echo "$file exists moving to $old dir"
-        mv ~/.$file $olddir/$file
+        rm $src
     fi
-    if [ -L ~/.$file ];
-    then
-        rm ~/.$file
-    fi
-    echo "Creating symlink to $file in home directory."
-    ln -s $cwd/$home_config/$file ~/.$file
-done
+    mkdir -p `dirname $src`
+    echo "Creating symlink for $src"
+    ln -sf $target $src
+}
 
-#create .config file if it does not exist
-if [ ! -e ~/.config ];
+function downloadSubmodules {
+    dir=$1
+    if [ -e $dir/submodules ];
+    then
+        while read l;
+        do
+            read -a array <<< $l
+            if [ ! -e $dir/${array[1]} ];
+            then
+                git clone ${array[0]} $dir/${array[1]}
+            else
+                echo "Updating git repo ${array[1]}"
+                git --git-dir=$dir/${array[1]}/.git pull
+            fi
+        done < $dir/submodules
+    fi
+}
+
+
+#config functions
+function vim {
+    echo "Linking vim"
+    downloadSubmodules $cwd/vim
+    link $cwd/vim/vimrc ~/.vimrc
+    link $cwd/vim/vim ~/.vim
+}
+
+function conky {
+    echo "Linking conky"
+    link $cwd/conky/conkyrc ~/.conkyrc
+}
+
+#can not be called git, conflicts with download submodules
+function git_config {
+    echo "Linking git"
+    for file in $(ls $cwd/git);
+    do
+        link $cwd/git/$file ~/.$file
+    done
+}
+
+function shell {
+    echo "Linking shell"
+    for file in $(ls $cwd/shell);
+    do
+        link $cwd/shell/$file ~/.$file
+    done
+}
+
+function tmux {
+    echo "Linking tmux"
+    link $cwd/tmux/tmux.conf ~/.tmux.conf
+}
+
+function xscreensaver {
+    echo "Linking xscreensaver"
+    link $cwd/xscreensaver/xscreensaver ~/.xscreensaver
+}
+
+function awesome {
+    echo "Linking awesome"
+    downloadSubmodules $cwd/awesome
+    link $cwd/awesome/awesome ~/.config/awesome
+}
+
+function openbox {
+    echo "Linking openbox"
+    link $cwd/openbox/openbox ~/.config/openbox
+}
+
+function terminator {
+    echo "Linking terminator"
+    link $cwd/terminator/terminator ~/.config/terminator
+}
+
+function tint2 {
+    echo "Linking tint2"
+    link $cwd/tint2/tint2 ~/.config/tint2
+}
+
+function scripts {
+    #DO NOTHING
+    echo "Skipping scripts"
+}
+
+function run {
+    if [ $1 == "git" ];
+    then
+        c="git_config"
+    else
+        c=$1
+    fi
+    eval ${c}
+}
+
+function all {
+    echo "Linking all configs"
+    for dir in $cwd/*/
+    do
+        dir=${dir%*/}
+        dir=${dir##*/}
+        if [ "$dir" != "~" ];
+        then
+            run ${dir}
+        fi
+    done
+}
+
+if [ "$#" -eq 0 ];
 then
-    echo "Creating config dir"
-    mkdir -p ~/.config
+    echo "Usage: $0 {all | CONFIG_TO_LINK}"
+    exit
 fi
 
-# same as above but with the .config directory
-for file in $(ls $cwd/config);
-do
-    if [ -e ~/.config/$file ] && [ ! -L ~/.config/$file ];
-    then
-        echo "config/$file exists moving to $old/config dir"
-        mv ~/.config/$file $olddir/config/$file
-    fi
-    if [ -L ~/.config/$file ];
-    then
-        rm ~/.config/$file
-    fi
-    echo "Creating symlink to config/$file in home directory."
-    ln -s $cwd/config/$file ~/.config/$file
-done
-
-
-echo "All Done!"
+run ${1}
