@@ -27,13 +27,15 @@ function downloadSubmodules {
             then
                 git clone ${array[0]} $dir/${array[1]}
             else
-                echo "update git repo"
-                #TODO
+                echo "Updating git repo ${array[1]}"
+                git --git-dir=$dir/${array[1]}/.git pull
             fi
         done < $dir/submodules
     fi
 }
 
+
+#config functions
 function vim {
     echo "Linking vim"
     downloadSubmodules $cwd/vim
@@ -122,16 +124,10 @@ function all {
     done
 }
 
-
-
 if [ "$#" -eq 0 ];
 then
-    echo "Usage: $0 [all | CONFIGS_TO_LINK ...]"
+    echo "Usage: $0 {all | CONFIG_TO_LINK}"
     exit
 fi
 
-#for var in "$@"
-#do
-#    run ${var}
-#done
 run ${1}
