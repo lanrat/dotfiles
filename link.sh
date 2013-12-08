@@ -22,13 +22,16 @@ function downloadSubmodules {
     then
         while read l;
         do
-            read -a array <<< $l
-            if [ ! -e $dir/${array[1]} ];
+            if [ -n "$l" ];
             then
-                git clone ${array[0]} $dir/${array[1]}
-            else
-                echo "Updating git repo ${array[1]}"
-                git --git-dir=$dir/${array[1]}/.git pull
+                read -a array <<< $l
+                if [ ! -e $dir/${array[1]} ];
+                then
+                    git clone ${array[0]} $dir/${array[1]}
+                else
+                    echo "Updating git repo ${array[1]}"
+                    git --git-dir=$dir/${array[1]}/.git pull
+                fi
             fi
         done < $dir/submodules
     fi
