@@ -75,7 +75,7 @@ set mouse=a
 set wildmenu
 
 "ignore these list file extensions
-set wildignore=*.dll,*.o,*.obj,*.exe,*.pyc,*.jpg,*.gif,*.png
+set wildignore=*.dll,*.o,*.obj,*.exe,*.pyc,*.jpg,*.gif,*.png,*.class,*.ln
 set wildmode=list:longest " turn on wild mode huge list
 
 "Keep the cursor n lines from the top and bottom
@@ -135,7 +135,7 @@ autocmd vimenter * if !argc() | NERDTree | endif
 " close nerdtree if it is the last window open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " have nerdtree ignore certian file types
-let NERDTreeIgnore=['\.o$', '\~$', '\.ln']
+let NERDTreeIgnore=['\.o$', '\~$', '\.ln', '\.class', '\.pyc']
 
 "color scheme
 set t_Co=256 "this forces vim to use 256 colors even if the console says it is not supported
