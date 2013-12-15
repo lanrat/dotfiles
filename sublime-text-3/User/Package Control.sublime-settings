@@ -2,6 +2,11 @@
 	"installed_packages":
 	[
 		"SideBarEnhancements",
+		"SublimeHideTabs",
 		"Theme - Soda"
+	],
+	"repositories":
+	[
+		"https://github.com/croach/SublimeHideTabs"
 	]
 }
