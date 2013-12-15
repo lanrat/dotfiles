@@ -1,3 +1,4 @@
 *
-*.sublime-settingsb
+!*.sublime-settings
+!*.sublime-keymap
 !.gitignore

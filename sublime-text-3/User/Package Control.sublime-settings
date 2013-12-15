@@ -2,9 +2,12 @@
 	"installed_packages":
 	[
 		"Git",
+		"GitGutter",
 		"SideBarEnhancements",
+		"SublimeCodeIntel",
 		"SublimeHideTabs",
-		"Theme - Soda"
+		"Theme - Soda",
+		"VintageousOrigami"
 	],
 	"repositories":
 	[

@@ -121,7 +121,7 @@
 	"move_to_limit_on_up_down": false,
 	"open_files_in_new_window": true,
 	"overlay_scroll_bars": "system",
-	"preview_on_click": true,
+	"preview_on_click": true, //This annoyes me, but I should keep it as is
 	"remember_open_files": false,
 	"rulers":
 	[
@@ -146,6 +146,6 @@
 	"trim_trailing_white_space_on_save": false,
 	"use_simple_full_screen": false,
 	"use_tab_stops": true,
-	"word_wrap": "auto",
+	"word_wrap": false,
 	"wrap_width": 0
 }

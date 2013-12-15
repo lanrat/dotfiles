@@ -1,3 +1,15 @@
 {
-	"version": "2012.06.06.1611.2"
+	"version": "2012.06.06.1611.2",
+
+    "disabled_menuitem_open_run":           true,
+    "disabled_menuitem_open_in_browser":    true,
+    "disabled_menuitem_open_in_new_window": false,
+    "disabled_menuitem_find_in_project":    false,
+    "disabled_menuitem_copy_name":          false,
+    "disabled_menuitem_copy_path":          false,
+    "disabled_menuitem_copy_dir_path":      true,
+    "disabled_menuitem_paste_in_parent":    false,
+    "disabled_menuitem_empty":              true,
+
+    "expand_sidebar_on_startup":            true,
 }
