@@ -1,6 +1,7 @@
 {
 	"installed_packages":
 	[
+		"Git",
 		"SideBarEnhancements",
 		"SublimeHideTabs",
 		"Theme - Soda"

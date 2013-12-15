@@ -135,7 +135,7 @@
 	"show_panel_on_build": true,
 	"show_tab_close_buttons": true,
 	"smart_indent": true,
-	"soda_folder_icons": true,
+	"soda_folder_icons": false,
 	"spell_check": false,
 	"tab_completion": true,
 	"tab_size": 4,
