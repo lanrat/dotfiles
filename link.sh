@@ -99,6 +99,11 @@ function tint2 {
     link $cwd/tint2/tint2 ~/.config/tint2
 }
 
+function sublime {
+    echo "Linking Sublime Text"
+    link $cwd/sublime-text-3/User ~/.config/sublime-text-3/Packages/User
+}
+
 function scripts {
     #DO NOTHING
     echo "Skipping scripts"
@@ -108,6 +113,9 @@ function run {
     if [ $1 == "git" ];
     then
         c="git_config"
+    elif [ $1 == "sublime-text-3" ];
+    then
+        c="sublime"
     else
         c=$1
     fi
