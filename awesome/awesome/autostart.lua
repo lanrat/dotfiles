@@ -7,6 +7,6 @@ r.run("pnmixer")
 r.run("xfce4-volumed")
 r.run("xfce4-power-manager")
 r.run("xset b off")
-r.run("conky")
+--r.run("conky")
 r.run(awful.util.getdir("config") .. "../../scripts/touchpad.sh")
 
