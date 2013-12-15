@@ -179,14 +179,19 @@ separator.text = "|"
 space = widget({ type = "textbox" })
 space.text = " "
 
+local fg_end_color = "#FF5656"
+local fg_color = "#AECF96"
+local fg_center_color = "#FFCF00"
+local bg_color = "#111111"
+
 -- RAM usage widget
 memwidget = awful.widget.progressbar()
-memwidget:set_width(10)
-memwidget:set_height(20)
+memwidget:set_width(8)
+memwidget:set_height(18)
 memwidget:set_vertical(true)
-memwidget:set_background_color('#111111')
-memwidget:set_color('#AECF96')
-memwidget:set_gradient_colors({ '#AECF96', '#88A175', '#FF5656' })
+memwidget:set_background_color(bg_color)
+memwidget:set_color(fg_color)
+memwidget:set_gradient_colors({ fg_color, fg_center_color, fg_end_color })
 -- RAM usage tooltip
 memwidget_t = awful.tooltip({ objects = { memwidget.widget },})
 vicious.cache(vicious.widgets.mem)
@@ -200,18 +205,18 @@ vicious.register(memwidget, vicious.widgets.mem,
 -- CPU usage widget
 cpuwidget = awful.widget.graph()
 cpuwidget:set_width(30)
-cpuwidget:set_height(20)
-cpuwidget:set_background_color("#111111")
-cpuwidget:set_color("#FF5656")
-cpuwidget:set_gradient_colors({ "#FF5656", "#88A175", "#AECF96" })
+cpuwidget:set_height(18)
+cpuwidget:set_background_color(bg_color)
+cpuwidget:set_color(fg_color)
+cpuwidget:set_gradient_angle(180)
+cpuwidget:set_gradient_colors({ fg_color, fg_center_color, fg_end_color })
 cpuwidget_t = awful.tooltip({ objects = { cpuwidget.widget },})
 -- Register CPU widget
 vicious.register(cpuwidget, vicious.widgets.cpu, 
                     function (widget, args)
                         cpuwidget_t:set_text("CPU Usage: " .. args[1] .. "%")
                         return args[1]
-                    end)
-
+                    end, 2)
 
 -- Create a systray
 mysystray = widget({ type = "systray" })
