@@ -8,6 +8,7 @@
 
 -- {{{ Main
 theme = {}
+--TODO better wallpaper handling
 theme.wallpaper_cmd = { "awsetbg -a .wallpaper.jpg" }
 -- }}}
 
@@ -46,6 +47,8 @@ theme.titlebar_bg_normal = "#3F3F3F"
 --theme.taglist_bg_focus = "#CC9393"
 -- }}}
 
+
+--TODO use these variables
 -- {{{ Widgets
 -- You can add as many variables as
 -- you wish and access them by using
