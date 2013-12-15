@@ -102,6 +102,8 @@ function tint2 {
 function sublime {
     echo "Linking Sublime Text"
     link $cwd/sublime-text-3/User ~/.config/sublime-text-3/Packages/User
+    echo "Downloading Package Manager PLugin"
+    wget -P ~/.config/sublime-text-3/Installed\ Packages/ https://sublime.wbond.net/Package%20Control.sublime-package
 }
 
 function scripts {
