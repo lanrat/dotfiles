@@ -12,15 +12,15 @@ require("beautiful")
 -- Notification library
 require("naughty")
 
---Expose plugin
-require("revelation")
+--Expose like plugin
+require("modules/revelation")
 
 --calendaar popup
 require('calendar2')
 
 --freedesktop menus
-require('awesome-freedesktop/freedesktop.utils')
-require('awesome-freedesktop/freedesktop.menu')
+require('modules/awesome-freedesktop/freedesktop.utils')
+require('modules/awesome-freedesktop/freedesktop.menu')
 
 --for widgets
 require("vicious")
