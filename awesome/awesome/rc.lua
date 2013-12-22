@@ -19,8 +19,8 @@ require("modules/revelation")
 require('calendar2')
 
 --freedesktop menus
-require('modules/awesome-freedesktop/freedesktop.utils')
-require('modules/awesome-freedesktop/freedesktop.menu')
+--require('modules/awesome-freedesktop/freedesktop.utils')
+--require('modules/awesome-freedesktop/freedesktop.menu')
 
 --for widgets
 require("vicious")
@@ -146,7 +146,8 @@ myawesomemenu = {
    { "quit", awesome.quit }
 }
 
-menu_items = freedesktop.menu.new()
+--menu_items = freedesktop.menu.new()
+menu_items = {}
 table.insert(menu_items, { "awesome", myawesomemenu, beautiful.awesome_icon })
 table.insert(menu_items, { "Exit", exit_command })
 
@@ -184,10 +185,13 @@ local fg_color = "#AECF96"
 local fg_center_color = "#FFCF00"
 local bg_color = "#111111"
 
+--TODO height of bar for widgets and wibox should be set in theme
+--TODO rename theme
+
 -- RAM usage widget
 memwidget = awful.widget.progressbar()
 memwidget:set_width(8)
-memwidget:set_height(18)
+memwidget:set_height(15)
 memwidget:set_vertical(true)
 memwidget:set_background_color(bg_color)
 memwidget:set_color(fg_color)
@@ -205,7 +209,7 @@ vicious.register(memwidget, vicious.widgets.mem,
 -- CPU usage widget
 cpuwidget = awful.widget.graph()
 cpuwidget:set_width(30)
-cpuwidget:set_height(18)
+cpuwidget:set_height(15)
 cpuwidget:set_background_color(bg_color)
 cpuwidget:set_color(fg_color)
 cpuwidget:set_gradient_angle(180)
@@ -286,7 +290,7 @@ for s = 1, screen.count() do
                                           end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, height = "15" })
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
