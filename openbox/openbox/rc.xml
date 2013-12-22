@@ -329,7 +329,7 @@
     </keybind>
     <!-- Keybindings for running applications -->
     <!--<keybind key="A-F2">-->
-    <keybind key="W-space">
+    <keybind key="W-r">
       <action name="Execute">
         <startupnotify>
           <enabled>true</enabled>
