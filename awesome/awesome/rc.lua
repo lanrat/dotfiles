@@ -65,7 +65,7 @@ naughty.config.default_preset.timeout = 2
 
 
 -- Themes define colours, icons, and wallpapers
-beautiful.init( awful.util.getdir("config") .. "/zenburn_LR/theme.lua")
+beautiful.init( awful.util.getdir("config") .. "/darkburn/theme.lua")
 
 
 --------------------------------------
@@ -290,7 +290,7 @@ for s = 1, screen.count() do
                                           end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s, height = "15" })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, height = "16" })
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
