@@ -19,8 +19,8 @@ require("modules/revelation")
 require('calendar2')
 
 --freedesktop menus
---require('modules/awesome-freedesktop/freedesktop.utils')
---require('modules/awesome-freedesktop/freedesktop.menu')
+require('modules/awesome-freedesktop/freedesktop.utils')
+require('modules/awesome-freedesktop/freedesktop.menu')
 
 --for widgets
 require("vicious")
@@ -146,8 +146,7 @@ myawesomemenu = {
    { "quit", awesome.quit }
 }
 
---menu_items = freedesktop.menu.new()
-menu_items = {}
+menu_items = freedesktop.menu.new()
 table.insert(menu_items, { "awesome", myawesomemenu, beautiful.awesome_icon })
 table.insert(menu_items, { "Exit", exit_command })
 

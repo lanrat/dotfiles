@@ -66,7 +66,7 @@ theme.bg_widget        = "#111111"
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
 theme.menu_height = 16
-theme.menu_width  = 100
+theme.menu_width  = 150
 -- }}}
 
 -- {{{ Icons
