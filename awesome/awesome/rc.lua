@@ -25,6 +25,8 @@ require('modules/awesome-freedesktop/freedesktop.menu')
 --for widgets
 require("vicious")
 
+require("xrandr")
+
 
 --local keydoc = require("keydoc")
 
@@ -325,10 +327,14 @@ globalkeys = awful.util.table.join(
 
     --keydoc.group("Layout manipulation"),
 
+
     --plugins
     awful.key({ modkey, }, "e", revelation),
     --awful.key({ modkey, }, "F1", keydoc.display), --TODO finish this, needs arg string as last param
 
+    --TODO make work
+    awful.key({}, "XF86Display", xrandr),
+    
     --Conky toggle
     awful.key({ }, "Pause", raise_conky, lower_conky),
     --awful.key({}, "Pause", toggle_conky)
