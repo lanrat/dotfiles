@@ -121,7 +121,7 @@
 	"move_to_limit_on_up_down": false,
 	"open_files_in_new_window": true,
 	"overlay_scroll_bars": "system",
-	"preview_on_click": true, //This annoyes me, but I should keep it as is
+	"preview_on_click": true,
 	"remember_open_files": false,
 	"rulers":
 	[
