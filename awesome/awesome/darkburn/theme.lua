@@ -81,7 +81,7 @@ theme.taglist_squares_unsel = theme.themedir .. "taglist/corner.png"
 
 -- {{{ Misc
 theme.awesome_icon           =  theme.themedir .. "awesome-icon.png"
-theme.menu_submenu_icon      = "/usr/share/awesome/themes/default/submenu.png"
+theme.menu_submenu_icon      = theme.themedir .. "submenu.png"
 theme.tasklist_floating_icon = "/usr/share/awesome/themes/default/tasklist/floatingw.png"
 -- }}}
 
