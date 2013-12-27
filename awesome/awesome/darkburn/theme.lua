@@ -7,7 +7,6 @@
 theme = {}
 theme.confdir = awful.util.getdir("config")
 theme.themedir = theme.confdir .. "/darkburn/"
---TODO better wallpaper handling
 theme.wallpaper_cmd = { "awsetbg -a .wallpaper.jpg" }
 -- }}}
 
@@ -24,11 +23,10 @@ theme.bg_urgent = "#3F3F3F"
 -- }}}
 
 -- {{{ Borders
---theme.border_width  = "1"
-theme.border_width  = "0"
+theme.border_width  = 0
 theme.border_normal = "#3F3F3F"
 theme.border_focus  = "#6F6F6F"
-theme.border_marked = "#CC9393"
+--theme.border_marked = "#CC9393"
 -- }}}
 
 -- {{{ Titlebars
@@ -47,20 +45,19 @@ theme.titlebar_bg_normal = "#3F3F3F"
 -- }}}
 
 
---TODO use these variables
 -- {{{ Widgets
 -- You can add as many variables as
 -- you wish and access them by using
--- beautiful.variable in your rc.lua
---theme.fg_widget        = "#AECF96"
---theme.fg_center_widget = "#88A175"
---theme.fg_end_widget    = "#FF5656"
---theme.bg_widget        = "#494B4F"
+-- beautiful.variableName in your rc.lua
+theme.fg_widget        = "#AECF96"
+theme.fg_center_widget = "#FFCF00"
+theme.fg_end_widget    = "#FF5656"
+theme.bg_widget        = "#111111"
 --theme.border_widget    = "#3F3F3F"
 -- }}}
 
 -- {{{ Mouse finder
-theme.mouse_finder_color = "#CC9393"
+--theme.mouse_finder_color = "#CC9393"
 -- mouse_finder_[timeout|animate_timeout|radius|factor]
 -- }}}
 
@@ -68,8 +65,8 @@ theme.mouse_finder_color = "#CC9393"
 -- Variables set for theming the menu:
 -- menu_[bg|fg]_[normal|focus]
 -- menu_[border_color|border_width]
-theme.menu_height = "16"
-theme.menu_width  = "100"
+theme.menu_height = 16
+theme.menu_width  = 100
 -- }}}
 
 -- {{{ Icons

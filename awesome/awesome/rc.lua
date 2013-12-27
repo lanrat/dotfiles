@@ -151,7 +151,7 @@ menu_items = {}
 table.insert(menu_items, { "awesome", myawesomemenu, beautiful.awesome_icon })
 table.insert(menu_items, { "Exit", exit_command })
 
-mymainmenu = awful.menu.new({ items = menu_items, width = 150 })
+mymainmenu = awful.menu.new({ items = menu_items, width = beautiful.menu_width })
 
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
@@ -165,9 +165,6 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- {{{ Wibox
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
-mytextclock.buttons = awful.util.table.join(
-        awful.button({ }, 1, function() naughty.notify({text = "it works"}) end)
-)
 
 --calendar plugin
 calendar2.addCalendarToWidget(mytextclock)
@@ -180,22 +177,15 @@ separator.text = "|"
 space = widget({ type = "textbox" })
 space.text = " "
 
-local fg_end_color = "#FF5656"
-local fg_color = "#AECF96"
-local fg_center_color = "#FFCF00"
-local bg_color = "#111111"
-
---TODO height of bar for widgets and wibox should be set in theme
---TODO rename theme
 
 -- RAM usage widget
 memwidget = awful.widget.progressbar()
 memwidget:set_width(8)
-memwidget:set_height(15)
+memwidget:set_height(beautiful.menu_height)
 memwidget:set_vertical(true)
-memwidget:set_background_color(bg_color)
-memwidget:set_color(fg_color)
-memwidget:set_gradient_colors({ fg_color, fg_center_color, fg_end_color })
+memwidget:set_background_color(beautiful.bg_widget)
+memwidget:set_color(beautiful.fg_widget)
+memwidget:set_gradient_colors({ beautiful.fg_widget, beautiful.fg_center_widget, beautiful.fg_end_widget })
 -- RAM usage tooltip
 memwidget_t = awful.tooltip({ objects = { memwidget.widget },})
 vicious.cache(vicious.widgets.mem)
@@ -209,11 +199,11 @@ vicious.register(memwidget, vicious.widgets.mem,
 -- CPU usage widget
 cpuwidget = awful.widget.graph()
 cpuwidget:set_width(30)
-cpuwidget:set_height(15)
-cpuwidget:set_background_color(bg_color)
-cpuwidget:set_color(fg_color)
+cpuwidget:set_height(beautiful.menu_height)
+cpuwidget:set_background_color(beautiful.bg_widget)
+cpuwidget:set_color(beautiful.fg_widget)
 cpuwidget:set_gradient_angle(180)
-cpuwidget:set_gradient_colors({ fg_color, fg_center_color, fg_end_color })
+cpuwidget:set_gradient_colors({ beautiful.fg_widget, fg_center_widget, beautiful.fg_end_widget })
 cpuwidget_t = awful.tooltip({ objects = { cpuwidget.widget },})
 -- Register CPU widget
 vicious.register(cpuwidget, vicious.widgets.cpu, 
@@ -290,7 +280,7 @@ for s = 1, screen.count() do
                                           end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s, height = "16" })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, height = beautiful.menu_height })
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
