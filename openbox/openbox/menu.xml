@@ -244,7 +244,7 @@
 		</menu>
 		<separator/>
 		<menu execute="cb-places-pipemenu" id="pipe-placesmenu" label="Places"/>
-		<menu execute="cb-recent-files-pipemenu" id="pipe-recentfilesmenu" label="Recent Files"/>
+        <!--<menu execute="cb-recent-files-pipemenu" id="pipe-recentfilesmenu" label="Recent Files"/>-->
 		<separator/>
 		<menu id="settings" label="Settings">
 			<menu execute="cb-compositor" id="CompositingPipeMenu" label="Compositor"/>

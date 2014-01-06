@@ -147,5 +147,11 @@
 	"use_simple_full_screen": false,
 	"use_tab_stops": true,
 	"word_wrap": false,
-	"wrap_width": 0
+	"wrap_width": 0,
+	// Display file encoding in the status bar
+    "show_encoding": false,
+
+    // Display line endings in the status bar
+    "show_line_endings": false,
+
 }
