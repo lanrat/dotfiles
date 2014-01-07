@@ -28,13 +28,12 @@ require("vicious")
 require("xrandr")
 
 
+require("layouts/browse")
+require("layouts/termfair")
+--require("layouts/uselessfair")
+--require("layouts/uselesstile")
+
 --local keydoc = require("keydoc")
-
---make pretty things
---this will crash if oocairo is not installed
---bug: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=681279
---require("blingbling")
-
 
 --------------------------------------
 ----           Variables          ----
@@ -108,17 +107,21 @@ end
 layouts =
 {
     awful.layout.suit.tile,
-    --awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
+    awful.layout.suit.max,
+    awful.layout.suit.floating,
+    vain.layout.browse,
+    vain.layout.termfair,
+    --vain.layout.uselessfair,
+    --vain.layout.uselesstile,
+    --awful.layout.suit.magnifier,
+    --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.top,
     --awful.layout.suit.fair,
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
     --awful.layout.suit.max.fullscreen,
-    --awful.layout.suit.magnifier,
-    awful.layout.suit.floating,
 }
 -- }}}
 
