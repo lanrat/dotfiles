@@ -23,6 +23,7 @@ theme.bg_urgent = "#3F3F3F"
 -- }}}
 
 -- {{{ Borders
+--theme.useless_gap_width = 5
 theme.border_width  = 0
 theme.border_normal = "#3F3F3F"
 theme.border_focus  = "#6F6F6F"
@@ -95,6 +96,8 @@ theme.layout_max        = theme.themedir .. "layouts/max.png"
 theme.layout_fullscreen = theme.themedir .. "layouts/fullscreen.png"
 theme.layout_magnifier  = theme.themedir .. "layouts/magnifier.png"
 theme.layout_floating   = theme.themedir .. "layouts/floating.png"
+theme.layout_browse     = theme.themedir .. "layouts/browse.png"
+theme.layout_termfair   = theme.themedir .. "layouts/termfair.png"
 -- }}}
 
 -- {{{ Titlebar
