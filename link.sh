@@ -47,13 +47,13 @@ function conky {
 }
 
 #can not be called git, conflicts with download submodules
-function git_config {
-    echo "Linking git"
-    for file in $(ls $cwd/git);
-    do
-        link $cwd/git/$file ~/.$file
-    done
-}
+#function git_config {
+#    echo "Linking git"
+#    for file in $(ls $cwd/git);
+#    do
+#        link $cwd/git/$file ~/.$file
+#    done
+#}
 
 function shell {
     echo "Linking shell"
