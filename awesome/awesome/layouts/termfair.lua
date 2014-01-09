@@ -55,6 +55,13 @@ function arrange(p)
     --local desired_y = tag.getncol(t)
     local desired_y = ncol
 
+    --dynamic positioning
+    if #cls < 4
+    then
+        num_x = #cls
+    end
+
+
     if #cls > 0
     then
         local num_y = math.max(math.ceil(#cls / num_x), desired_y)
