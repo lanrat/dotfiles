@@ -130,6 +130,7 @@ execute pathogen#infect()
 
 " key used to launch nerdtree
 map <C-d> :NERDTreeToggle<CR>
+map <F6> :NERDTreeToggle<CR>
 " have nerdtree open when vim started wih no file
 autocmd vimenter * if !argc() | NERDTree | endif
 " close nerdtree if it is the last window open
