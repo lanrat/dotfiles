@@ -6,6 +6,9 @@ local tonumber  = tonumber
 
 module("vain.layout.termfair")
 
+nmaster = 3
+ncol = 2
+
 name = "termfair"
 
 function arrange(p)

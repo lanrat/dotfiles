@@ -8,7 +8,8 @@ local math      = math
 module("vain.layout.browse")
 
 extra_padding = 0
-
+mwfact_global = 0.5
+ncol = 1 
 name = "browse"
 
 function arrange(p)
@@ -39,11 +40,13 @@ function arrange(p)
     local cls = p.clients
 
     -- Width of main column?
-    local t = awful.tag.selected(p.screen)
-    local mwfact = awful.tag.getmwfact(t)
+    --local t = awful.tag.selected(p.screen)
+    --local mwfact = awful.tag.getmwfact(t)
+    local mwfact = mwfact_global
 
     -- Make slave windows overlap main window? Do this if ncol is 1.
-    local overlap_main = awful.tag.getncol(t)
+    --local overlap_main = awful.tag.getncol(t)
+    local overlap_main = ncol
 
     if #cls > 0
     then

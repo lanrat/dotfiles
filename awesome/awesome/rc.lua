@@ -58,6 +58,23 @@ modkey = "Mod4"
 
 
 --------------------------------------
+----        Layout Settings       ----
+--------------------------------------
+
+-- number of columns
+vain.layout.termfair.nmaster   = 3
+-- min number of rows (yes the var-name is backwards)
+vain.layout.termfair.ncol      = 1
+
+-- percent of space for main window
+vain.layout.browse.mwfact_global = 0.6
+-- 0 for non-overlapping, 1 for ovelapping
+vain.layout.browse.ncol = 1
+-- reduces the size of the main window if "overlapping slave column" is activated.
+-- This allows you to see if there are any windows in your slave column.
+vain.layout.browse.extra_padding = 5
+
+--------------------------------------
 ----        Plugin Settings       ----
 --------------------------------------
 
@@ -136,7 +153,10 @@ for s = 1, screen.count() do
     tags[s] = awful.tag(tags.names, s, tags.layout)
 end
 -- }}}
-
+--
+--awful.layout.set(vain.layout.termfair, tags[1][2])
+--awful.tag.setnmaster(3, tags[1][2])
+--awful.tag.setncol(1, tags[1][2])
 
 --------------------------------------
 ----             Menu             ----
@@ -530,9 +550,6 @@ awful.rules.rules = {
             size_hints = {"program_position", "program_size"}
         }
     }
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { tag = tags[1][2] } },
 }
 -- }}}
 
