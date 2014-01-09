@@ -41,14 +41,16 @@ function arrange(p)
     local cls = p.clients
 
     -- How many vertical columns? Read from nmaster on the tag.
-    local t = tag.selected(p.screen)
-    local num_x = tag.getnmaster(t)
+    --local t = tag.selected(p.screen)
+    --local num_x = tag.getnmaster(t)
+    local num_x = nmaster
 
     -- Do at least "desired_y" rows. Read this from ncol. (Yes, I use a
     -- *column* setting to set the number of *rows*. That's because
     -- num_x is the *master* setting -- it's the setting that's most
     -- important to me.)
-    local desired_y = tag.getncol(t)
+    --local desired_y = tag.getncol(t)
+    local desired_y = ncol
 
     if #cls > 0
     then
