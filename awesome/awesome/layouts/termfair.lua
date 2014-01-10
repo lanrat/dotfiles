@@ -59,6 +59,9 @@ function arrange(p)
     if #cls < 4
     then
         num_x = #cls
+    elseif #cls == 4
+    then
+        num_x = 2
     end
 
 

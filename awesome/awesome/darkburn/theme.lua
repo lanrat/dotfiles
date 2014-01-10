@@ -23,7 +23,7 @@ theme.bg_urgent = "#3F3F3F"
 -- }}}
 
 -- {{{ Borders
-theme.useless_gap_width = 3
+theme.useless_gap_width = 2
 theme.border_width  = 0
 theme.border_normal = "#3F3F3F"
 theme.border_focus  = "#6F6F6F"
@@ -99,6 +99,7 @@ theme.layout_floating   = theme.themedir .. "layouts/floating.png"
 theme.layout_browse     = theme.themedir .. "layouts/browse.png"
 theme.layout_termfair   = theme.themedir .. "layouts/termfair.png"
 theme.layout_uselesstile = theme.themedir .. "layouts/tile.png"
+theme.layout_uselesstilebottom = theme.themedir .. "layouts/tilebottom.png"
 theme.layout_fairh      = theme.themedir .. "layouts/fairh.png"
 -- }}}
 

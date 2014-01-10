@@ -30,8 +30,8 @@ require("xrandr")
 
 require("layouts/browse")
 require("layouts/termfair")
---require("layouts/uselessfair")
---require("layouts/uselesstile")
+require("layouts/uselessfair")
+require("layouts/uselesstile")
 
 --local keydoc = require("keydoc")
 
@@ -129,7 +129,7 @@ layouts =
     awful.layout.suit.floating,
     vain.layout.browse,
     vain.layout.termfair,
-    vain.layout.uselesstile,
+    --vain.layout.uselesstile,
     vain.layout.uselessfair,
     --awful.layout.suit.magnifier,
     --awful.layout.suit.tile.left,
