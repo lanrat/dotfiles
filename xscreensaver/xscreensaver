@@ -19,7 +19,7 @@ nice:		10
 memoryLimit:	0
 fade:		True
 unfade:		False
-fadeSeconds:	0:00:03
+fadeSeconds:	0:00:01
 fadeTicks:	20
 captureStderr:	True
 ignoreUninstalledPrograms:False
