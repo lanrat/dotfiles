@@ -107,8 +107,11 @@ function sublime {
 }
 
 function scripts {
-    #DO NOTHING
-    echo "Skipping scripts"
+    echo "Linking scripts"
+    for script in $cwd/scripts/*
+    do
+        link $script ~/bin/$(basename $script)
+    done
 }
 
 function run {
