@@ -21,11 +21,14 @@ import time
 import signal
 import os
 
-running = True
+#enable logging to file
+#sys.stdout = open( 'pinhole.log', 'w' )
+
 
 def log( s ):
     print '%s:%s' % ( time.ctime(), s )
     sys.stdout.flush()
+
 
 class PipeThread( Thread ):
     pipes = []
@@ -40,7 +43,7 @@ class PipeThread( Thread ):
         log( '%s pipes active' % len( PipeThread.pipes ))
 
     def run( self ):
-        while running:
+        while True:
             try:
                 data = self.source.recv( 1024 )
                 if not data: break
@@ -51,6 +54,7 @@ class PipeThread( Thread ):
         log( '%s terminating' % self )
         PipeThread.pipes.remove( self )
         log( '%s pipes active' % len( PipeThread.pipes ))
+
 
 class Pinhole( Thread ):
     def __init__( self, port, newhost, newport ):
@@ -63,7 +67,7 @@ class Pinhole( Thread ):
         self.sock.listen(5)
 
     def run( self ):
-        while running:
+        while True:
             newsock, address = self.sock.accept()
             log( 'Creating new session for %s %s ' % address )
             fwd = socket( AF_INET, SOCK_STREAM )
@@ -71,12 +75,9 @@ class Pinhole( Thread ):
             PipeThread( newsock, fwd ).start()
             PipeThread( fwd, newsock ).start()
 
+
 if __name__ == '__main__':
-
     print 'Starting Pinhole'
-
-    import sys
-    #sys.stdout = open( 'pinhole.log', 'w' )
 
     if len( sys.argv ) > 1:
         port = newport = int( sys.argv[1] )
@@ -92,3 +93,4 @@ if __name__ == '__main__':
             time.sleep(2)
     except (KeyboardInterrupt, SystemExit):
         os.kill(os.getpid(), signal.SIGTERM)
+
