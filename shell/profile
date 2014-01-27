@@ -28,5 +28,7 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 
+alias untar="tar -xf"
+
 #tell google chrome to use ram for cache
 export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
