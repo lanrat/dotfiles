@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+#this function was taken from:
+# https://wiki.archlinux.org/index.php/Color_Bash_Prompt#Colors_overview
 
 colors() {
     local fgc bgc vals seq0
