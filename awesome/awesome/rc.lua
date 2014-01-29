@@ -49,6 +49,7 @@ file_manager = "thunar"
 lock_command = "xscreensaver-command -lock"
 exit_command = "cb-exit"
 prtsc_command = "xfce4-screenshooter"
+xrandr_command = "arandr"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -422,6 +423,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f", function () awful.util.spawn(file_manager) end), --hotkey to start my file manager
     awful.key({ modkey, "Control" }, "l", function () awful.util.spawn(lock_command) end), --lock screen
     awful.key( { }                 , "Print" , function () awful.util.spawn(prtsc_command) end), --screenshot
+    awful.key( { }                 , "XF86Display" , function () awful.util.spawn(xrandr_command) end), --change resolutions/monitors
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
