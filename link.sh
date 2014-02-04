@@ -114,15 +114,28 @@ function scripts {
     done
 }
 
+function ssh {
+    echo "Linking ssh"
+    SSH_CONFIG=~/Dropbox/config/ssh
+    if [ -e "$SSH_CONFIG" ];
+    then
+        link $SSH_CONFIG ~/.ssh/config
+    else
+        echo "$SSH_CONFIG does not exist!"
+    fi
+}
+
+
 function run {
-    if [ $1 == "git" ];
+    p="${1%/}"
+    if [ $p == "git" ];
     then
         c="git_config"
-    elif [ $1 == "sublime-text-3" ];
+    elif [ $p == "sublime-text-3" ];
     then
         c="sublime"
     else
-        c=$1
+        c=$p
     fi
     eval ${c}
 }
