@@ -78,11 +78,6 @@ function terminator {
     link $cwd/terminator/terminator ~/.config/terminator
 }
 
-function tint2 {
-    echo "Linking tint2"
-    link $cwd/tint2/tint2 ~/.config/tint2
-}
-
 function scripts {
     #DO NOTHING
     echo "Skipping scripts"
