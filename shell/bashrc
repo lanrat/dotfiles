@@ -1,0 +1,16 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+#For mac colors.
+if [ `uname` == 'Dawrin' ]
+then
+    export CLICOLOR=1
+    export LSCOLORS=GxFxCxDxBxegedabagaced
+fi
+
+#source ~/perl5/perlbrew/etc/bashrc
+
+# User specific aliases and functions
