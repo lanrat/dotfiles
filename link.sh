@@ -73,12 +73,6 @@ function xscreensaver {
     link $cwd/xscreensaver/xscreensaver ~/.xscreensaver
 }
 
-function awesome {
-    echo "Linking awesome"
-    downloadSubmodules $cwd/awesome
-    link $cwd/awesome/awesome ~/.config/awesome
-}
-
 function openbox {
     echo "Linking openbox"
     link $cwd/openbox/openbox ~/.config/openbox
