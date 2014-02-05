@@ -73,11 +73,6 @@ function xscreensaver {
     link $cwd/xscreensaver/xscreensaver ~/.xscreensaver
 }
 
-function openbox {
-    echo "Linking openbox"
-    link $cwd/openbox/openbox ~/.config/openbox
-}
-
 function terminator {
     echo "Linking terminator"
     link $cwd/terminator/terminator ~/.config/terminator
