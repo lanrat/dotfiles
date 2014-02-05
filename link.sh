@@ -68,11 +68,6 @@ function tmux {
     link $cwd/tmux/tmux.conf ~/.tmux.conf
 }
 
-function xscreensaver {
-    echo "Linking xscreensaver"
-    link $cwd/xscreensaver/xscreensaver ~/.xscreensaver
-}
-
 function terminator {
     echo "Linking terminator"
     link $cwd/terminator/terminator ~/.config/terminator
