@@ -147,7 +147,7 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names = { '⠂', '⠒', '⠣', '⠞', '⠟', '⠿', '⠹', '⠽', '⠻' },
+    names = { '⠁', '⠃', '⠉', '⠙', '⠑', '⠋', '⠛', '⠓', '⠊' },
     layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1],},
 }
 for s = 1, screen.count() do
