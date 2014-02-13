@@ -3,7 +3,7 @@ dotfiles
 
 A place to store my configuration files.
 
-USAGE: Run ./link.sh `<module to link>`
+USAGE: Run `./link.sh <module to link>`
 
 All
 --------
