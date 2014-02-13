@@ -3,7 +3,13 @@ dotfiles
 
 A place to store my configuration files.
 
-USAGE: Run ./link.sh <thing to link> 
+USAGE: Run ./link.sh `<module to link>`
+
+All
+--------
+
+Configures all 
+
 
 Vim
 --------
@@ -29,6 +35,8 @@ https://github.com/nanotech/jellybeans.vim.git vim/bundle/jellybeans
 
 Shell
 --------
+
+Configures the bash shell.
 
 Replaces the ~/.bashrc and ~/.bash_profile with the profiles here.
 
