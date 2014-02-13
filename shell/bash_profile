@@ -29,4 +29,4 @@ if [ -d "$HOME/bin" ] ; then
 fi
 
 #tell google chrome to use ram for cache
-export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
+#export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
