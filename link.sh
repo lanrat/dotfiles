@@ -75,7 +75,13 @@ function terminator {
 
 function scripts {
     #DO NOTHING
-    echo "Skipping scripts"
+    if [ `uname` == 'Darwin' ]
+    then
+        #TODO: Create bin directory if not there
+        link $cwd/scripts/osx/edit ~/bin/edit
+    else
+        echo "Skipping scripts"
+    fi
 }
 
 function run {

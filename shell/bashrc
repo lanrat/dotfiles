@@ -9,6 +9,8 @@ if [ `uname` == 'Darwin' ]
 then
     export CLICOLOR=1
     export LSCOLORS=GxFxCxDxBxegedabagaced
+    #Mac specific ALIAS'
+    alias vi=edit $@
 fi
 
 #Initial standard colored terminal

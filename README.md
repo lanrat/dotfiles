@@ -32,6 +32,9 @@ https://github.com/msanders/snipmate.vim.git vim/bundle/snipmate
 
 https://github.com/nanotech/jellybeans.vim.git vim/bundle/jellybeans
 
+TODO for OSX:
+    Download, compile, and install MacVim if it's not already installed!
+
 
 Shell
 --------
@@ -40,9 +43,29 @@ Configures the bash shell.
 
 Replaces the ~/.bashrc and ~/.bash_profile with the profiles here.
 
+Changes for all unix systems:
+    A fancy prompt
+    bash_profile updates the path, and sources bashrc
+
+Changes for OSX:
+    Shell colors (yay!)
+    vi opens the edit script. Link the scripts if you want this.
+
+
+Scripts
+--------
+
+Links commonly used scripts to ~/bin/
+
+Scripts linked for all unix systems:
+
+Scripts linked for OSX:
+    edit    -   Just opens MacVim
+
 
 Terminator
 --------
+
 
 Conky
 --------
