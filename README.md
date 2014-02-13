@@ -6,7 +6,7 @@ A place to store my configuration files.
 USAGE: Run ./link.sh <thing to link> 
 
 Vim
-======
+--------
 
 Automagically configures vim with the following plugins:
 
@@ -28,13 +28,13 @@ https://github.com/nanotech/jellybeans.vim.git vim/bundle/jellybeans
 
 
 Shell
-======
+--------
 
 Replaces the ~/.bashrc and ~/.bash_profile with the profiles here.
 
 
 Terminator
-======
+--------
 
 Conky
-=======
+--------
