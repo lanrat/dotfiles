@@ -5,7 +5,7 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 #For mac colors.
-if [ `uname` == 'Dawrin' ]
+if [ `uname` == 'Darwin' ]
 then
     export CLICOLOR=1
     export LSCOLORS=GxFxCxDxBxegedabagaced
