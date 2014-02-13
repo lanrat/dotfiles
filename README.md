@@ -28,6 +28,9 @@ https://github.com/nanotech/jellybeans.vim.git vim/bundle/jellybeans
 Shell
 =======
 
+Replaces the ~/.bashrc and ~/.bash_profile with the profiles here.
+
+
 Terminator
 =======
 
