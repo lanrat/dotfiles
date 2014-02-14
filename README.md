@@ -43,8 +43,8 @@ Changes for all unix systems:
    3. bash_profile updates the path, and sources bashrc
    4. Adds functions that make your life easier:
    
-        * extract $1 #Extract things. No more remember ugly tar crap!
-        * scour $1 #Where the hell is it? 
+         extract $1 #Extract things. No more remember ugly tar crap!
+         scour $1 #Where the hell is it? 
 
 Changes for OSX:
    1. Shell colors (yay!)
