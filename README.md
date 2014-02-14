@@ -16,12 +16,19 @@ Vim
 
 Automagically configures vim with the following plugins:
 
-1. https://github.com/tpope/vim-pathogen.git vim/bundle/vim-pathogen
-2. https://github.com/scrooloose/nerdtree.git vim/bundle/nerdtree
-3. https://github.com/Townk/vim-autoclose.git vim/bundle/autoclose
-4. https://github.com/Lokaltog/vim-powerline.git vim/bundle/vim-powerline
-5. https://github.com/tpope/vim-fugitive.git vim/bundle/vim-fugitive
-6. https://github.com/majutsushi/tagbar.git vim/bundle/tagbar
+1. Pathogen for plugin management:  
+    https://github.com/tpope/vim-pathogen.git  
+2. Nerdtree for file management awesomeness:  
+    https://github.com/scrooloose/nerdtree.git  
+3. Autoclose things like (, { and so on:  
+    https://github.com/Townk/vim-autoclose.git  
+4. Nicer status lines:  
+    https://github.com/Lokaltog/vim-powerline.git  
+    Note: This has been depreciated, and will need to be updated at some point!  
+5. Control git:
+    https://github.com/tpope/vim-fugitive.git  
+6. Fo seeing your classes:  
+    https://github.com/majutsushi/tagbar.git  
 7. https://github.com/msanders/snipmate.vim.git vim/bundle/snipmate
 8. https://github.com/nanotech/jellybeans.vim.git vim/bundle/jellybeans
 
