@@ -4,7 +4,8 @@
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
-#For mac colors.
+
+#For mac specifics
 if [ `uname` == 'Darwin' ]
 then
     export CLICOLOR=1
@@ -13,11 +14,15 @@ then
     alias vi=edit $@
 fi
 
-#Initial standard colored terminal
+#Extra fancy prompt, without too many annoying bells.
 MYDIR="[\[\033[33;1m\]\w\[\033[m\]]\n"
 PS1="$MYDIR[\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h]\$ "
 
-#source ~/perl5/perlbrew/etc/bashrc
+#if you want to use perlbrew:
+#if [ -f  ~/perl5/perlbrew/etc/bashrc ]
+#then
+#    source ~/perl5/perlbrew/etc/bashrc
+#fi
 
 #Functions to make life easier
 
@@ -43,6 +48,7 @@ extract () {
   fi
 }
 
+#Where did I leave that?
 function scour() {
     find / -iname '*'$1'*' 2>/dev/null;
 }
