@@ -46,6 +46,8 @@ Replaces the ~/.bashrc and ~/.bash_profile with the profiles here.
 Changes for all unix systems:
     A fancy prompt
     bash_profile updates the path, and sources bashrc
+    Adds functions that make your life easier:
+        extract $1 #Extract things. No more remember ugly tar crap!
 
 Changes for OSX:
     Shell colors (yay!)
