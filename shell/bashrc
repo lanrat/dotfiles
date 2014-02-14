@@ -43,5 +43,9 @@ extract () {
   fi
 }
 
+function scour() {
+    find / -iname '*'$1'*' 2>/dev/null;
+}
+
 # User specific aliases and functions
 alias ls="ls -p"
