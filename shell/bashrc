@@ -14,8 +14,10 @@ then
 fi
 
 #Initial standard colored terminal
-PS1="[\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]]\$ "
+MYDIR="[\[\033[33;1m\]\w\[\033[m\]]\n"
+PS1="$MYDIR[\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h]\$ "
 
 #source ~/perl5/perlbrew/etc/bashrc
 
 # User specific aliases and functions
+alias ls="ls -p"
