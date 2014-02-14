@@ -1,9 +1,23 @@
 # .bashrc
 
+#Fix our path
+# include sbin in PATH
+if [ -d "/sbin" ] ; then
+    PATH="/sbin:$PATH"
+fi
+if [ -d "/usr/sbin" ] ; then
+    PATH="/usr/sbin:$PATH"
+fi
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
+#End path
 
 #For mac specifics
 if [ `uname` == 'Darwin' ]
@@ -14,9 +28,31 @@ then
     alias vi=edit $@
 fi
 
+#colors
+RESTORE='\033[0m'
+
+RED='\033[00;31m'
+GREEN='\033[00;32m'
+YELLOW='\033[00;33m'
+BLUE='\033[00;34m'
+PURPLE='\033[00;35m'
+CYAN='\033[00;36m'
+LIGHTGRAY='\033[00;37m'
+
+LRED='\033[01;31m'
+LGREEN='\033[01;32m'
+LYELLOW='\033[01;33m'
+LBLUE='\033[01;34m'
+LPURPLE='\033[01;35m'
+LCYAN='\033[01;36m'
+WHITE='\033[01;37m'
+
 #Extra fancy prompt, without too many annoying bells.
-MYDIR="[\[\033[33;1m\]\w\[\033[m\]]\n"
-PS1="$MYDIR[\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h]\$ "
+MYDIR="\[$GREEN[$LYELLOW\w\[$GREEN]\n"
+PS1="$MYDIR[\[$CYAN\u\[$RESTORE@\[$LGREEN\h\[$GREEN]\$\[$RESTORE "
+
+#MYDIR="[\[\033[33;1m\]\w\[\033[m\]]\n"
+#PS1="$MYDIR[\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h]\$ "
 
 #if you want to use perlbrew:
 #if [ -f  ~/perl5/perlbrew/etc/bashrc ]
@@ -54,4 +90,5 @@ function scour() {
 }
 
 # User specific aliases and functions
-alias ls="ls -p"
+alias ls="ls -p" #puts a nice / after dirs
+
