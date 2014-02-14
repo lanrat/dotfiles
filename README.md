@@ -37,10 +37,12 @@ Configures the bash shell.
 Replaces the ~/.bashrc and ~/.bash_profile with the profiles here.
 
 Changes for all unix systems:
+
    1. A fancy prompt
    2. Some aliases
    3. bash_profile updates the path, and sources bashrc
    4. Adds functions that make your life easier:
+   
         * extract $1 #Extract things. No more remember ugly tar crap!
         * scour $1 #Where the hell is it? 
 
@@ -57,6 +59,7 @@ Links commonly used scripts to ~/bin/
 Scripts linked for all unix systems:
 
 Scripts linked for OSX:
+
     1. edit    -   Just opens MacVim
 
 
