@@ -27,8 +27,10 @@ Automagically configures vim with the following plugins:
     Note: This has been depreciated, and will need to be updated at some point!  
 5. Control git:
     https://github.com/tpope/vim-fugitive.git  
-6. Fo seeing your classes:  
+6. For seeing your classes:  
     https://github.com/majutsushi/tagbar.git  
+    For this to work, you need to have Exuberant Ctags. Can be found here:http://ctags.sourceforge.net/
+    Then press f8 for coolness. 
 7. https://github.com/msanders/snipmate.vim.git vim/bundle/snipmate
 8. https://github.com/nanotech/jellybeans.vim.git vim/bundle/jellybeans
 
