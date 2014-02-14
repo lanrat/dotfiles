@@ -44,17 +44,12 @@ Configures the bash shell.
 Replaces the ~/.bashrc and ~/.bash_profile with the profiles here.
 
 Changes for all unix systems:
-    A fancy prompt
-
-    Some aliases
-
-    bash_profile updates the path, and sources bashrc
-
-    Adds functions that make your life easier:
-
-        extract $1 #Extract things. No more remember ugly tar crap!
-
-        scour $1 #Where the hell is it? 
+   1. A fancy prompt
+   2. Some aliases
+   3. bash_profile updates the path, and sources bashrc
+   4. Adds functions that make your life easier:
+        1. extract $1 #Extract things. No more remember ugly tar crap!
+        2. scour $1 #Where the hell is it? 
 
 Changes for OSX:
     Shell colors (yay!)
