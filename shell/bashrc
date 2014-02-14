@@ -29,7 +29,7 @@ then
 fi
 
 #colors
-RESTORE='\033[0m'
+RESTORE='\033[0m' #PUT IT BACK YOU DOG
 
 RED='\033[00;31m'
 GREEN='\033[00;32m'
