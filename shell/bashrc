@@ -28,6 +28,10 @@ then
     alias vi=edit $@
     #PATH for homebrew
     PATH="/usr/local/bin:$PATH"
+    #bash completion through brew. Hopefully this is installed!
+    if [ -f $(brew --prefix)/etc/bash_completion ]; then
+        . $(brew --prefix)/etc/bash_completion
+    fi
 fi
 
 #colors

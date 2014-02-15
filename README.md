@@ -31,8 +31,8 @@ Automagically configures vim with the following plugins:
     https://github.com/majutsushi/tagbar.git  
     For this to work, you need to have Exuberant Ctags. Can be found here:http://ctags.sourceforge.net/
     Then press f8 for coolness. 
-7. https://github.com/msanders/snipmate.vim.git vim/bundle/snipmate
-8. https://github.com/nanotech/jellybeans.vim.git vim/bundle/jellybeans
+7. https://github.com/msanders/snipmate.vim.git
+8. https://github.com/nanotech/jellybeans.vim.git
 
 TODO for OSX:
     1. Download, compile, and install MacVim if it's not already installed!
@@ -52,8 +52,9 @@ Changes for all unix systems:
    3. bash_profile updates the path, and sources bashrc
    4. Adds functions that make your life easier:
    
-         extract $1 #Extract things. No more remember ugly tar crap!
+         extract $1 #Extract things. No more remember ugly tar crap!  
          scour $1 #Where the hell is it? 
+         man $@ #Fancy man pages
 
 Changes for OSX:
    1. Shell colors (yay!)
