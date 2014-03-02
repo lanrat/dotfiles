@@ -213,3 +213,6 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
+#disable checking gnome-keyring
+#we dont usse gnome
+unset GNOME_KEYRING_CONTROL
