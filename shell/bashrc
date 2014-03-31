@@ -192,16 +192,6 @@ export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
 
 
 # -------------------
-# Terminal Notes
-# -------------------
-NOTES_FOLDER=$HOME/Dropbox/notes
-n() { $EDITOR $NOTES_FOLDER/"$*".txt ; }
-nls() { tree -CR --noreport $NOTES_FOLDER | awk '{ if ((NR > 1) gsub(/.txt/,"")); if (NF==1) print $1; else if (NF==2) print $2; else if (NF==3) printf "  %s\n", $3 }' ;}
-nrm() { rm $NOTES_FOLDER/"$*".txt ; }
-
-
-
-# -------------------
 # Other
 # -------------------
 
