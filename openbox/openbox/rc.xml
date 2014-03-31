@@ -52,7 +52,7 @@
       S: shade (roll up/down)
       D: omnipresent (on all desktops).
   -->
-    <keepBorder>yes</keepBorder>
+    <keepBorder>no</keepBorder>
     <animateIconify>no</animateIconify>
     <font place="ActiveWindow">
       <name>Liberation Sans</name>
@@ -413,8 +413,8 @@
     <keybind key="W-v">
       <action name="Execute">
         <startupwnotify>
-        <command>pavucontrol</command>
-      </startupwnotify>
+          <command>pavucontrol</command>
+        </startupwnotify>
       </action>
     </keybind>
     <keybind key="W-x">
@@ -969,6 +969,11 @@
         <x>center</x>
         <y>center</y>
       </position>
+    </application>
+
+
+    <application class="Google-chrome">
+      <decor>no</decor> 
     </application>
   </applications>
 </openbox_config>
