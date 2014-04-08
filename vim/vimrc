@@ -40,6 +40,7 @@ endif
 
 "allow tabs on makefiles
 autocmd FileType make setlocal noexpandtab
+autocmd FileType go setlocal noexpandtab
 
 "aura cmp files
 au BufNewFile,BufRead *.cmp set filetype=html
