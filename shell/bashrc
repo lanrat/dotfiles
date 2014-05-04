@@ -167,6 +167,10 @@ alias ports='netstat -tnlpu'
 #dmesg with readable time
 alias dmesg='dmesg -T'
 
+# make ssh check for ssh-agent before running
+ssh-add -l >/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
+#alias ssh='ssh-add -l || ssh-add && ssh'
+
 #let aliases work with sudo
 alias sudo='sudo '
 

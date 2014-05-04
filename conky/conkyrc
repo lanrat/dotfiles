@@ -154,7 +154,7 @@ ${fs_bar 4 /media/data}${endif}
 
 ${color grey}NETWORK ${hr 1}${color}
 ${if_existing /sys/class/net/eth0/operstate up}IP (eth0):$alignr${addr eth0}
-Down: ${downspeed eth0} ${alignr}Up: ${upspeed eth0} 
+Down: ${downspeed eth0} ${alignr}Up: ${upspeed eth0}
 ${downspeedgraph eth0 20,90} ${alignr}${upspeedgraph eth0 20,90}
 Total: ${totaldown eth0} ${alignr}Total: ${totalup eth0}
  
