@@ -27,7 +27,7 @@ shopt -s checkwinsize
 
 # we want lots of colors
 export TERM=xterm-256color
-
+#TODO check that the color vars work
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color) color_prompt=yes;;
@@ -97,6 +97,9 @@ man()
     man "$@"
 }
 
+#cdl = cd && ls
+#cdl () { builtin cd "$@" && ls }
+
 
 # -----------
 # History
@@ -158,7 +161,14 @@ alias ll='ls -l'
 #alias la='ls -A'
 alias l='ls -CF'
 
+#netstat the way I like it
+alias ports='netstat -tnlpu'
 
+#dmesg with readable time
+alias dmesg='dmesg -T'
+
+#let aliases work with sudo
+alias sudo='sudo '
 
 # -------------------
 # Bash Completion on steroids
@@ -185,7 +195,7 @@ fi
 export GREP_OPTIONS="--color=auto"
 
 #enable color, case-insensitive search, and no-wrapping in less
-export LESS="-Sir"
+export LESS="-SiR"
 
 #tell google chrome to use ram for cache
 export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
@@ -194,6 +204,8 @@ export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
 # -------------------
 # Other
 # -------------------
+
+
 
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
