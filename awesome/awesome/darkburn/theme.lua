@@ -98,8 +98,8 @@ theme.layout_magnifier  = theme.themedir .. "layouts/magnifier.png"
 theme.layout_floating   = theme.themedir .. "layouts/floating.png"
 theme.layout_browse     = theme.themedir .. "layouts/browse.png"
 theme.layout_termfair   = theme.themedir .. "layouts/termfair.png"
-theme.layout_uselesstile = theme.themedir .. "layouts/tile.png"
-theme.layout_uselesstilebottom = theme.themedir .. "layouts/tilebottom.png"
+theme.layout_uselesstile = theme.themedir .. "layouts/uselesstile.png"
+theme.layout_uselesstilebottom = theme.themedir .. "layouts/uselesstilebottom.png"
 theme.layout_fairh      = theme.themedir .. "layouts/fairh.png"
 -- }}}
 
