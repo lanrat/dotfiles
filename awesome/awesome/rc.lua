@@ -50,6 +50,7 @@ lock_command = "xscreensaver-command -lock"
 exit_command = "cb-exit"
 prtsc_command = "xfce4-screenshooter"
 xrandr_command = "arandr"
+htop_command = "terminator --command=\"htop\""
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -147,7 +148,7 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names = { '⠂', '⠒', '⠣', '⠞', '⠟', '⠿', '⠹', '⠽', '⠻' },
+    names = { '⠁', '⠃', '⠉', '⠙', '⠑', '⠋', '⠛', '⠓', '⠊' },
     layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1],},
 }
 for s = 1, screen.count() do
@@ -423,6 +424,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f", function () awful.util.spawn(file_manager) end), --hotkey to start my file manager
     awful.key({ modkey, "Control" }, "l", function () awful.util.spawn(lock_command) end), --lock screen
     awful.key( { }                 , "Print" , function () awful.util.spawn(prtsc_command) end), --screenshot
+    awful.key({ modkey, "Alt"     }, "h" , function () awful.util.spawn(htop_command) end), --htop
     awful.key( { }                 , "XF86Display" , function () awful.util.spawn(xrandr_command) end), --change resolutions/monitors
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),

@@ -76,6 +76,7 @@ function tmux {
 function xscreensaver {
     echo "Linking xscreensaver"
     link $cwd/xscreensaver/xscreensaver ~/.xscreensaver
+    link $cwd/xscreensaver/Xresourcess ~/.Xresourcess
 }
 
 function awesome {

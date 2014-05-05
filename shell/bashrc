@@ -27,7 +27,7 @@ shopt -s checkwinsize
 
 # we want lots of colors
 export TERM=xterm-256color
-
+#TODO check that the color vars work
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color) color_prompt=yes;;
@@ -97,6 +97,9 @@ man()
     man "$@"
 }
 
+#cdl = cd && ls
+#cdl () { builtin cd "$@" && ls }
+
 
 # -----------
 # History
@@ -158,7 +161,18 @@ alias ll='ls -l'
 #alias la='ls -A'
 alias l='ls -CF'
 
+#netstat the way I like it
+alias ports='netstat -tnlpu'
 
+#dmesg with readable time
+alias dmesg='dmesg -T'
+
+# make ssh check for ssh-agent before running
+ssh-add -l >/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
+#alias ssh='ssh-add -l || ssh-add && ssh'
+
+#let aliases work with sudo
+alias sudo='sudo '
 
 # -------------------
 # Bash Completion on steroids
@@ -185,25 +199,17 @@ fi
 export GREP_OPTIONS="--color=auto"
 
 #enable color, case-insensitive search, and no-wrapping in less
-export LESS="-Sir"
+export LESS="-SiR"
 
 #tell google chrome to use ram for cache
 export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
 
 
 # -------------------
-# Terminal Notes
-# -------------------
-NOTES_FOLDER=$HOME/Dropbox/notes
-n() { $EDITOR $NOTES_FOLDER/"$*".txt ; }
-nls() { tree -CR --noreport $NOTES_FOLDER | awk '{ if ((NR > 1) gsub(/.txt/,"")); if (NF==1) print $1; else if (NF==2) print $2; else if (NF==3) printf "  %s\n", $3 }' ;}
-nrm() { rm $NOTES_FOLDER/"$*".txt ; }
-
-
-
-# -------------------
 # Other
 # -------------------
+
+
 
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -213,8 +219,10 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-
+#smtpsec
 export PGDATABASE="smtpsec"
-
 export PGHOSTADDR="127.0.0.1"
 
+#disable checking gnome-keyring
+#we dont usse gnome
+unset GNOME_KEYRING_CONTROL
