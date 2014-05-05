@@ -162,7 +162,8 @@ alias ll='ls -l'
 alias l='ls -CF'
 
 #netstat the way I like it
-alias ports='netstat -tnlpu'
+alias ports='netstat -tupl --numeric-ports | grep LISTEN | grep ":[0-9]*\b"'
+alias portse='netstat -tup --numeric-ports | grep ":[0-9]*\b"'
 
 #dmesg with readable time
 alias dmesg='dmesg -T'
