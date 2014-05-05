@@ -155,9 +155,9 @@ nmap <F8> :TagbarToggle<CR>
 " ##########################################
 
 "auto-backup
-set backup
-set backupdir     =$HOME/.vim/backup/
-set backupext     =.bak
+"set backup
+"#set backupdir     =$HOME/.vim/backup/
+"set backupext     =.bak
 
 "keep temp files in separate dir
 "set directory     =$HOME/.vim/tmp/swap/
