@@ -168,12 +168,25 @@ alias portse='netstat -tup --numeric-ports | grep ":[0-9]*\b"'
 #dmesg with readable time
 alias dmesg='dmesg -T'
 
+#I like text mtr
+alias mtr='mtr -t'
+
 # make ssh check for ssh-agent before running
-ssh-add -l >/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
+ssh-add -l &>/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
 #alias ssh='ssh-add -l || ssh-add && ssh'
 
 #let aliases work with sudo
 alias sudo='sudo '
+
+#faster opens
+alias o='gnome-open'
+
+alias myip='curl curlmyip.com'
+
+alias utop='htop -u $USER'
+
+#df for humans
+alias df="df -h -P | awk '{print \$6, \$2, \$3, \$4, \$5, \$1}' | column -t | cut -c -\${COLUMNS}"
 
 # -------------------
 # Bash Completion on steroids
