@@ -1,0 +1,44 @@
+#!/bin/sh
+CONNECTED_OUTPUTS=$(xrandr -q | grep "\Wconnected" | cut -d ' ' -f1)
+DISCONNECTED_OUTPUTS=$(xrandr -q | grep "\Wdisconnected" | cut -d ' ' -f1)
+
+disable()
+{
+    for output in $DISCONNECTED_OUTPUTS;
+    do
+        xrandr --output $output --off
+    done
+}
+
+enable_auto()
+{
+    prev=''
+    for output in $CONNECTED_OUTPUTS;
+    do
+        xrandr --output $output --auto $prev
+        prev="--right-of $output"
+    done
+}
+
+enable_eve()
+{
+    xrandr \
+        --output LVDS1 --preferred --pos 277x1080 \
+        --output HDMI1 --preferred --pos 0x0 
+}
+
+#diable old
+disable
+
+#check for eve config
+EVE_EEID='00ffffffffffff005a6325cb01010101'
+v=$(xrandr -q --verbose | grep ${EVE_EEID})
+
+
+if [ $? -eq 0 ];
+then
+    enable_eve
+else
+    enable_auto
+fi
+
