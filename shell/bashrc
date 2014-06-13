@@ -27,7 +27,7 @@ shopt -s checkwinsize
 
 # we want lots of colors
 export TERM=xterm-256color
-
+#TODO check that the color vars work
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color) color_prompt=yes;;
@@ -97,6 +97,9 @@ man()
     man "$@"
 }
 
+#cdl = cd && ls
+#cdl () { builtin cd "$@" && ls }
+
 
 # -----------
 # History
@@ -158,7 +161,32 @@ alias ll='ls -l'
 #alias la='ls -A'
 alias l='ls -CF'
 
+#netstat the way I like it
+alias ports='netstat -tupl --numeric-ports | grep LISTEN | grep ":[0-9]*\b"'
+alias portse='netstat -tup --numeric-ports | grep ":[0-9]*\b"'
 
+#dmesg with readable time
+alias dmesg='dmesg -T'
+
+#I like text mtr
+alias mtr='mtr -t'
+
+# make ssh check for ssh-agent before running
+ssh-add -l &>/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
+#alias ssh='ssh-add -l || ssh-add && ssh'
+
+#let aliases work with sudo
+alias sudo='sudo '
+
+#faster opens
+alias o='gnome-open'
+
+alias myip='curl curlmyip.com'
+
+alias utop='htop -u $USER'
+
+#df for humans
+alias df="df -h -P | awk '{print \$6, \$2, \$3, \$4, \$5, \$1}' | column -t | cut -c -\${COLUMNS}"
 
 # -------------------
 # Bash Completion on steroids
@@ -194,6 +222,8 @@ export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
 # -------------------
 # Other
 # -------------------
+
+
 
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"

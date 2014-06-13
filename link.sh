@@ -27,7 +27,7 @@ function downloadSubmodules {
                 read -a array <<< $l
                 if [ ! -e $dir/${array[1]} ];
                 then
-                    git clone ${array[0]} $dir/${array[1]}
+                    git clone --depth 1 ${array[0]} $dir/${array[1]}
                 else
                     echo "Updating git repo ${array[1]}"
                     git --git-dir=$dir/${array[1]}/.git pull
