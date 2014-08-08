@@ -48,7 +48,6 @@ fi
 
 #colors
 RESTORE='\033[0m' #PUT IT BACK YOU DOG
-
 RED='\033[00;31m'
 GREEN='\033[00;32m'
 YELLOW='\033[00;33m'
@@ -56,7 +55,6 @@ BLUE='\033[00;34m'
 PURPLE='\033[00;35m'
 CYAN='\033[00;36m'
 LIGHTGRAY='\033[00;37m'
-
 LRED='\033[01;31m'
 LGREEN='\033[01;32m'
 LYELLOW='\033[01;33m'
@@ -64,11 +62,10 @@ LBLUE='\033[01;34m'
 LPURPLE='\033[01;35m'
 LCYAN='\033[01;36m'
 WHITE='\033[01;37m'
-
 #Extra fancy prompt, without too many annoying bells.
-MYDIR="$GREEN[$LYELLOW\w$GREEN]\n"
+MYDIR="\[$GREEN[$LYELLOW\]\w\[$GREEN]\n"
 ATHOST="\[$CYAN\]\u\[$RESTORE\]@\[$LGREEN\]\h\[$GREEN\]"
-PS1="$MYDIR$GREEN[$ATHOST]\$$RESTORE "
+PS1="$MYDIR[$ATHOST]\$\[$RESTORE "
 
 #MYDIR="[\[\033[33;1m\]\w\[\033[m\]]\n"
 #PS1="$MYDIR[\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h]\$ "
