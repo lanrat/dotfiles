@@ -56,7 +56,7 @@ set smartcase
 
 "syntax stuff
 syntax on
-syntax sync fromstart "increases syntax accuracy
+syntax sync fromstart "increases syntax accuracy, pay with performance
 
 "STFU
 set noerrorbells
@@ -73,7 +73,7 @@ set wildignore=*.dll,*.o,*.obj,*.exe,*.pyc,*.jpg,*.gif,*.png
 set wildmode=list:longest " turn on wild mode huge list
 
 "Keep the cursor n lines from the top and bottom
-set scrolloff=2
+set scrolloff=4
 set sidescrolloff=4 " Keep n lines at the side
 
 " always show the status line
@@ -130,6 +130,12 @@ autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 " have nerdtree ignore certian file types
 let NERDTreeIgnore=['\.o$', '\~$', '\.ln']
+" The following settings are for nerdtree's root problem
+" Allow nerdtree's root directory to be changed
+let NERDTreeChDirMode=2
+" Change nerdtree's root directory to cwd. Press \n when in nerdtree's window
+nnoremap <leader>n :NERDTree .<CR>
+" End nerdtree's root problem
 
 "color scheme
 set t_Co=256 "this forces vim to use 256 colors even if the console says it is not supported
@@ -137,7 +143,7 @@ set t_Co=256 "this forces vim to use 256 colors even if the console says it is n
 colorscheme jellybeans
 
 "powerline statusbar
-"let g:Powerline_symbols = 'fancy' "does not work with vim-tiny
+let g:Powerline_symbols = 'fancy' "does not work with vim-tiny
 
 "tagbar
 "requires ctags [exuberant-ctags] to be installed
@@ -147,21 +153,18 @@ nmap <F8> :TagbarToggle<CR>
 "               Testing
 " ##########################################
 
-"auto-backup
-"set backup
-"set backupdir     =$HOME/.vim/backup/
-"set backupext     =.bak
-
-"keep temp files in separate dir
-"set directory     =$HOME/.vim/tmp/swap/
-" set viminfo       ='100,n$HOME/.vim/tmp/viminfo
-
-"Enable indent folding
-"set foldenable
-"set fdm=indent
-
 "fix arrow key problem with indent plugin
 set ttimeout
 set ttimeoutlen=100
 
+"Keep me within 80 chars
+"set synmaxcol=80
+"
+"gg=G indet for perl/languages n stuff
+filetype plugin on
+filetype indent on
 
+" ###### FOR PIG #####
+augroup filetypedetect
+  au BufNewFile,BufRead *.pig set filetype=pig syntax=pig
+augroup END

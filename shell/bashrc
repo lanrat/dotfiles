@@ -12,6 +12,10 @@ fi
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
+#Do we have pig installed?
+if [ -d "$HOME/pig/bin" ] ; then
+    PATH="$HOME/pig/bin/:$PATH"
+fi
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
@@ -19,13 +23,21 @@ if [ -f /etc/bashrc ]; then
 fi
 #End path
 
+mvim () {
+    local f
+    for f; do
+        test -e "$f" || touch "$f"
+    done
+    open -a macvim "$@"
+}
+
 #For mac specifics
 if [ `uname` == 'Darwin' ]
 then
     export CLICOLOR=1
     export LSCOLORS=GxFxCxDxBxegedabagaced
     #Mac specific ALIAS'
-    alias vi=edit $@
+    alias vi=mvim
     #PATH for homebrew
     PATH="/usr/local/bin:$PATH"
     #bash completion through brew. Hopefully this is installed!
@@ -54,9 +66,9 @@ LCYAN='\033[01;36m'
 WHITE='\033[01;37m'
 
 #Extra fancy prompt, without too many annoying bells.
-MYDIR="\[$GREEN[\[$LYELLOW\]\w\[$GREEN]\n"
+MYDIR="$GREEN[$LYELLOW\w$GREEN]\n"
 ATHOST="\[$CYAN\]\u\[$RESTORE\]@\[$LGREEN\]\h\[$GREEN\]"
-PS1="$MYDIR\[$GREEN[$ATHOST]\$\[$RESTORE "
+PS1="$MYDIR$GREEN[$ATHOST]\$$RESTORE "
 
 #MYDIR="[\[\033[33;1m\]\w\[\033[m\]]\n"
 #PS1="$MYDIR[\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h]\$ "
@@ -119,3 +131,8 @@ man()
 # User specific aliases and functions
 alias ls="ls -p" #puts a nice / after dirs
 
+#PIG VARIABLES
+export JAVA_HOME=/home/y/libexec/jre1.7.0
+export PATH=$PATH:/usr/local/opt/ruby/bin
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
