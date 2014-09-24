@@ -183,10 +183,12 @@ alias o='gnome-open'
 
 alias myip='curl curlmyip.com'
 
+alias htop='TERM=screen htop'
+
 alias utop='htop -u $USER'
 
-#df for humans
-alias df="df -h -P | awk '{print \$6, \$2, \$3, \$4, \$5, \$1}' | column -t | cut -c -\${COLUMNS}"
+#incognito
+alias incogterm='unset HISTFILE'
 
 # -------------------
 # Bash Completion on steroids
