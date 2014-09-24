@@ -64,6 +64,8 @@ set smartcase
 "syntax stuff
 syntax on
 syntax sync fromstart "increases syntax accuracy
+"go
+au BufReadPost *.go set filetype=go
 
 "STFU
 set noerrorbells
