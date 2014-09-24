@@ -64,6 +64,8 @@ set smartcase
 "syntax stuff
 syntax on
 syntax sync fromstart "increases syntax accuracy
+"go
+au BufReadPost *.go set filetype=go
 
 "STFU
 set noerrorbells
@@ -104,6 +106,9 @@ set showcmd
 set nowrap
 "if we do ever decide to wrap display a nice wrap image
 set showbreak=↪
+" use softwrap
+set linebreak
+set nolist  " list disables linebreak
 
 "statusline
 "replaced by vim-powerline plugin
@@ -120,7 +125,16 @@ set pastetoggle=<F2>
 
 " toggle spellcheck
 map <F7> :setlocal spell! spelllang=en_us<CR>
+"imap <F7> <C-o>:setlocal spell! spelllang=en_us<CR>
+imap <F7> ea<C-X><C-S>
+nnoremap \s ea<C-X><C-S>
 
+" make up/down work in warp-mode
+nnoremap <Up> gk
+nnoremap <Down> gj
+" TODO make isnert mode work
+imap <silent> <Up> <C-o>gk
+imap <silent> <Down> <C-o>gj
 " ##########################################
 "               Plugin Code
 " ##########################################
@@ -171,5 +185,4 @@ set backupext     =.bak
 "fix arrow key problem with indent plugin
 set ttimeout
 set ttimeoutlen=100
-
 
