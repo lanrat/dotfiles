@@ -188,6 +188,11 @@ alias utop='htop -u $USER'
 #df for humans
 alias df="df -h -P | awk '{print \$6, \$2, \$3, \$4, \$5, \$1}' | column -t | cut -c -\${COLUMNS}"
 
+#fix htop inside tmux
+alias htop="TERM=screen htop"
+
+alias csort="LC_COLLATE=C sort"
+
 # -------------------
 # Bash Completion on steroids
 # -------------------
