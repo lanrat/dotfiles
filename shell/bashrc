@@ -162,11 +162,14 @@ alias ll='ls -l'
 alias l='ls -CF'
 
 #netstat the way I like it
-alias ports='netstat -tupl --numeric-ports | grep LISTEN | grep ":[0-9]*\b"'
+alias ports='netstat -tupl --numeric-ports | grep ":[0-9]*\b"'
 alias portse='netstat -tup --numeric-ports | grep ":[0-9]*\b"'
 
 #dmesg with readable time
 alias dmesg='dmesg -T'
+
+#I like text mtr
+alias mtr='mtr -t'
 
 # make ssh check for ssh-agent before running
 ssh-add -l &>/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
@@ -174,6 +177,23 @@ ssh-add -l &>/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias
 
 #let aliases work with sudo
 alias sudo='sudo '
+
+#faster opens
+alias o='gnome-open'
+
+alias myip='curl curlmyip.com'
+
+alias htop='TERM=screen htop'
+
+alias utop='htop -u $USER'
+
+#incognito
+alias incogterm='unset HISTFILE'
+
+#fix htop inside tmux
+alias htop="TERM=screen htop"
+
+alias csort="LC_COLLATE=C sort"
 
 # -------------------
 # Bash Completion on steroids
@@ -210,7 +230,8 @@ export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
 # Other
 # -------------------
 
-
+#disable Ctrl-s freezing term until ctrl-q is pressed
+stty -ixon
 
 # make less more friendly for non-text input files, see lesspipe(1)
 #[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"

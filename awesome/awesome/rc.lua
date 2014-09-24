@@ -25,13 +25,10 @@ require('modules/awesome-freedesktop/freedesktop.menu')
 --for widgets
 require("vicious")
 
-require("xrandr")
-
-
-require("layouts/browse")
+--require("layouts/browse")
 require("layouts/termfair")
-require("layouts/uselessfair")
-require("layouts/uselesstile")
+--require("layouts/uselessfair")
+--require("layouts/uselesstile")
 
 --local keydoc = require("keydoc")
 
@@ -49,7 +46,7 @@ file_manager = "thunar"
 lock_command = "xscreensaver-command -lock"
 exit_command = "cb-exit"
 prtsc_command = "xfce4-screenshooter"
-xrandr_command = "arandr"
+xrandr_command = "$HOME/bin/xup"
 htop_command = "terminator --command=\"htop\""
 
 -- Default modkey.
@@ -70,12 +67,12 @@ vain.layout.termfair.nmaster   = 3
 vain.layout.termfair.ncol      = 1
 
 -- percent of space for main window
-vain.layout.browse.mwfact_global = 0.6
+--vain.layout.browse.mwfact_global = 0.6
 -- 0 for non-overlapping, 1 for ovelapping
-vain.layout.browse.ncol = 1
+--vain.layout.browse.ncol = 1
 -- reduces the size of the main window if "overlapping slave column" is activated.
 -- This allows you to see if there are any windows in your slave column.
-vain.layout.browse.extra_padding = 5
+--vain.layout.browse.extra_padding = 5
 
 --------------------------------------
 ----        Plugin Settings       ----
@@ -130,10 +127,10 @@ layouts =
     awful.layout.suit.tile.bottom,
     awful.layout.suit.max,
     awful.layout.suit.floating,
-    vain.layout.browse,
+    --vain.layout.browse,
     vain.layout.termfair,
     --vain.layout.uselesstile,
-    vain.layout.uselessfair,
+    --vain.layout.uselessfair,
     --awful.layout.suit.magnifier,
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.top,
@@ -148,7 +145,9 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {
-    names = { '⠁', '⠃', '⠉', '⠙', '⠑', '⠋', '⠛', '⠓', '⠊' },
+    --names = { '⠁', '⠃', '⠉', '⠙', '⠑', '⠋', '⠛', '⠓', '⠊' },
+    names = { "➀", "➁", "➂", "➃", "➄", "➅", "➆", "➇", "➈" },
+    --names = { "❶", "❷", "❸", "❹", "❺", "❻", "❼", "❽", "❾" },
     layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1],},
 }
 for s = 1, screen.count() do
@@ -358,9 +357,6 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, }, "e", revelation),
     --awful.key({ modkey, }, "F1", keydoc.display), --TODO finish this, needs arg string as last param
 
-    --TODO make work
-    awful.key({}, "XF86Display", xrandr),
-    
     --Conky toggle
     awful.key({ }, "Pause", raise_conky, lower_conky),
     --awful.key({}, "Pause", toggle_conky)
@@ -425,7 +421,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "l", function () awful.util.spawn(lock_command) end), --lock screen
     awful.key( { }                 , "Print" , function () awful.util.spawn(prtsc_command) end), --screenshot
     awful.key({ modkey, "Alt"     }, "h" , function () awful.util.spawn(htop_command) end), --htop
-    awful.key( { }                 , "XF86Display" , function () awful.util.spawn(xrandr_command) end), --change resolutions/monitors
+    awful.key({ modkey,           }, "d" , function () awful.util.spawn(xrandr_command) end), --change resolutions/monitors
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
@@ -544,6 +540,8 @@ awful.rules.rules = {
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
+      properties = { floating = true } },
+    { rule = { class = "Wine" },
       properties = { floating = true } },
     { rule = { class = "gimp" },
       properties = { floating = true } },

@@ -1,5 +1,5 @@
 # XScreenSaver Preferences File
-# Written by xscreensaver-demo 5.15 for lanrat on Sun Nov 17 00:55:54 2013.
+# Written by xscreensaver-demo 5.15 for lanrat on Thu Feb 27 15:42:32 2014.
 # http://www.jwz.org/xscreensaver/
 
 timeout:	0:10:00
@@ -11,7 +11,7 @@ visualID:	default
 installColormap:    True
 verbose:	False
 timestamp:	True
-splash:		True
+splash:		False
 splashDuration:	0:00:05
 demoCommand:	xscreensaver-demo
 prefsCommand:	xscreensaver-demo -prefs
