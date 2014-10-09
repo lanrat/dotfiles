@@ -183,13 +183,13 @@ alias o='gnome-open'
 
 alias myip='curl curlmyip.com'
 
-alias utop='htop -u $USER'
-
 #incognito
 alias incogterm='unset HISTFILE'
 
 #fix htop inside tmux
 alias htop="TERM=screen htop"
+
+alias utop='htop -u $USER'
 
 alias csort="LC_COLLATE=C sort"
 
