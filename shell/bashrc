@@ -183,8 +183,6 @@ alias o='gnome-open'
 
 alias myip='curl curlmyip.com'
 
-alias htop='TERM=screen htop'
-
 alias utop='htop -u $USER'
 
 #incognito
