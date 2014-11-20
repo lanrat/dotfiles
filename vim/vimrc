@@ -169,6 +169,12 @@ nmap <F8> :TagbarToggle<CR>
 "               Testing
 " ##########################################
 
+"enable wrappin in tex
+augroup WrapLineInTeXFile
+    autocmd!
+    autocmd FileType tex setlocal wrap
+augroup END
+
 "auto-backup
 "set backup
 "#set backupdir     =$HOME/.vim/backup/

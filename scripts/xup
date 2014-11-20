@@ -20,24 +20,25 @@ enable_auto()
     done
 }
 
-enable_eve()
+enable_up()
 {
     xrandr \
-        --output LVDS1 --preferred --pos 277x1080 \
-        --output HDMI1 --preferred --pos 0x0 
+        --output HDMI1 --preferred --pos 0x0 \
+        --output LVDS1 --preferred --below HDMI1
 }
 
 #diable old
 disable
 
 #check for eve config
-EVE_EEID='00ffffffffffff005a6325cb01010101'
-v=$(xrandr -q --verbose | grep ${EVE_EEID})
+#EVE_EEID='00ffffffffffff000472a1ad43260175'
+UP_EEID='00ffffffffffff0010ac26404c473730'
+v=$(xrandr -q --verbose | grep ${UP_EEID})
 
 
 if [ $? -eq 0 ];
 then
-    enable_eve
+    enable_up
 else
     enable_auto
 fi
