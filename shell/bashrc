@@ -242,7 +242,8 @@ if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 #smtpsec
-export PGDATABASE="smtpsec"
+export PGDATABASE="vdz"
+export PGUSER="vdz"
 export PGHOSTADDR="127.0.0.1"
 
 #disable checking gnome-keyring
