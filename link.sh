@@ -41,11 +41,22 @@ function downloadSubmodules {
 
 
 #config functions
-function vim {
+function vim_config {
+    VUNDLE_URL="https://github.com/gmarik/Vundle.vim.git"
+    VUNDLE_DIR="$cwd/vim/vim/bundle/Vundle.vim"
+
+    if [ ! -e $VUNDLE_DIR ];
+    then
+        echo "Downloading Vundle"
+        git clone --depth 1 $VUNDLE_URL $VUNDLE_DIR
+    fi
+    
     echo "Linking vim"
-    downloadSubmodules $cwd/vim
     link $cwd/vim/vimrc ~/.vimrc
     link $cwd/vim/vim ~/.vim
+    
+    echo "Downloading plugins"
+    vim +PluginInstall +qall
 }
 
 function conky {
@@ -134,6 +145,9 @@ function run {
     if [ $p == "git" ];
     then
         c="git_config"
+    elif [ $p == "vim" ];
+    then
+        c="vim_config"
     elif [ $p == "sublime-text-3" ];
     then
         c="sublime"

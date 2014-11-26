@@ -138,10 +138,23 @@ imap <silent> <Down> <C-o>gj
 " ##########################################
 "               Plugin Code
 " ##########################################
-"start pathogen to load all plugins
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-execute pathogen#infect()
 
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+Plugin 'scrooloose/nerdtree'
+Plugin 'Townk/vim-autoclose'
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'majutsushi/tagbar'
+Plugin 'nanotech/jellybeans.vim'
+
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 " key used to launch nerdtree
 map <C-d> :NERDTreeToggle<CR>
@@ -165,9 +178,6 @@ colorscheme jellybeans
 "requires ctags [exuberant-ctags] to be installed
 nmap <F8> :TagbarToggle<CR>
 
-" ##########################################
-"               Testing
-" ##########################################
 
 "enable wrappin in tex
 augroup WrapLineInTeXFile
@@ -175,18 +185,9 @@ augroup WrapLineInTeXFile
     autocmd FileType tex setlocal wrap
 augroup END
 
-"auto-backup
-"set backup
-"#set backupdir     =$HOME/.vim/backup/
-"set backupext     =.bak
-
-"keep temp files in separate dir
-"set directory     =$HOME/.vim/tmp/swap/
-" set viminfo       ='100,n$HOME/.vim/tmp/viminfo
-
-"Enable indent folding
-"set foldenable
-"set fdm=indent
+" ##########################################
+"               Testing
+" ##########################################
 
 "fix arrow key problem with indent plugin
 set ttimeout
