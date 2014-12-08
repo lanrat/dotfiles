@@ -169,7 +169,12 @@ let NERDTreeIgnore=['\.o$', '\~$', '\.ln', '\.class', '\.pyc']
 "color scheme
 set t_Co=256 "this forces vim to use 256 colors even if the console says it is not supported
 "set background=dark
-colorscheme jellybeans
+"Use this colorscheme, but dont complain if we can't find it
+try
+    colorscheme jellybeans
+catch /^Vim\%((\a\+)\)\=:E185/
+    " deal with it
+endtry
 
 "powerline statusbar
 "let g:Powerline_symbols = 'fancy' "does not work with vim-tiny
