@@ -38,7 +38,7 @@ function make_link {
         rm $src
     fi
     mkdir -p `dirname $src`
-    echo "Creating symmake_link for $src"
+    echo "Creating symlink for $src"
     ln -sf $target $src
 }
 
