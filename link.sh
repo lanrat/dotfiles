@@ -3,8 +3,34 @@
 # the dir this script is in
 cwd="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-#helper functions
-function link {
+#
+# helper functions
+#
+
+function run {
+    c="${1%/}"
+    if [ $c == "sublime-text-3" ];
+    then
+        c="sublime3"
+    fi
+    c="link_$c"
+    eval ${c}
+}
+
+function link_all {
+    echo "Linking all configs"
+    for dir in $cwd/*/
+    do
+        dir=${dir%*/}
+        dir=${dir##*/}
+        if [ "$dir" != "~" ];
+        then
+            run ${dir}
+        fi
+    done
+}
+
+function make_link {
     target=$1
     src=$2
     if [ -L $src ];
@@ -12,7 +38,7 @@ function link {
         rm $src
     fi
     mkdir -p `dirname $src`
-    echo "Creating symlink for $src"
+    echo "Creating symmake_link for $src"
     ln -sf $target $src
 }
 
@@ -39,9 +65,11 @@ function downloadSubmodules {
     fi
 }
 
+#
+# config functions
+#
 
-#config functions
-function vim_config {
+function link_vim {
     VUNDLE_URL="https://github.com/gmarik/Vundle.vim.git"
     VUNDLE_DIR="$cwd/vim/vim/bundle/Vundle.vim"
 
@@ -52,128 +80,103 @@ function vim_config {
     fi
     
     echo "Linking vim"
-    link $cwd/vim/vimrc ~/.vimrc
-    link $cwd/vim/vim ~/.vim
+    make_link $cwd/vim/vimrc ~/.vimrc
+    make_link $cwd/vim/vim ~/.vim
     
     echo "Downloading plugins"
     vim +PluginInstall +qall
 }
 
-function conky {
+function link_conky {
     echo "Linking conky"
-    link $cwd/conky/conkyrc ~/.conkyrc
+    make_link $cwd/conky/conkyrc ~/.conkyrc
 }
 
-#can not be called git, conflicts with download submodules
-function git_config {
+function link_git {
     echo "Linking git"
     for file in $(ls $cwd/git);
     do
-        link $cwd/git/$file ~/.$file
+        make_link $cwd/git/$file ~/.$file
     done
 }
 
-function shell {
+function link_shell {
+    #TODO this needs improvment
     echo "Linking shell"
     for file in $(ls $cwd/shell);
     do
-        link $cwd/shell/$file ~/.$file
+        make_link $cwd/shell/$file ~/.$file
     done
 }
 
-function tmux {
+function link_tmux {
     echo "Linking tmux"
-    link $cwd/tmux/tmux.conf ~/.tmux.conf
+    make_link $cwd/tmux/tmux.conf ~/.tmux.conf
 }
 
-function xscreensaver {
+function link_xscreensaver {
     echo "Linking xscreensaver"
-    link $cwd/xscreensaver/xscreensaver ~/.xscreensaver
-    link $cwd/xscreensaver/Xresourcess ~/.Xresourcess
+    make_link $cwd/xscreensaver/xscreensaver ~/.xscreensaver
+    make_link $cwd/xscreensaver/Xresourcess ~/.Xresourcess
 }
 
-function awesome {
+function link_awesome {
     echo "Linking awesome"
     downloadSubmodules $cwd/awesome
-    link $cwd/awesome/awesome ~/.config/awesome
+    make_link $cwd/awesome/awesome ~/.config/awesome
 }
 
-function openbox {
+function link_openbox {
     echo "Linking openbox"
-    link $cwd/openbox/openbox ~/.config/openbox
+    make_link $cwd/openbox/openbox ~/.config/openbox
 }
 
-function terminator {
+function link_terminator {
     echo "Linking terminator"
-    link $cwd/terminator/terminator ~/.config/terminator
+    make_link $cwd/terminator/terminator ~/.config/terminator
 }
 
-function tint2 {
+function link_tint2 {
     echo "Linking tint2"
-    link $cwd/tint2/tint2 ~/.config/tint2
+    make_link $cwd/tint2/tint2 ~/.config/tint2
 }
 
-function sublime {
+function link_sublime3 {
     echo "Linking Sublime Text"
-    link $cwd/sublime-text-3/User ~/.config/sublime-text-3/Packages/User
-    echo "Downloading Package Manager PLugin"
-    wget -P ~/.config/sublime-text-3/Installed\ Packages/ https://sublime.wbond.net/Package%20Control.sublime-package
+    SUBL_Pacakge_DIR=~/.config/sublime-text-3/Installed\ Packages/
+    SUBL_Package_Control_URL="https://sublime.wbond.net/Package%20Control.sublime-package"
+    make_link $cwd/sublime-text-3/User ~/.config/sublime-text-3/Packages/User
+    if [ ! -e "$SUBL_Pacakge_DIR/Package Control.sublime-package" ]
+    then
+        echo "Downloading Package Manager Plugin"
+        wget -P "$SUBL_Pacakge_DIR" "$SUBL_Package_Control_URL"
+    fi
 }
 
-function scripts {
+function link_scripts {
     echo "Linking scripts"
     for script in $cwd/scripts/*
     do
-        link $script ~/bin/$(basename $script)
+        make_link $script ~/bin/$(basename $script)
     done
 }
 
-function ssh {
+function link_ssh {
     echo "Linking ssh"
     SSH_CONFIG=~/Dropbox/config/ssh
     if [ -e "$SSH_CONFIG" ];
     then
-        link $SSH_CONFIG ~/.ssh/config
+        make_link $SSH_CONFIG ~/.ssh/config
     else
         echo "$SSH_CONFIG does not exist!"
     fi
 }
 
 
-function run {
-    p="${1%/}"
-    if [ $p == "git" ];
-    then
-        c="git_config"
-    elif [ $p == "vim" ];
-    then
-        c="vim_config"
-    elif [ $p == "sublime-text-3" ];
-    then
-        c="sublime"
-    else
-        c=$p
-    fi
-    eval ${c}
-}
-
-function all {
-    echo "Linking all configs"
-    for dir in $cwd/*/
-    do
-        dir=${dir%*/}
-        dir=${dir##*/}
-        if [ "$dir" != "~" ];
-        then
-            run ${dir}
-        fi
-    done
-}
-
 if [ "$#" -eq 0 ];
 then
     echo "Usage: $0 {all | CONFIG_TO_LINK}"
-    exit
+    exit 1
 fi
 
 run ${1}
