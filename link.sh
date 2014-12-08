@@ -42,27 +42,19 @@ function make_link {
     ln -sf $target $src
 }
 
-function downloadSubmodules {
-    dir=$1
-    if [ -e $dir/submodules ];
+function get_submodule {
+    REPO=$1
+    FOLDER=$2
+    
+    if [ ! -e $FOLDER ];
     then
-        while read l;
-        do
-            if [ -n "$l" ];
-            then
-                read -a array <<< $l
-                echo "Cloning ${array[0]} to $dir/${array[1]}"
-
-                if [ ! -e $dir/${array[1]} ];
-                then
-                    git clone --depth 1 ${array[0]} $dir/${array[1]}
-                else
-                    echo "Updating git repo ${array[1]}"
-                    git --git-dir=$dir/${array[1]}/.git pull
-                fi
-            fi
-        done < $dir/submodules
+        echo "Cloning $REPO to $FOLDER"
+        git clone --depth 1 $REPO $FOLDER
+    else
+        echo "Updating git repo in $FOLDER"
+        git --git-dir=$FOLDER/.git pull
     fi
+ 
 }
 
 #
@@ -122,8 +114,9 @@ function link_xscreensaver {
 
 function link_awesome {
     echo "Linking awesome"
-    downloadSubmodules $cwd/awesome
-    make_link $cwd/awesome/awesome ~/.config/awesome
+    get_submodule https://github.com/bioe007/awesome-revelation.git $cwd/awesome/modules/revelation
+    get_submodule https://github.com/lanrat/awesome-freedesktop.git $cwd/awesome/modules/awesome-freedesktop
+    make_link $cwd/awesome ~/.config/awesome
 }
 
 function link_openbox {
