@@ -68,7 +68,7 @@ function link_vim {
     if [ ! -e $VUNDLE_DIR ];
     then
         echo "Downloading Vundle"
-        git clone --depth 1 $VUNDLE_URL $VUNDLE_DIR
+        get_submodule $VUNDLE_URL $VUNDLE_DIR
     fi
     
     echo "Linking vim"
