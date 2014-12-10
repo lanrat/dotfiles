@@ -168,3 +168,12 @@ filetype indent on
 augroup filetypedetect
   au BufNewFile,BufRead *.pig set filetype=pig syntax=pig
 augroup END
+
+" ##########################################
+"          syntastic c++11 testing
+" ##########################################
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+let g:syntastic_cpp_check_header = 1
+let b:syntastic_cpp_cflags = '-include /usr/include/stddef.h'
+let g:syntastic_cpp_remove_include_errors = 1

@@ -129,7 +129,11 @@ man()
 alias ls="ls -p" #puts a nice / after dirs
 
 #PIG VARIABLES
-export JAVA_HOME=/home/y/libexec/jre1.7.0
-export PATH=$PATH:/usr/local/opt/ruby/bin
+#export JAVA_HOME=/home/y/libexec/jre1.7.0
+#export PATH=$PATH:/usr/local/opt/ruby/bin
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+#For arduino makefile
+export ARDUINO_BASE_DIR=/Users/jcolby/Downloads/Arduino.app/
+export ARDUINO_JAVA_VERSION=7

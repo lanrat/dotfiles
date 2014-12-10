@@ -6,3 +6,4 @@ https://github.com/tpope/vim-fugitive.git vim/bundle/vim-fugitive
 https://github.com/majutsushi/tagbar.git vim/bundle/tagbar
 https://github.com/msanders/snipmate.vim.git vim/bundle/snipmate
 https://github.com/nanotech/jellybeans.vim.git vim/bundle/jellybeans
+https://github.com/scrooloose/syntastic.git vim/bundle/syntastic
