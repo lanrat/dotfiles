@@ -146,7 +146,9 @@ ${top_io name 3}$alignr${top_io io_read 3} ${top_io io_write 3}
 ${color grey}FILESYSTEMS ${hr 1}${color}
 ${diskiograph}
 Root ${alignr}${fs_free /} / ${fs_size /}
-${fs_bar 4 /}${if_mounted /media/windows}
+${fs_bar 4 /}${if_mounted /media/windows}${if_mounted /home}
+Home ${alignr}${fs_free /home} / ${fs_size /home}
+${fs_bar 4 /home}${endif}${if_mounted /media/windows}
 Windows ${alignr}${fs_free /media/windows} / ${fs_size /media/windows}
 ${fs_bar 4 /media/windows}${endif}${if_mounted /media/data}
 Data ${alignr}${fs_free /media/data} / ${fs_size /media/data}
