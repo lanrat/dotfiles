@@ -93,7 +93,6 @@ function link_git {
 }
 
 function link_shell {
-    #TODO this needs improvment
     echo "Linking shell"
     for file in $(ls $cwd/shell);
     do

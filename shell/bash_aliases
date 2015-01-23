@@ -1,0 +1,48 @@
+# -------------------
+# Aliases
+# -------------------
+
+# This allows sudo to work with aliases
+alias sudo='sudo '
+
+# does what it should
+alias untar="tar -xf"
+
+# ls aliases
+alias ls='ls --color=auto'
+alias ll='ls -l'
+#alias la='ls -A'
+alias l='ls -CF'
+
+#netstat the way I like it
+alias ports='netstat -tupl --numeric-ports | grep -E ":[0-9]+\s"'
+alias portse='netstat -tup --numeric-ports | grep -E ":[0-9]+\s"'
+
+#dmesg with readable time
+alias dmesg='dmesg -T'
+
+# force mtr to text mode
+alias mtr='mtr -t'
+
+# TODO: this is bad and i should find another way
+# make ssh check for ssh-agent before running
+ssh-add -l &>/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
+#alias ssh='ssh-add -l || ssh-add && ssh'
+
+#faster opens
+#alias o='gnome-open'
+alias o='exo-open'
+
+#get my ip
+alias myip='curl curlmyip.com'
+
+#incognito
+alias incogterm='unset HISTFILE'
+
+#fix htop inside tmux
+alias htop="TERM=screen htop"
+
+# htop for only current user
+alias utop='htop -u $USER'
+
+alias csort="LC_COLLATE=C sort"

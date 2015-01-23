@@ -1,0 +1,70 @@
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+    fi
+fi
+
+
+# -------------------
+# PATH
+# -------------------
+
+if [ -d "/sbin" ] ; then
+    PATH="/sbin:$PATH"
+fi
+if [ -d "/usr/sbin" ] ; then
+    PATH="/usr/sbin:$PATH"
+fi
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+
+# -------------------
+# Default Apps
+# -------------------
+
+export PAGER='less'
+export EDITOR='vim'
+
+
+# -------------------
+# App Settings
+# -------------------
+
+#enable color in grep
+export GREP_OPTIONS="--color=auto"
+
+#enable color, case-insensitive search, and no-wrapping in less
+export LESS="-SiR"
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+#tell google chrome to use ram for cache
+export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
+
+
+# -------------------
+# Other
+# -------------------
+
+# Alias definitions.
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# disable Software flow control
+# AKA: Ctrl-s freezing term until ctrl-q is pressed
+stty -ixon
+
+#disable checking gnome-keyring
+#we dont use gnome
+unset GNOME_KEYRING_CONTROL
