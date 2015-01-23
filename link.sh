@@ -92,6 +92,14 @@ function link_git {
     done
 }
 
+function link_psql {
+    echo "Linking psql"
+    for file in $(ls $cwd/psql);
+    do
+        make_link $cwd/psql/$file ~/.$file
+    done
+}
+
 function link_shell {
     echo "Linking shell"
     for file in $(ls $cwd/shell);

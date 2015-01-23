@@ -43,7 +43,8 @@ export EDITOR='vim'
 export GREP_OPTIONS="--color=auto"
 
 #enable color, case-insensitive search, and no-wrapping in less
-export LESS="-SiR"
+# -F exit if all data fits in term
+export LESS="-SiRF"
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
