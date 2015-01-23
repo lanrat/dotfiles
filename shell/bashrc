@@ -122,6 +122,11 @@ fi
 # Other
 # -------------------
 
+# Alias definitions.
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
 # Incluse local machiene specific settings
 if [ -f ~/.bashrc_local ]; then
     . ~/.bashrc_local

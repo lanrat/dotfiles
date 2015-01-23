@@ -56,11 +56,6 @@ export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
 # Other
 # -------------------
 
-# Alias definitions.
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
 # disable Software flow control
 # AKA: Ctrl-s freezing term until ctrl-q is pressed
 stty -ixon
