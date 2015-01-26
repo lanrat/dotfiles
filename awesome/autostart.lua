@@ -8,5 +8,5 @@ r.run("xfce4-volumed")
 r.run("xfce4-power-manager")
 r.run("xset b off")
 --r.run("conky")
-r.run(awful.util.getdir("config") .. "../../scripts/touchpad.sh")
-
+-- make java work
+r.run(" wmname LG3D")

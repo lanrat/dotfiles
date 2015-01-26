@@ -1,1 +1,0 @@
- wmname LG3D
