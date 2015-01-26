@@ -37,6 +37,11 @@ function make_link {
     then
         rm $src
     fi
+    if [ -e $src ];
+    then
+        echo "$src already exists, makeing backup $src.bak"
+        mv $src $src.bak
+    fi
     mkdir -p `dirname $src`
     echo "Creating symlink for $src"
     ln -sf $target $src
@@ -157,7 +162,9 @@ function link_scripts {
     echo "Linking scripts"
     for script in $cwd/scripts/*
     do
-        make_link $script ~/bin/$(basename $script)
+        bname=$(basename "$script")
+        name="${bname%.*}"
+        make_link $script ~/bin/$name
     done
 }
 
