@@ -31,8 +31,7 @@ enable_up()
 disable
 
 #check for eve config
-#EVE_EEID='00ffffffffffff000472a1ad43260175'
-UP_EEID='00ffffffffffff0010ac26404c473730'
+UP_EEID='00ffffffffffff000472a1ad43260175'
 v=$(xrandr -q --verbose | grep ${UP_EEID})
 
 
