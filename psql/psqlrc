@@ -1,0 +1,42 @@
+-----------------------------------------
+-- psqlrc file to set psql preferences --
+-----------------------------------------
+
+-- color tables: http://merlinmoncure.blogspot.com/2012/09/psql-now-with-splash-of-color.html
+
+\set QUIET ON
+
+-- show query times
+\timing
+
+-- If a command is run more than once in a row, only store it once in the
+-- history.
+\set HISTCONTROL ignoredups
+\set HISTSIZE 1000
+
+
+-- Autocomplete keywords (like SELECT) in upper-case, even if you started
+-- typing them in lower case.
+\set COMP_KEYWORD_CASE upper
+
+-- set null char
+\pset null '[NULL]'
+
+-- pretty tables
+\pset linestyle unicode
+\pset border 2
+
+\encoding unicode
+
+--with current config less exits if content fits on screen
+\pset pager always
+
+--prompt with colors
+--\set PROMPT1 '%[%033[1m%]%M %n@%/%R%[%033[0m%]%# '
+--\set PROMPT2 '[more] %R > '
+
+-- ask us about errors
+\set ON_ERROR_ROLLBACK interactive
+
+\set QUIET OFF
+

@@ -8,6 +8,10 @@ alias sudo='sudo '
 # does what it should
 alias untar="tar -xf"
 
+# make grep use color
+# DEPRECATED: export GREP_OPTIONS="--color=auto"
+alias grep='grep --color=auto'
+
 # ls aliases
 alias ls='ls --color=auto'
 alias ll='ls -l'
@@ -46,3 +50,7 @@ alias htop="TERM=screen htop"
 alias utop='htop -u $USER'
 
 alias csort="LC_COLLATE=C sort"
+
+# faster tmux resume
+alias t="tmux"
+alias ta="tmux a"
