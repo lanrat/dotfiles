@@ -32,8 +32,8 @@
 \pset pager always
 
 --prompt with colors
-\set PROMPT1 '%[%033[1m%]%M %n@%/%R%[%033[0m%]%# '
-\set PROMPT2 '[more] %R > '
+--\set PROMPT1 '%[%033[1m%]%M %n@%/%R%[%033[0m%]%# '
+--\set PROMPT2 '[more] %R > '
 
 -- ask us about errors
 \set ON_ERROR_ROLLBACK interactive
