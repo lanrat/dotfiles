@@ -111,6 +111,8 @@ function link_shell {
     do
         make_link $cwd/shell/$file ~/.$file
     done
+    # reset font cache for powerline
+    fc-cache -vf ~/.fonts
 }
 
 function link_tmux {

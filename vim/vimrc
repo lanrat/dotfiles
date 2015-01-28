@@ -147,10 +147,12 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'scrooloose/nerdtree'
 Plugin 'Townk/vim-autoclose'
-Plugin 'Lokaltog/vim-powerline'
-Plugin 'majutsushi/tagbar'
+"Plugin 'Lokaltog/vim-powerline'
+Plugin 'bling/vim-airline'
 Plugin 'nanotech/jellybeans.vim'
 
+" make airline use powerline fonts
+let g:airline_powerline_fonts = 1
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
