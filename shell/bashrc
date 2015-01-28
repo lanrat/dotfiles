@@ -86,6 +86,12 @@ man()
     man "$@"
 }
 
+# combine grep and less, allow colors
+lgrep()
+{
+    grep --color=always $@ | less -Sir
+}
+
 # -----------
 # History
 # -----------
