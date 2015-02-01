@@ -147,8 +147,7 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'scrooloose/nerdtree'
 Plugin 'Townk/vim-autoclose'
-"Plugin 'Lokaltog/vim-powerline'
-Plugin 'bling/vim-airline'
+Plugin 'Lokaltog/vim-powerline'
 Plugin 'nanotech/jellybeans.vim'
 
 " make airline use powerline fonts
