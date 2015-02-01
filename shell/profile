@@ -55,7 +55,7 @@ export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
 # -------------------
 
 ## Detect and configure touchpad. See 'man synclient' for more info.
-if egrep -iq 'touchpad' /proc/bus/input/devices; then
+if egrep -iq 'touchpad' /proc/bus/input/devices 2>/dev/null; then
 	synclient VertEdgeScroll=0
 	synclient HorizTwoFingerScroll=1
 	synclient PalmDetect=1
