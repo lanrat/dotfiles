@@ -16,6 +16,12 @@ shopt -s checkwinsize
 # match all files and zero or more directories and subdirectories.
 shopt -s globstar
 
+# Alias definitions.
+if [ -f ~/.bash_aliases ];
+then
+    . ~/.bash_aliases
+fi
+
 
 # -----------
 # Colors
@@ -151,11 +157,20 @@ extract () {
 }
 
 
-# Alias definitions.
-if [ -f ~/.bash_aliases ];
-then
-    . ~/.bash_aliases
-fi
+## less and ls in 1
+l () {
+    A=.
+    if [ $# -gt 0 ]; then
+    A=$1
+    fi
+    if [ ! -d "$A" ];
+    then
+        less $A
+    else
+        ls $A
+    fi
+}
+
 
 # Incluse local machiene specific settings
 if [ -f ~/.bashrc_local ];

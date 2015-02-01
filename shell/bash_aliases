@@ -15,8 +15,7 @@ alias grep='grep --color=auto'
 # ls aliases
 alias ls='ls --color=auto'
 alias ll='ls -l'
-#alias la='ls -A'
-alias l='ls -CF'
+
 
 #netstat the way I like it
 alias ports='netstat -tupl --numeric-ports | grep -E ":[0-9]+\s"'
