@@ -25,6 +25,9 @@ alias portse='netstat -tup --numeric-ports | grep -E ":[0-9]+\s"'
 #dmesg with readable time
 alias dmesg='dmesg -T'
 
+# I use du-sh way to much
+alias s="du -sh"
+
 # force mtr to text mode
 alias mtr='mtr -t'
 
