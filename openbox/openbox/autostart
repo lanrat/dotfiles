@@ -42,7 +42,7 @@ tint2 \
 xfce4-volumed &
 
 ## Enable power management
-xfce4-power-manager &
+mate-power-manager &
 
 ## Start Thunar Daemon
 thunar --daemon &
