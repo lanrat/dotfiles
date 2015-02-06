@@ -12,6 +12,9 @@ alias untar="tar -xf"
 # DEPRECATED: export GREP_OPTIONS="--color=auto"
 alias grep='grep --color=auto'
 
+# search code faster
+alias cgrep='grep --color=always -Rin'
+
 # ls aliases
 alias ls='ls --color=auto'
 alias ll='ls -l'
