@@ -8,11 +8,12 @@
   hide_window = <Shift><Control>a
 [profiles]
   [[default]]
+    scrollbar_position = hidden
     palette = "#000000:#cc0000:#4e9a06:#c4a000:#3465a4:#75507b:#06989a:#d3d7cf:#555753:#ef2929:#8ae234:#fce94f:#729fcf:#ad7fa8:#34e2e2:#eeeeec"
-    background_darkness = 0.91
+    background_darkness = 0.46
     scrollback_lines = 5000
     background_type = transparent
-    scrollbar_position = hidden
+    background_image = None
     cursor_color = "#d8d8d8"
     foreground_color = "#d8d8d8"
     scroll_on_output = False
