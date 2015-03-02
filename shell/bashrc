@@ -149,6 +149,7 @@ extract () {
           *.zip)       unzip $1       ;;
           *.Z)         uncompress $1  ;;
           *.7z)        7z x $1        ;;
+          *.lz4)       lz4 -d $1      ;;
           *)           echo "don't know how to extract '$1'..." ;;
       esac
   else
@@ -171,16 +172,10 @@ l () {
     fi
 }
 
-
 # Incluse local machiene specific settings
 if [ -f ~/.bashrc_local ];
 then
     . ~/.bashrc_local
 fi
 
-
-# enable powerline if it is installed
-if [ -f /usr/share/powerline/bindings/bash/powerline.sh ];
-then
-    source /usr/share/powerline/bindings/bash/powerline.sh
-fi
+[[ -s "/home/idfoster/.gvm/scripts/gvm" ]] && source "/home/idfoster/.gvm/scripts/gvm"

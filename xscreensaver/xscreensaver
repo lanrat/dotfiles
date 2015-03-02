@@ -34,6 +34,22 @@ grabVideoFrames:    False
 chooseRandomImages: False
 imageDirectory:	
 
+# arch dpms settings
+timeout:    1:00:00
+cycle:      0:05:00
+lock:       False
+lockTimeout:    0:00:00
+passwdTimeout:  0:00:30
+fade:       True
+unfade:     False
+fadeSeconds:    0:00:03
+fadeTicks:  20
+dpmsEnabled:    True
+dpmsStandby:    2:00:00
+dpmsSuspend:    2:00:00
+dpmsOff:    4:00:00
+
+
 mode:		blank
 selected:	192
 
