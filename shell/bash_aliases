@@ -56,3 +56,7 @@ alias csort="LC_COLLATE=C sort"
 # faster tmux resume
 alias t="tmux"
 alias ta="tmux a"
+
+
+# send myself email notifications
+alias pong="mail -s PONG $USER"
