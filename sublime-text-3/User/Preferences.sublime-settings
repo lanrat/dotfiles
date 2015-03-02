@@ -39,9 +39,9 @@
 	"bold_folder_labels": true,
 	"caret_style": "smooth",
 	"close_windows_when_empty": true,
-	"color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
+	"color_scheme": "Packages/User/Monokai (SL).tmTheme",
 	"copy_with_empty_selection": true,
-	"create_window_at_startup": true,
+	"create_window_at_startup": false,
 	"default_encoding": "UTF-8",
 	"default_line_ending": "unix",
 	"detect_indentation": true,
@@ -99,7 +99,6 @@
 	"hot_exit": false,
 	"ignored_packages":
 	[
-		"SublimeHideTabs"
 	],
 	"indent_guide_options":
 	[
@@ -149,6 +148,6 @@
 	"trim_trailing_white_space_on_save": false,
 	"use_simple_full_screen": false,
 	"use_tab_stops": true,
-	"word_wrap": false,
+	"word_wrap": true,
 	"wrap_width": 0
 }

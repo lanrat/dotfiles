@@ -1,12 +1,15 @@
 {
+	"in_process_packages":
+	[
+	],
 	"installed_packages":
 	[
-		"Git",
-		"GitGutter",
+		"LaTeXing",
+		"Package Control",
 		"SideBarEnhancements",
 		"SublimeCodeIntel",
-		"SublimeHideTabs",
 		"Theme - Soda",
+		"VCS Gutter",
 		"VintageousOrigami"
 	],
 	"repositories":
