@@ -1,4 +1,8 @@
 {
-    "word_wrap": true,
-    "spell_check": true,
+	"extensions":
+	[
+		"tex"
+	],
+	"spell_check": true,
+	"word_wrap": true
 }
