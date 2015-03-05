@@ -160,6 +160,16 @@ Down: ${downspeed eth0} ${alignr}Up: ${upspeed eth0}
 ${downspeedgraph eth0 20,90} ${alignr}${upspeedgraph eth0 20,90}
 Total: ${totaldown eth0} ${alignr}Total: ${totalup eth0}
  
+${endif}${if_existing /sys/class/net/eth1/operstate up}IP (eth1):$alignr${addr eth1}
+Down: ${downspeed eth1} ${alignr}Up: ${upspeed eth1}
+${downspeedgraph eth1 20,90} ${alignr}${upspeedgraph eth1 20,90}
+Total: ${totaldown eth1} ${alignr}Tota: ${totalup eth1}
+
+${endif}${if_existing /sys/class/net/eth2/operstate up}IP (eth2):$alignr${addr eth2}
+Down: ${downspeed eth2} ${alignr}Up: ${upspeed eth2}
+${downspeedgraph eth2 20,90} ${alignr}${upspeedgraph eth2 20,90}
+Total: ${totaldown eth2} ${alignr}Tota: ${totalup eth2}
+
 ${endif}${if_existing /sys/class/net/wlan0/operstate up}IP (wlan0):$alignr${addr wlan0}
 AP: ${wireless_essid wlan0} ${alignr}Bitrate: ${wireless_bitrate wlan0}
 Down: ${downspeed wlan0} ${alignr}Up: ${upspeed wlan0}
