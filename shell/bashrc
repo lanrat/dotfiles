@@ -58,11 +58,13 @@ if [ "$color_prompt" = yes ]; then
     host_c='\e[0;32m'        # Green
     path_c='\e[0;34m'         # Blue
     gray_c='\e[1;30m'
+    p='\$'
     if [[ $EUID -eq 0 ]];
     then
+        p='#'
         user_c='\e[0;31m'
     fi
-    PS1="\[$user_c\]\u\[$gray_c\]@\[$host_c\]\h\[$gray_c\]:\[$path_c\]\w\[$gray_c\]\$\[$reset_c\] "
+    PS1="\[$user_c\]\u\[$gray_c\]@\[$host_c\]\h\[$gray_c\]:\[$path_c\]\w\[$gray_c\]$p\[$reset_c\] "
     PS2="\[$path_c\]>\[$reset_c\] "
     unset reset_c user_c host_c path_c
 else
