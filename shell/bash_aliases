@@ -60,6 +60,7 @@ alias csort="LC_COLLATE=C sort"
 alias t="tmux"
 alias ta="tmux a"
 
+alias subl="subl -n"
 
 # send myself email notifications
 alias pong="mail -s PONG $USER"
