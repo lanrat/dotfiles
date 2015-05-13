@@ -192,4 +192,4 @@ then
     . ~/.bashrc_local
 fi
 
-[[ -s "/home/idfoster/.gvm/scripts/gvm" ]] && source "/home/idfoster/.gvm/scripts/gvm"
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
