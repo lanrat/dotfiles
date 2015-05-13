@@ -352,14 +352,15 @@ globalkeys = awful.util.table.join(
 
     --keydoc.group("Layout manipulation"),
 
-
     --plugins
     awful.key({ modkey, }, "e", revelation),
     --awful.key({ modkey, }, "F1", keydoc.display), --TODO finish this, needs arg string as last param
 
     --Conky toggle
-    awful.key({ }, "Pause", raise_conky, lower_conky),
-    --awful.key({}, "Pause", toggle_conky)
+    awful.key({}, "Pause", function() toggle_conky() end),
+    awful.key({modkey}, "Pause", function() toggle_conky()
+      naughty.notify({ text = "conky" })
+      end),
 
     --Move Client to Workspace Left/Right
     --only works with 3.5, For 3.4 visit link

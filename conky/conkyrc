@@ -23,13 +23,6 @@ update_interval_on_battery 5
 # Set to zero to run forever.
 total_run_times 0
  
-# Text alignment, other possible values are commented
-#alignment top_left
-#alignment top_right
-#alignment bottom_left
-alignment bottom_right
-#alignment none
-
 #max window width
 maximum_width 200
 
@@ -47,13 +40,6 @@ own_window_transparent yes
  
 # If own_window_transparent is set to no, you can set the background colour here
 own_window_colour black
- 
-# If own_window is yes, these w# Text alignment, other possible values are commented
-#alignment top_left
-#alignment top_right
-#alignment bottom_left
-alignment bottom_right
-#alignment none
  
 # If own_window is yes, these window manager hints may be used
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
@@ -81,9 +67,9 @@ default_color grey
 default_shade_color black
 default_outline_color black
  
-# Text alignment, other possible values are commented
-#alignment top_left
-alignment top_right
+# alignment, other possible values are commented
+alignment top_left
+#alignment top_right
 #alignment bottom_left
 #alignment bottom_right
 #alignment none
@@ -98,15 +84,19 @@ uppercase no
  
 # number of cpu samples to averag
 # set to 1 to disable averaging
-cpu_avg_samples 1
+cpu_avg_samples 2
  
 # number of net samples to average
 # set to 1 to disable averaging
-net_avg_samples 1
+net_avg_samples 2
  
 # Force UTF8? note that UTF8 support required XFT
 override_utf8_locale no
- 
+
+own_window yes
+own_window_type desktop
+own_window_hints below,skip_taskbar,skip_pager
+
 TEXT
 ${color grey}SYSTEM: $nodename $machine ${hr 1}${color}
 Uptime: $alignr$uptime_short
@@ -175,6 +165,12 @@ AP: ${wireless_essid wlan0} ${alignr}Bitrate: ${wireless_bitrate wlan0}
 Down: ${downspeed wlan0} ${alignr}Up: ${upspeed wlan0}
 ${downspeedgraph wlan0 20,90} ${alignr}${upspeedgraph wlan0 20,90}
 Total: ${totaldown wlan0} ${alignr}Tota: ${totalup wlan0}
+
+${endif}${if_existing /sys/class/net/wlan1/operstate up}IP (wlan1):$alignr${addr wlan1}
+AP: ${wireless_essid wlan1} ${alignr}Bitrate: ${wireless_bitrate wlan1}
+Down: ${downspeed wlan1} ${alignr}Up: ${upspeed wlan1}
+${downspeedgraph wlan1 20,90} ${alignr}${upspeedgraph wlan1 20,90}
+Total: ${totaldown wlan1} ${alignr}Tota: ${totalup wlan1}
 
 ${endif}${if_existing /sys/class/net/usb0/operstate}IP (usb0):$alignr${addr usb0}
 Down: ${downspeed usb0}  ${alignr}Up: ${upspeed usb0}

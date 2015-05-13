@@ -36,6 +36,7 @@ alias mtr='mtr -t'
 # TODO: this is bad and i should find another way
 # make ssh check for ssh-agent before running
 ssh-add -l &>/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
+ssh-add -l &>/dev/null || alias mosh='ssh-add -l >/dev/null || ssh-add && unalias mosh; mosh'
 #alias ssh='ssh-add -l || ssh-add && ssh'
 
 #faster opens
