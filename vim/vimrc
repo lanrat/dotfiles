@@ -196,6 +196,12 @@ augroup WrapLineInTeXFile
     autocmd FileType tex setlocal wrap
 augroup END
 
+"enable wrappin in tex
+augroup WrapLineInMdFile
+    autocmd!
+    autocmd FileType md setlocal wrap
+augroup END
+
 " ##########################################
 "               Testing
 " ##########################################
