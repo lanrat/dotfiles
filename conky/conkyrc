@@ -84,15 +84,18 @@ uppercase no
  
 # number of cpu samples to averag
 # set to 1 to disable averaging
-cpu_avg_samples 1
+cpu_avg_samples 2
  
 # number of net samples to average
 # set to 1 to disable averaging
-net_avg_samples 1
+net_avg_samples 2
  
 # Force UTF8? note that UTF8 support required XFT
 override_utf8_locale no
 
+own_window yes
+own_window_type desktop
+own_window_hints below,skip_taskbar,skip_pager
 
 TEXT
 ${color grey}SYSTEM: $nodename $machine ${hr 1}${color}
