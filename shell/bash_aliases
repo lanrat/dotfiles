@@ -13,7 +13,7 @@ alias untar="tar -xf"
 alias grep='grep --color=auto'
 
 # search code faster
-alias cgrep='grep --color=always -Rin'
+alias cgrep='grep --color=always -RIin'
 
 # ls aliases
 alias ls='ls --color=auto'
