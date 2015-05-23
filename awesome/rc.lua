@@ -60,7 +60,7 @@ modkey = "Mod4"
 --------------------------------------
 ----        Layout Settings       ----
 --------------------------------------
-
+-- TODO move to: http://www.uninformativ.de/projects/?q=awesome-vain 
 -- number of columns
 vain.layout.termfair.nmaster   = 3
 -- min number of rows (yes the var-name is backwards)
@@ -127,9 +127,9 @@ layouts =
     awful.layout.suit.tile.bottom,
     awful.layout.suit.max,
     awful.layout.suit.floating,
-    --vain.layout.browse,
+    vain.layout.browse,
     vain.layout.termfair,
-    --vain.layout.uselesstile,
+    vain.layout.uselesstile,
     --vain.layout.uselessfair,
     --awful.layout.suit.magnifier,
     --awful.layout.suit.tile.left,
