@@ -35,8 +35,10 @@ case "$TERM" in
     xterm-color) color_prompt=yes;;
 esac
 
-export TERM=screen-256color
-
+if [ ! -z ${TMUX+x} ];
+then
+    export TERM=screen-256color
+fi
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
@@ -194,4 +196,4 @@ then
     . ~/.bashrc_local
 fi
 
-[[ -s "/home/idfoster/.gvm/scripts/gvm" ]] && source "/home/idfoster/.gvm/scripts/gvm"
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"

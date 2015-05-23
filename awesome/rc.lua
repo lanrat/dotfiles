@@ -27,8 +27,8 @@ require("vicious")
 
 --require("layouts/browse")
 require("layouts/termfair")
---require("layouts/uselessfair")
---require("layouts/uselesstile")
+require("layouts/uselessfair")
+require("layouts/uselesstile")
 
 --local keydoc = require("keydoc")
 
