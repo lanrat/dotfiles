@@ -27,8 +27,8 @@ require("vicious")
 
 --require("layouts/browse")
 require("layouts/termfair")
---require("layouts/uselessfair")
---require("layouts/uselesstile")
+require("layouts/uselessfair")
+require("layouts/uselesstile")
 
 --local keydoc = require("keydoc")
 
@@ -60,7 +60,7 @@ modkey = "Mod4"
 --------------------------------------
 ----        Layout Settings       ----
 --------------------------------------
-
+-- TODO move to: http://www.uninformativ.de/projects/?q=awesome-vain 
 -- number of columns
 vain.layout.termfair.nmaster   = 3
 -- min number of rows (yes the var-name is backwards)
@@ -127,9 +127,9 @@ layouts =
     awful.layout.suit.tile.bottom,
     awful.layout.suit.max,
     awful.layout.suit.floating,
-    --vain.layout.browse,
+    vain.layout.browse,
     vain.layout.termfair,
-    --vain.layout.uselesstile,
+    vain.layout.uselesstile,
     --vain.layout.uselessfair,
     --awful.layout.suit.magnifier,
     --awful.layout.suit.tile.left,
@@ -352,14 +352,15 @@ globalkeys = awful.util.table.join(
 
     --keydoc.group("Layout manipulation"),
 
-
     --plugins
     awful.key({ modkey, }, "e", revelation),
     --awful.key({ modkey, }, "F1", keydoc.display), --TODO finish this, needs arg string as last param
 
     --Conky toggle
-    awful.key({ }, "Pause", raise_conky, lower_conky),
-    --awful.key({}, "Pause", toggle_conky)
+    awful.key({}, "Pause", function() toggle_conky() end),
+    awful.key({modkey}, "Pause", function() toggle_conky()
+      naughty.notify({ text = "conky" })
+      end),
 
     --Move Client to Workspace Left/Right
     --only works with 3.5, For 3.4 visit link
