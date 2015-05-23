@@ -28,8 +28,8 @@
 
 \encoding unicode
 
---with current config less exits if content fits on screen
-\pset pager always
+--only use pager when results dont fit on screen
+\pset pager on
 
 --prompt with colors
 --\set PROMPT1 '%[%033[1m%]%M %n@%/%R%[%033[0m%]%# '
