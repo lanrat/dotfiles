@@ -151,5 +151,6 @@
 	"use_simple_full_screen": false,
 	"use_tab_stops": true,
 	"word_wrap": true,
+	"update_check": false,
 	"wrap_width": 0
 }
