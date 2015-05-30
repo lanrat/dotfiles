@@ -25,7 +25,7 @@ require('modules/awesome-freedesktop/freedesktop.menu')
 --for widgets
 require("vicious")
 
---require("layouts/browse")
+require("layouts/browse")
 require("layouts/termfair")
 require("layouts/uselessfair")
 require("layouts/uselesstile")
@@ -129,8 +129,8 @@ layouts =
     awful.layout.suit.floating,
     vain.layout.browse,
     vain.layout.termfair,
-    vain.layout.uselesstile,
-    --vain.layout.uselessfair,
+    --vain.layout.uselesstile,
+    vain.layout.uselessfair,
     --awful.layout.suit.magnifier,
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.top,
