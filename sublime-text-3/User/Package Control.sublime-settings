@@ -5,12 +5,12 @@
 	"installed_packages":
 	[
 		"LaTeXing",
+		"Origami",
 		"Package Control",
 		"SideBarEnhancements",
 		"SublimeCodeIntel",
-		"Theme - Soda",
-		"VCS Gutter",
-		"VintageousOrigami"
+		"Theme - Afterglow",
+		"VCS Gutter"
 	],
 	"repositories":
 	[

@@ -25,7 +25,7 @@ require('modules/awesome-freedesktop/freedesktop.menu')
 --for widgets
 require("vicious")
 
---require("layouts/browse")
+require("layouts/browse")
 require("layouts/termfair")
 --require("layouts/uselessfair")
 --require("layouts/uselesstile")
