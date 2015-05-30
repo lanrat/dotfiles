@@ -133,7 +133,7 @@
 	"shift_tab_unindent": false,
 	"show_encoding": false,
 	"show_full_path": true,
-	"show_line_endings": false,
+	"show_line_endings": true,
 	"show_panel_on_build": true,
 	"show_tab_close_buttons": true,
 	"smart_indent": true,
@@ -148,9 +148,9 @@
 	"tree_animation_enabled": true,
 	"trim_automatic_white_space": true,
 	"trim_trailing_white_space_on_save": false,
+	"update_check": false,
 	"use_simple_full_screen": false,
 	"use_tab_stops": true,
-	"word_wrap": true,
-	"update_check": false,
+	"word_wrap": "auto",
 	"wrap_width": 0
 }
