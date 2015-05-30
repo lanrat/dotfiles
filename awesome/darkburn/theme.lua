@@ -7,7 +7,7 @@
 theme = {}
 theme.confdir = awful.util.getdir("config")
 theme.themedir = theme.confdir .. "/darkburn/"
-theme.wallpaper_cmd = { "awsetbg -a .wallpaper.jpg" }
+--theme.wallpaper_cmd = { "awsetbg -a .wallpaper.jpg" }
 -- }}}
 
 -- {{{ Styles
