@@ -27,8 +27,8 @@ require("vicious")
 
 require("layouts/browse")
 require("layouts/termfair")
-require("layouts/uselessfair")
-require("layouts/uselesstile")
+--require("layouts/uselessfair")
+--require("layouts/uselesstile")
 
 --local keydoc = require("keydoc")
 
@@ -82,7 +82,7 @@ vain.layout.termfair.ncol      = 1
 naughty.config.default_preset.timeout = 2
 
 
--- Themes define colours, icons, and wallpapers
+-- Themes define colours, and icons
 beautiful.init( awful.util.getdir("config") .. "/darkburn/theme.lua")
 
 
@@ -130,7 +130,7 @@ layouts =
     vain.layout.browse,
     vain.layout.termfair,
     --vain.layout.uselesstile,
-    vain.layout.uselessfair,
+    --vain.layout.uselessfair,
     --awful.layout.suit.magnifier,
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.top,

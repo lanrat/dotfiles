@@ -7,7 +7,7 @@
 theme = {}
 theme.confdir = awful.util.getdir("config")
 theme.themedir = theme.confdir .. "/darkburn/"
-theme.wallpaper_cmd = { "awsetbg -a .wallpaper.jpg" }
+--theme.wallpaper_cmd = { "awsetbg -a .wallpaper.jpg" }
 -- }}}
 
 -- {{{ Styles
@@ -72,9 +72,9 @@ theme.menu_width  = 150
 
 -- {{{ Icons
 -- {{{ Taglist
-theme.taglist_squares_sel   = theme.themedir .. "taglist/filled_corner.png"
-theme.taglist_squares_unsel = theme.themedir .. "taglist/corner.png"
---theme.taglist_squares_resize = "false"
+theme.taglist_squares_sel   = theme.themedir .. "taglist/right_filled_corner.png"
+theme.taglist_squares_unsel = theme.themedir .. "taglist/right_corner.png"
+theme.taglist_squares_resize = "false"
 -- }}}
 
 -- {{{ Misc
