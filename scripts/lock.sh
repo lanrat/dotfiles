@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 TMPBG=$HOME/.screen.png
 scrot $TMPBG
 convert $TMPBG -scale 10% -scale 1000% $TMPBG
