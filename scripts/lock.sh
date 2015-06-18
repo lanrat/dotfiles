@@ -23,7 +23,7 @@ unlock()
 start()
 {
     exec xautolock -locker "$0 --locker" \
-    -notify 30 -time 15 -notifier "notify-send -u critical -t 10000 -- 'LOCKING screen in 30 seconds'"
+    -notify 30 -time 15 -notifier "notify-send --urgency critical --expire-time 100000 -- 'LOCKING screen in 30 seconds'"
 }
 
 if [ "$1" = "--start" ]; then
