@@ -38,12 +38,13 @@ require("layouts/termfair")
 
 -- {{{ Variable definitions
 -- This is used later as the default terminal and editor to run.
-terminal = "terminator"
+terminal = "urxvt" -- want rxvt-unicode-256 package
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 web_browser = "google-chrome"
 file_manager = "thunar"
-lock_command = "xscreensaver-command -lock"
+--lock_command = "xscreensaver-command -lock"
+lock_command = "lock"
 exit_command = "cb-exit"
 prtsc_command = "xfce4-screenshooter"
 xrandr_command = "$HOME/bin/xup"
