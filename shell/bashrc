@@ -91,6 +91,9 @@ if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
 
+# limit lenght of PS directory
+export PROMPT_DIRTRIM=3
+
 # Less Colors for Man Pages
 man()
 {
