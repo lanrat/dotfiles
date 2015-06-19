@@ -143,6 +143,12 @@ function link_terminator {
     make_link $cwd/terminator/terminator ~/.config/terminator
 }
 
+function link_urxvt {
+    echo "Linking urxvt"
+    make_link $cwd/urxvt ~/.urxvt
+    make_link $cwd/urxvt/Xresources ~/.Xresources
+}
+
 function link_tint2 {
     echo "Linking tint2"
     make_link $cwd/tint2/tint2 ~/.config/tint2

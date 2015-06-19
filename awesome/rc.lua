@@ -38,7 +38,7 @@ require("layouts/termfair")
 
 -- {{{ Variable definitions
 -- This is used later as the default terminal and editor to run.
-terminal = "terminator"
+terminal = "urxvt" -- want rxvt-unicode-256 package
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 web_browser = "google-chrome"
