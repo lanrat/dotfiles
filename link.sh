@@ -124,6 +124,7 @@ function link_xscreensaver {
     echo "Linking xscreensaver"
     make_link $cwd/xscreensaver/xscreensaver ~/.xscreensaver
     make_link $cwd/xscreensaver/Xresourcess ~/.Xresourcess
+    xrdb ~/.Xresources
 }
 
 function link_awesome {
@@ -147,6 +148,7 @@ function link_urxvt {
     echo "Linking urxvt"
     make_link $cwd/urxvt ~/.urxvt
     make_link $cwd/urxvt/Xresources ~/.Xresources
+    xrdb ~/.Xresources
 }
 
 function link_tint2 {
