@@ -24,7 +24,8 @@ theme.bg_urgent = "#3F3F3F"
 
 -- {{{ Borders
 theme.useless_gap_width = 2
-theme.border_width  = 0
+-- TODO make no border on single window
+theme.border_width  = 1
 theme.border_normal = "#3F3F3F"
 theme.border_focus  = "#6F6F6F"
 --theme.border_marked = "#CC9393"

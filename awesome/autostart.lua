@@ -1,6 +1,7 @@
 local r = require("runonce")
 
 r.run("nm-applet")
+r.run("nitrogen --restore")
 r.run("dropbox start")
 --r.run("xscreensaver -no-splash")
 r.run("lock --start")

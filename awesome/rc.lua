@@ -13,7 +13,7 @@ require("beautiful")
 require("naughty")
 
 --Expose like plugin
-require("modules/revelation")
+--require("modules/revelation")
 
 --calendaar popup
 require('calendar2')
@@ -74,6 +74,43 @@ vain.layout.termfair.ncol      = 1
 -- reduces the size of the main window if "overlapping slave column" is activated.
 -- This allows you to see if there are any windows in your slave column.
 --vain.layout.browse.extra_padding = 5
+
+
+-- Handle border sizes of clients.
+--size_hints_honor = false
+--for s = 1, screen.count() do screen[s]:connect_signal("arrange", function () --3.5
+for s = 1, screen.count() do screen[s]:add_signal("arrange", function () -- 3.4
+  local clients = awful.client.visible(s)
+  local layout = awful.layout.getname(awful.layout.get(s))
+
+  for _, c in pairs(clients) do
+    -- No borders with only one humanly visible client
+    if c.maximized then
+      -- NOTE: also handled in focus, but that does not cover maximizing from a
+      -- tiled state (when the client had focus).
+      c.border_width = 0
+    elseif c.maximized_horizontal and c.maximized_vertical then
+      -- handles fullscreen video when there are multiple windows
+      c.border_width = 0
+    elseif awful.client.floating.get(c) or layout == "floating" then
+      c.border_width = beautiful.border_width
+    elseif layout == "max" or layout == "fullscreen" then
+      c.border_width = 0
+    else
+      local tiled = awful.client.tiled(c.screen)
+      if #tiled == 1 then -- and c == tiled[1] then
+        tiled[1].border_width = 0
+        -- if layout ~= "max" and layout ~= "fullscreen" then
+        -- XXX: SLOW!
+        -- awful.client.moveresize(0, 0, 2, 0, tiled[1])
+        -- end
+      else
+        c.border_width = beautiful.border_width
+      end
+    end
+  end
+end)
+end
 
 --------------------------------------
 ----        Plugin Settings       ----
@@ -354,7 +391,7 @@ globalkeys = awful.util.table.join(
     --keydoc.group("Layout manipulation"),
 
     --plugins
-    awful.key({ modkey, }, "e", revelation),
+    --awful.key({ modkey, }, "e", revelation),
     --awful.key({ modkey, }, "F1", keydoc.display), --TODO finish this, needs arg string as last param
 
     --Conky toggle
