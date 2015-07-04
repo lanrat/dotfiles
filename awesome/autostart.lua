@@ -9,6 +9,6 @@ r.run("pnmixer")
 r.run("xfce4-volumed")
 r.run("mate-power-manager")
 r.run("xset b off")
-r.run("conky")
+r.run("conky 2>/dev/null")
 -- make java work
 r.run("wmname LG3D")
