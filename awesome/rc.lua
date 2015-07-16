@@ -68,12 +68,12 @@ vain.layout.termfair.nmaster   = 3
 vain.layout.termfair.ncol      = 1
 
 -- percent of space for main window
---vain.layout.browse.mwfact_global = 0.6
+vain.layout.browse.mwfact_global = 0.6
 -- 0 for non-overlapping, 1 for ovelapping
---vain.layout.browse.ncol = 1
+vain.layout.browse.ncol = 1
 -- reduces the size of the main window if "overlapping slave column" is activated.
 -- This allows you to see if there are any windows in your slave column.
---vain.layout.browse.extra_padding = 5
+vain.layout.browse.extra_padding = 10
 
 
 -- Handle border sizes of clients.
