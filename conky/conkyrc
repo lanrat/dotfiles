@@ -177,6 +177,11 @@ Down: ${downspeed usb0}  ${alignr}Up: ${upspeed usb0}
 ${downspeedgraph usb0 20,90} ${alignr}${upspeedgraph usb0 20,90}
 Total: ${totaldown usb0} ${alignr}Total: ${totalup usb0}
 
+${endif}${if_existing /sys/class/net/tun0/operstate}IP (tun0):$alignr${addr tun0}
+Down: ${downspeed tun0}  ${alignr}Up: ${upspeed tun0}
+${downspeedgraph tun0 20,90} ${alignr}${upspeedgraph tun0 20,90}
+Total: ${totaldown tun0} ${alignr}Total: ${totalup tun0}
+
 ${endif}${if_existing /sys/class/net/ppp0/operstate}IP (ppp0):$alignr${addr ppp0}
 Down: ${downspeed ppp0}  ${alignr}Up: ${upspeed ppp0}
 ${downspeedgraph ppp0 20,90} ${alignr}${upspeedgraph ppp0 20,90}
