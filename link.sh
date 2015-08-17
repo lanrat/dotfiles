@@ -15,6 +15,7 @@ function run {
     fi
     c="link_$c"
     eval ${c}
+    echo "Please run sublime and wait a few minutes for packages to be downloaded"
 }
 
 function link_all {
@@ -123,7 +124,7 @@ function link_tmux {
 function link_xscreensaver {
     echo "Linking xscreensaver"
     make_link $cwd/xscreensaver/xscreensaver ~/.xscreensaver
-    make_link $cwd/xscreensaver/Xresourcess ~/.Xresourcess
+    make_link $cwd/xscreensaver/Xresources ~/.Xresources
     xrdb ~/.Xresources
 }
 
