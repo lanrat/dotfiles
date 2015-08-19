@@ -79,6 +79,10 @@ xterm*|rxvt*)
     ;;
 esac
 
+if [ "$TERM" = "xterm" ]; then
+    export TERM=xterm-256color
+fi
+
 # enable color support
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
