@@ -15,7 +15,6 @@ function run {
     fi
     c="link_$c"
     eval ${c}
-    echo "Please run sublime and wait a few minutes for packages to be downloaded"
 }
 
 function link_all {
@@ -171,7 +170,7 @@ function link_sublime3 {
         echo "Downloading Package Manager Plugin"
         wget -P "${SUBL_Pacakge_DIR}" "${SUBL_Package_Control_URL}"
     fi
-    echo "Launch Sublime Text to load packages"
+    echo "Please run sublime and wait a few minutes for packages to be downloaded"
 }
 
 function link_scripts {
