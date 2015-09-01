@@ -36,16 +36,17 @@ EOF
 }
 [ "$#" -lt 1 ] && usage
 
+#Utilities
+wm_pid() { pgrep -fn "$WMCOMMAND"; }
+xephyr_pid() { pgrep -f xephyr_$D; }
+errorout() { echo "error: $*" >&2; exit 1; }
+
 #Executable check
 WMCOMMAND=$(which $WM)
 XEPHYR=$(which Xephyr)
 [[ -x "$WMCOMMAND" ]] || errorout "Please install ${WM} first"
 [[ -x "$XEPHYR" ]] || errorout 'Please install Xephyr first'
 
-#Utilities
-wm_pid() { pgrep -fn "$WMCOMMAND"; }
-xephyr_pid() { pgrep -f xephyr_$D; }
-errorout() { echo "error: $*" >&2; exit 1; }
 
 #Start function
 start() {

@@ -33,18 +33,19 @@ function link_all {
 function make_link {
     target=$1
     src=$2
-    if [ -L $src ];
+
+    if [ -L "${src}" ];
     then
-        rm $src
+        rm "${src}"
     fi
-    if [ -e $src ];
+    if [ -e "${src}" ];
     then
-        echo "$src already exists, makeing backup $src.bak"
-        mv $src $src.bak
+        echo "${src} already exists, makeing backup ${src}.bak"
+        mv "${src}" "${src}.bak"
     fi
-    mkdir -p `dirname $src`
-    echo "Creating symlink for $src"
-    ln -sf $target $src
+    mkdir -p `dirname "${src}"`
+    echo "Creating symlink for ${src}"
+    ln -sf "${target}" "${src}"
 }
 
 function get_submodule {
@@ -111,8 +112,6 @@ function link_shell {
     do
         make_link $cwd/shell/$file ~/.$file
     done
-    # reset font cache for powerline
-    fc-cache -vf ~/.fonts
 }
 
 function link_tmux {
@@ -123,7 +122,7 @@ function link_tmux {
 function link_xscreensaver {
     echo "Linking xscreensaver"
     make_link $cwd/xscreensaver/xscreensaver ~/.xscreensaver
-    make_link $cwd/xscreensaver/Xresourcess ~/.Xresourcess
+    make_link $cwd/xscreensaver/Xresources ~/.Xresources
     xrdb ~/.Xresources
 }
 
@@ -158,14 +157,20 @@ function link_tint2 {
 
 function link_sublime3 {
     echo "Linking Sublime Text"
-    SUBL_Pacakge_DIR=~/.config/sublime-text-3/Installed\ Packages/
+    BASE=~/.config/sublime-text-3
+    if [ "$(uname)" = "Darwin" ]; then
+        echo "Detected OSX"
+        BASE=~/Library/Application\ Support/Sublime\ Text\ 3
+    fi
+    SUBL_Pacakge_DIR="${BASE}/Installed Packages/"
     SUBL_Package_Control_URL="https://sublime.wbond.net/Package%20Control.sublime-package"
-    make_link $cwd/sublime-text-3/User ~/.config/sublime-text-3/Packages/User
-    if [ ! -e "$SUBL_Pacakge_DIR/Package Control.sublime-package" ]
+    make_link "${cwd}/sublime-text-3/User" "${BASE}/Packages/User"
+    if [ ! -e "${SUBL_Pacakge_DIR}/Package Control.sublime-package" ]
     then
         echo "Downloading Package Manager Plugin"
-        wget -P "$SUBL_Pacakge_DIR" "$SUBL_Package_Control_URL"
+        wget -P "${SUBL_Pacakge_DIR}" "${SUBL_Package_Control_URL}"
     fi
+    echo "Please run sublime and wait a few minutes for packages to be downloaded"
 }
 
 function link_scripts {

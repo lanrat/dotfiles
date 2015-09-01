@@ -1,13 +1,14 @@
 #!/usr/bin/env sh
-TMPBG=$HOME/.screen.png
+#TMPBG=$HOME/.screen.png
 #TMPBG=/dev/shm/.screen.png
 
 locker()
 {
-    scrot $TMPBG
-    convert $TMPBG -scale 10% -scale 1000% $TMPBG
-    i3lock --ignore-empty-password --image $TMPBG
-    rm $TMPBG
+    #scrot $TMPBG
+    #convert $TMPBG -scale 10% -scale 1000% $TMPBG
+    #i3lock --ignore-empty-password --image $TMPBG
+    i3lock --ignore-empty-password  --color=000000
+    #rm $TMPBG
 }
 
 lock()
@@ -22,8 +23,8 @@ unlock()
 
 start()
 {
-    exec xautolock -locker "$0 --locker" \
-    -notify 30 -time 15 -notifier "notify-send --urgency critical --expire-time 100000 -- 'LOCKING screen in 30 seconds'"
+    exec xautolock -locker "$0 --locker" #\
+    #-notify 30 -time 15 -notifier "notify-send --urgency critical --expire-time 100000 -- 'LOCKING screen in 30 seconds'"
 }
 
 if [ "$1" = "--start" ]; then

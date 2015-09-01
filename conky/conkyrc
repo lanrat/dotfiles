@@ -160,6 +160,11 @@ Down: ${downspeed eth2} ${alignr}Up: ${upspeed eth2}
 ${downspeedgraph eth2 20,90} ${alignr}${upspeedgraph eth2 20,90}
 Total: ${totaldown eth2} ${alignr}Tota: ${totalup eth2}
 
+${endif}${if_existing /sys/class/net/em1/operstate up}IP (em1):$alignr${addr em1}
+Down: ${downspeed em1} ${alignr}Up: ${upspeed em1}
+${downspeedgraph em1 20,90} ${alignr}${upspeedgraph em1 20,90}
+Total: ${totaldown em1} ${alignr}Tota: ${totalup em1}
+
 ${endif}${if_existing /sys/class/net/wlan0/operstate up}IP (wlan0):$alignr${addr wlan0}
 AP: ${wireless_essid wlan0} ${alignr}Bitrate: ${wireless_bitrate wlan0}
 Down: ${downspeed wlan0} ${alignr}Up: ${upspeed wlan0}
@@ -176,6 +181,11 @@ ${endif}${if_existing /sys/class/net/usb0/operstate}IP (usb0):$alignr${addr usb0
 Down: ${downspeed usb0}  ${alignr}Up: ${upspeed usb0}
 ${downspeedgraph usb0 20,90} ${alignr}${upspeedgraph usb0 20,90}
 Total: ${totaldown usb0} ${alignr}Total: ${totalup usb0}
+
+${endif}${if_existing /sys/class/net/tun0/operstate}IP (tun0):$alignr${addr tun0}
+Down: ${downspeed tun0}  ${alignr}Up: ${upspeed tun0}
+${downspeedgraph tun0 20,90} ${alignr}${upspeedgraph tun0 20,90}
+Total: ${totaldown tun0} ${alignr}Total: ${totalup tun0}
 
 ${endif}${if_existing /sys/class/net/ppp0/operstate}IP (ppp0):$alignr${addr ppp0}
 Down: ${downspeed ppp0}  ${alignr}Up: ${upspeed ppp0}
