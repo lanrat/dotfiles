@@ -1,12 +1,15 @@
 {
+	"bootstrapped": true,
 	"in_process_packages":
 	[
 	],
 	"installed_packages":
 	[
+		"HexViewer",
 		"LaTeXing",
 		"Origami",
 		"Package Control",
+		"rsub",
 		"SideBarEnhancements",
 		"SublimeCodeIntel",
 		"Theme - Afterglow",
