@@ -133,11 +133,6 @@ function link_awesome {
     make_link $cwd/awesome ~/.config/awesome
 }
 
-function link_openbox {
-    echo "Linking openbox"
-    make_link $cwd/openbox/openbox ~/.config/openbox
-}
-
 function link_terminator {
     echo "Linking terminator"
     make_link $cwd/terminator/terminator ~/.config/terminator
@@ -148,11 +143,6 @@ function link_urxvt {
     make_link $cwd/urxvt ~/.urxvt
     make_link $cwd/urxvt/Xresources ~/.Xresources
     xrdb ~/.Xresources
-}
-
-function link_tint2 {
-    echo "Linking tint2"
-    make_link $cwd/tint2/tint2 ~/.config/tint2
 }
 
 function link_sublime3 {
@@ -181,6 +171,8 @@ function link_scripts {
         name="${bname%.*}"
         make_link $script ~/bin/$name
     done
+    wget --no-verbose --output-document ~/bin/rsub https://raw.githubusercontent.com/aurora/rmate/master/rmate 
+    chmod +x ~/bin/rsub
 }
 
 function link_ssh {
