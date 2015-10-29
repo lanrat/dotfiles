@@ -1,4 +1,5 @@
 {
+	"bootstrapped": true,
 	"in_process_packages":
 	[
 	],
@@ -7,6 +8,7 @@
 		"LaTeXing",
 		"Origami",
 		"Package Control",
+		"rsub",
 		"SideBarEnhancements",
 		"SublimeCodeIntel",
 		"Theme - Afterglow",
