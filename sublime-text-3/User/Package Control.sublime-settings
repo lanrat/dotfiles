@@ -5,6 +5,7 @@
 	],
 	"installed_packages":
 	[
+		"HexViewer",
 		"LaTeXing",
 		"Origami",
 		"Package Control",
