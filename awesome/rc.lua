@@ -191,6 +191,13 @@ space2 = markup.font("Tamsyn 2", " ")
 --lain.widgets.calendar:attach(calendarwidget, { fg = "#FFFFFF", position = "top_right" })
 
 calendarwidget = blingbling.calendar()
+calendarwidget:set_current_day_widget_style({ h_margin = 0,
+                                    v_margin = 0,
+                                    rounded_size = {0.5,0,0.5,0},
+                                    background_color = "#338833",
+                                    text_background_color = "#00000000",
+                                    text_color = "#999999",
+                                    font ="Droid Sans"})
 
 -- CPU
 --cpu_widget = lain.widgets.cpu({
