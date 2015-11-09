@@ -191,13 +191,41 @@ space2 = markup.font("Tamsyn 2", " ")
 --lain.widgets.calendar:attach(calendarwidget, { fg = "#FFFFFF", position = "top_right" })
 
 calendarwidget = blingbling.calendar()
-calendarwidget:set_current_day_widget_style({ h_margin = 0,
-                                    v_margin = 0,
-                                    rounded_size = {0.5,0,0.5,0},
-                                    background_color = "#338833",
-                                    text_background_color = "#00000000",
+calendarwidget:set_prev_next_widget_style({ h_margin = 0,
+                                    rounded_size = {0.5,0.5,0,0},
+                                    background_color = beautiful.bg_focus,
                                     text_color = "#999999",
-                                    font ="Droid Sans"})
+                                  })
+calendarwidget:set_current_date_widget_style({ h_margin = 0,
+                                    rounded_size = {0.5,0.5,0,0},
+                                    background_color = beautiful.bg_focus,
+                                    text_color = "#999999",
+                                  })
+calendarwidget:set_days_of_week_widget_style({ h_margin = 0,
+                                    rounded_size = {0.5,0.5,0,0},
+                                    background_color = beautiful.fg_focus,
+                                    text_color = beautiful.fg_normal,
+                                  })
+calendarwidget:set_days_of_month_widget_style({ h_margin = 0,
+                                    rounded_size = {0.5,0,0.5,0},
+                                    background_color = beautiful.bg_focus,
+                                    text_color = "#999999",
+                                  })
+calendarwidget:set_weeks_number_widget_style({ h_margin = 0,
+                                    rounded_size = {0.5,0,0,0.5},
+                                    background_color = beautiful.border_normal,
+                                    text_color = "#999999",
+                                  })
+calendarwidget:set_corner_widget_style({ h_margin = 0,
+                                    rounded_size = {0.5,0.5,0,0.5},
+                                    background_color = beautiful.border_normal,
+                                    text_color = "#999999",
+                                  })
+calendarwidget:set_current_day_widget_style({ h_margin = 0,
+                                    rounded_size = {0.5,0,0.5,0},
+                                    background_color = beautiful.fg_focus,
+                                    text_color = beautiful.fg_normal,
+                                  })
 
 -- CPU
 --cpu_widget = lain.widgets.cpu({

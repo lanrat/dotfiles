@@ -1,4 +1,3 @@
-
 --[[
                                 
      Holo Awesome WM config 2.0 
@@ -23,7 +22,7 @@ theme.border_normal                 = "#252525"
 theme.border_focus                  = "#0099CC"
 theme.taglist_fg_focus              = "#4CB7DB"
 theme.tasklist_bg_normal            = "#222222"
-theme.tasklist_fg_focus             = "#4CB7DB" -- blue?
+theme.tasklist_fg_focus             = "#4CB7DB"
 theme.textbox_widget_margin_top     = 1
 theme.awful_widget_height           = 14
 theme.awful_widget_margin_top       = 2 -- these are unused?
