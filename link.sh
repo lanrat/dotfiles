@@ -128,14 +128,9 @@ function link_xscreensaver {
 
 function link_awesome {
     echo "Linking awesome"
-    get_submodule https://github.com/bioe007/awesome-revelation.git $cwd/awesome/modules/revelation
-    get_submodule https://github.com/lanrat/awesome-freedesktop.git $cwd/awesome/modules/awesome-freedesktop
+    get_submodule https://github.com/copycat-killer/lain.git $cwd/awesome/lain
+    get_submodule https://github.com/cedlemo/blingbling.git $cwd/awesome/blingbling
     make_link $cwd/awesome ~/.config/awesome
-}
-
-function link_openbox {
-    echo "Linking openbox"
-    make_link $cwd/openbox/openbox ~/.config/openbox
 }
 
 function link_terminator {
@@ -148,11 +143,6 @@ function link_urxvt {
     make_link $cwd/urxvt ~/.urxvt
     make_link $cwd/urxvt/Xresources ~/.Xresources
     xrdb ~/.Xresources
-}
-
-function link_tint2 {
-    echo "Linking tint2"
-    make_link $cwd/tint2/tint2 ~/.config/tint2
 }
 
 function link_sublime3 {
@@ -181,6 +171,8 @@ function link_scripts {
         name="${bname%.*}"
         make_link $script ~/bin/$name
     done
+    wget --no-verbose --output-document ~/bin/rsub https://raw.githubusercontent.com/aurora/rmate/master/rmate 
+    chmod +x ~/bin/rsub
 }
 
 function link_ssh {
