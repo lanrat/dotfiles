@@ -2,17 +2,25 @@
 
 help()
 {
-    echo "Usage: $0 file.cbz"
+    echo "Usage: $0 file.cbz|file.cbr"
 }
 
 run()
 {
-    dir=`mktemp -d`
-    unzip "$1" -d $dir
-
     filename=$(basename "$1")
+    extension="${filename##*.}"
     filename="${filename%.*}.pdf"
-
+    
+    dir=`mktemp -d`
+    if [ "$extension" = "cbr" ]; then
+        unrar e "${1}" $dir
+    elif [ "$extension" = "cbz" ]; then
+        unzip "${1}" -d $dir
+    else
+        echo "Unsupported Extension: $extension"
+        exit
+    fi
+    
     echo "Creating ${filename}"
 
     IFS=$'\n'
