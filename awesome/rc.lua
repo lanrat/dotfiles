@@ -1,7 +1,7 @@
 --[[
                                 
      Holo-XPS Awesome WM config 2.0 
-     github.com/copycat-killer  
+     github.com/lanrat/dotfiles
                                 
 --]]
 
@@ -18,7 +18,6 @@ local separators = require("separators")
 local blingbling = require("blingbling")
 --local revelation = require("revelation")
 vicious = require("vicious")
-
 -- }}}
 
 -- {{{ Error handling
@@ -85,9 +84,6 @@ run_once("blueman-applet") -- may not work on 1st boot (need to start service fi
 -- beautiful init
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/powerarrow-holo/theme.lua")
 
---revelation init
---revelation.init()
-
 -- common
 modkey     = "Mod4"
 altkey     = "Mod1"
@@ -108,8 +104,6 @@ shutdown_command = "systemctl poweroff"
 local layouts = {
     lain.layout.uselesspiral,
     awful.layout.suit.magnifier,
-  -- TODO get icons for layouts I like
-  -- TODO remove layouts I dont use
     --awful.layout.suit.fair,
     --awful.layout.suit.fair.horizontal,
     awful.layout.suit.floating,
@@ -140,7 +134,6 @@ local layouts = {
 -- {{{ Tags
 tags = {
    names = { "❶", "❷", "❸", "❹", "❺", "❻", "❼", "❽", "❾" },
-   --names = { "➀", "➁", "➂", "➃", "➄", "➅", "➆", "➇", "➈" },
    layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1]},
 }
 for s = 1, screen.count() do
@@ -171,24 +164,6 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 markup = lain.util.markup
 space3 = markup.font("Tamsyn 3", " ")
 space2 = markup.font("Tamsyn 2", " ")
-
--- Clock
---mytextclock = awful.widget.textclock(markup("#FFFFFF", space3 .. "%H:%M" .. space2))
---clock_icon = wibox.widget.imagebox()
---clock_icon:set_image(beautiful.clock)
---clockwidget = wibox.widget.background()
---clockwidget:set_widget(mytextclock)
---clockwidget:set_bgimage(beautiful.widget_bg)
-
--- Calendar
---mytextcalendar = awful.widget.textclock(markup("#FFFFFF", space3 .. "%d %b<span font='Tamsyn 5'> </span>"))
---calendar_icon = wibox.widget.imagebox()
---calendar_icon:set_image(beautiful.calendar)
---calendarwidget = wibox.widget.background()
---calendarwidget:set_widget(mytextcalendar)
---calendarwidget:set_bgimage(beautiful.widget_bg)
---lain.widgets.calendar:attach(calendar_icon, { fg = "#FFFFFF", position = "top_right" })
---lain.widgets.calendar:attach(calendarwidget, { fg = "#FFFFFF", position = "top_right" })
 
 calendarwidget = blingbling.calendar()
 calendarwidget:set_prev_next_widget_style({ h_margin = 0,
