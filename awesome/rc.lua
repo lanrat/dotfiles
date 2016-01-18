@@ -21,6 +21,9 @@ vicious = require("vicious")
 -- }}}
 
 -- for testing
+-- naughty.notify({ preset = naughty.config.presets.critical,
+--                  title = "testing",
+--                  text = serializeTable(data) })
 function serializeTable(val, name, skipnewlines, depth)
     skipnewlines = skipnewlines or false
     depth = depth or 0
@@ -43,7 +46,6 @@ function serializeTable(val, name, skipnewlines, depth)
     end
     return tmp
 end
-
 
 
 -- {{{ Error handling
@@ -93,8 +95,8 @@ end
 -- settings
 run_once("nitrogen --restore")
 run_once("xset b off")
-run_once("mate-settings-daemon") -- GTK theme
-run_once("wmname LG3D")
+--run_once("mate-settings-daemon") -- GTK theme
+run_once("wmname LG3D")  -- fixes some java apps
 run_once("compton -b")
 -- applets
 run_once("nm-applet")
@@ -106,7 +108,6 @@ run_once("blueman-applet") -- may not work on 1st boot (need to start service fi
 -- }}}
 
 -- {{{ Variable definitions
-
 -- beautiful init
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/powerarrow-holo/theme.lua")
 
@@ -156,6 +157,8 @@ local layouts = {
     --lain.layout.uselesspiral.dwindle,
 }
 -- }}}
+
+-- TODO two layout lists, one for layout_landscape and one for layout_portrait
 
 -- {{{ Tags
 tags = {
@@ -238,17 +241,6 @@ calendarwidget:set_current_day_widget_style({ h_margin = 0,
                                   })
 
 -- CPU
---cpu_widget = lain.widgets.cpu({
---    settings = function()
---        widget:set_markup(space3 .. "CPU " .. cpu_now.usage
---                          .. "%" .. markup.font("Tamsyn 5", " "))
---    end
---})
---cpuwidget = wibox.widget.background()
---cpuwidget:set_widget(cpu_widget)
---cpu_icon = wibox.widget.imagebox()
---cpu_icon:set_image(beautiful.cpu)
-
 cpu_graph = blingbling.line_graph({ height = 18,
                                         width = 200,
                                         show_text = true,
@@ -256,28 +248,15 @@ cpu_graph = blingbling.line_graph({ height = 18,
                                         rounded_size = 0.3,
                                         graph_background_color = "#00000033"
                                       })
---cpu_graph:set_height(18)
 cpu_graph:set_width(50)
 cpu_graph:set_show_text(false)
---cpu_graph:set_label("Load: $percent %")
---cpu_graph:set_rounded_size(0.3)
 cpu_graph:set_text_background_color("#00000000")
 cpu_graph:set_graph_background_color("#00000040")
 cpu_graph:set_graph_color("#4CB7DB50") -- TODO use theme (blingbling globals?)
 cpu_graph:set_graph_line_color("#4CB7DB") -- TODO use theme (blingbling globals?)
 vicious.register(cpu_graph, vicious.widgets.cpu,'$1',2)
 
---cpuwidget = cpu_graph
-
 -- MEM
---mem_icon = wibox.widget.imagebox()
---mem_icon:set_image(beautiful.mem)
---memwidget = lain.widgets.mem({
---    settings = function()
---        widget:set_markup(mem_now.used .. "M ")
---    end
---})
-
 mem_bar = blingbling.progress_graph()
 mem_bar:set_graph_background_color("#7000040")
 mem_bar:set_graph_color("#4CB7DB50") -- TODO use theme (blingbling globals?)
@@ -287,7 +266,6 @@ mem_bar:set_height(18)
 vicious.register(mem_bar, vicious.widgets.mem,'$1',2)
 
 -- NET
---netwidget = blingbling.net({interface = "wlan0", show_text = true})
 net_iface = active_net()
 if net_iface ~= nil then
   netwidget = blingbling.net({interface = active_net(), show_text = true})
@@ -301,7 +279,6 @@ if net_iface ~= nil then
 end
 
 -- Arrow Separators
---separators = lain.util.separators
 arrl = separators.chevron_left(beautiful.bg_focus)
 arrl_dl = separators.arrow_left(beautiful.bg_focus, "alpha")
 arrl_ld = separators.arrow_left("alpha", beautiful.bg_focus)
@@ -403,7 +380,6 @@ for s = 1, screen.count() do
 
     left_layout:add(mylauncher)
     left_layout_add(mytaglist[s])
-    --left_layout:add(arrr)
     left_layout_add(mypromptbox[s])
     left_layout:add(arrr)
     left_layout:add(spr)
@@ -428,7 +404,6 @@ for s = 1, screen.count() do
         end
         right_layout_toggle = not right_layout_toggle
     end
-
 
     right_layout:add(spr)
     right_layout:add(arrl)
@@ -521,12 +496,6 @@ globalkeys = awful.util.table.join(
             if client.focus then client.focus:raise() end
         end),
 
-    -- Show Menu
-    --awful.key({ modkey }, "w",
-    --    function () -- TODO toggle
-    --        mymainmenu:show({ keygrabber = true })
-    --    end),
-
     -- Show/Hide Wibox
     awful.key({ modkey }, "b", function ()
         mywibox[mouse.screen].visible = not mywibox[mouse.screen].visible
@@ -566,9 +535,6 @@ globalkeys = awful.util.table.join(
 
     -- Dropdown terminal
     awful.key({ modkey,	          }, "z",      function () drop(terminal) end),
-
-    -- Widgets popups
-    --awful.key({ altkey,           }, "c",      function () lain.widgets.calendar:show(7) end),
 
     -- User programs
     -- TODO update shortcuts
@@ -701,24 +667,9 @@ awful.rules.rules = {
     { rule = { class = "URxvt" },
           properties = { opacity = 0.99 } },
 
-    { rule = { class = "MPlayer" },
-          properties = { floating = true } },
-
-    { rule = { class = "Dwb" },
-          properties = { tag = tags[1][1] } },
-
-    { rule = { class = "Iron" },
-          properties = { tag = tags[1][1] } },
-
     { rule = { instance = "plugin-container" },
           properties = { tag = tags[1][1] } },
 
-	  --{ rule = { class = "Gimp" },
-    -- 	    properties = { tag = tags[1][4] } },
-
-    --{ rule = { class = "Gimp", role = "gimp-image-window" },
-    --      properties = { maximized_horizontal = true,
-    --                     maximized_vertical = true } },
 }
 -- }}}
 
@@ -764,6 +715,9 @@ for s = 1, screen.count() do screen[s]:connect_signal("arrange", function ()
                 -- No borders with only one visible client
                 elseif #clients == 1 or layout == "max" then
                     c.border_width = 0
+                    -- if only 1 client remove useless gaps
+                    -- TODO find the correct way to do this
+                    --beautiful.useless_gap_width = 0
                 else
                     c.border_width = beautiful.border_width
                 end
