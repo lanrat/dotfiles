@@ -118,7 +118,7 @@ altkey     = "Mod1"
 terminal   = "mate-terminal" or "urxvt" or "xterm"
 --editor     = os.getenv("EDITOR") or "vim"
 --editor_cmd = terminal .. " -e " .. editor
-screenshot = "mate-screenshot"
+screenshot = "xfce4-screenshooter"
 browser    = "google-chrome"
 browser2   = "chromium"
 file_browser = "caja"
@@ -288,17 +288,17 @@ vicious.register(mem_bar, vicious.widgets.mem,'$1',2)
 
 -- NET
 --netwidget = blingbling.net({interface = "wlan0", show_text = true})
-net_iface = active_net()
-if net_iface ~= nil then
-  netwidget = blingbling.net({interface = active_net(), show_text = true})
-  netwidget:set_graph_line_color("#4CB7DB") -- TODO use theme
-  netwidget:set_graph_color("#4CB7DB50") -- TODO use theme
-  netwidget:set_text_background_color("#00000000")
-  netwidget:set_ippopup()
-  netwidget:set_show_text(false)
-  netwidget:set_width(15)
-  netwidget:set_height(18)
-end
+--net_iface = active_net()
+--if net_iface ~= nil then
+--  netwidget = blingbling.net({interface = active_net(), show_text = true})
+--  netwidget:set_graph_line_color("#4CB7DB") -- TODO use theme
+--  netwidget:set_graph_color("#4CB7DB50") -- TODO use theme
+--  netwidget:set_text_background_color("#00000000")
+--  netwidget:set_ippopup()
+--  netwidget:set_show_text(false)
+--  netwidget:set_width(15)
+--  netwidget:set_height(18)
+--end
 
 -- Arrow Separators
 --separators = lain.util.separators
