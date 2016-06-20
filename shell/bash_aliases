@@ -33,12 +33,6 @@ alias s="du -sh"
 # force mtr to text mode
 alias mtr='mtr -t'
 
-# TODO: this is bad and i should find another way
-# make ssh check for ssh-agent before running
-ssh-add -l &>/dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
-ssh-add -l &>/dev/null || alias mosh='ssh-add -l >/dev/null || ssh-add && unalias mosh; mosh'
-#alias ssh='ssh-add -l || ssh-add && ssh'
-
 #faster opens
 #alias o='gnome-open'
 alias o='exo-open'
@@ -65,3 +59,6 @@ alias ta="tmux a"
 
 # send myself email notifications
 alias pong="mail -s PONG $USER"
+
+# cleaner docker ps
+alias dps="docker ps -a --format \"table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Image}}\""
