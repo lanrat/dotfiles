@@ -24,15 +24,15 @@ enable_up()
 {
     xrandr \
         --output HDMI1 --preferred --pos 0x0 \
-        --output LVDS1 --preferred --below HDMI1
+        --output eDP1 --preferred --below HDMI1
 }
 
 #diable old
 disable
 
 #check for eve config
-UP_EEID='00ffffffffffff000472a1ad43260175'
-v=$(xrandr -q --verbose | grep ${UP_EEID})
+#UP_EEID='00ffffffffffff000472a1ad43260175'
+#v=$(xrandr -q --verbose | grep ${UP_EEID})
 
 
 if [ $? -eq 0 ];

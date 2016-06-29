@@ -103,7 +103,7 @@ set report=0
 set showcmd
 
 " do not wrap line
-set nowrap
+"set nowrap
 "if we do ever decide to wrap display a nice wrap image
 set showbreak=↪
 " use softwrap

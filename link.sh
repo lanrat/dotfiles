@@ -128,8 +128,8 @@ function link_xscreensaver {
 
 function link_awesome {
     echo "Linking awesome"
-    get_submodule https://github.com/bioe007/awesome-revelation.git $cwd/awesome/modules/revelation
-    get_submodule https://github.com/lanrat/awesome-freedesktop.git $cwd/awesome/modules/awesome-freedesktop
+    get_submodule https://github.com/copycat-killer/lain.git $cwd/awesome/lain
+    get_submodule https://github.com/cedlemo/blingbling.git $cwd/awesome/blingbling
     make_link $cwd/awesome ~/.config/awesome
 }
 
