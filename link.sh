@@ -133,6 +133,11 @@ function link_awesome {
     make_link $cwd/awesome ~/.config/awesome
 }
 
+function link_compton {
+    echo "Linking compton"
+    make_link $cwd/compton/compton.conf ~/.config/compton.conf
+}
+
 function link_terminator {
     echo "Linking terminator"
     make_link $cwd/terminator/terminator ~/.config/terminator
