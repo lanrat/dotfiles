@@ -130,6 +130,7 @@ function link_awesome {
     echo "Linking awesome"
     get_submodule https://github.com/copycat-killer/lain.git $cwd/awesome/lain
     get_submodule https://github.com/cedlemo/blingbling.git $cwd/awesome/blingbling
+    get_submodule https://github.com/guotsuan/awesome-revelation.git $cwd/awesome/revelation
     make_link $cwd/awesome ~/.config/awesome
 }
 

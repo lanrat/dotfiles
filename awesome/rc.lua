@@ -16,7 +16,7 @@ local drop      = require("scratchdrop")
 local lain      = require("lain")
 local separators = require("separators")
 local blingbling = require("blingbling")
---local revelation = require("revelation")
+local revelation = require("revelation")
 vicious = require("vicious")
 -- }}}
 
@@ -110,6 +110,9 @@ run_once("blueman-applet") -- may not work on 1st boot (need to start service fi
 -- {{{ Variable definitions
 -- beautiful init
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/powerarrow-holo/theme.lua")
+
+-- revelation init
+revelation.init()
 
 -- common
 modkey     = "Mod4"
@@ -457,7 +460,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "Escape", awful.tag.history.restore),
 
     -- Revelation
-    --awful.key({ modkey, }, "e", revelation),
+    awful.key({ modkey, }, "e", revelation),
 
     -- Non-empty tag browsing
     awful.key({ altkey }, "Left", function () lain.util.tag_view_nonempty(-1) end),
