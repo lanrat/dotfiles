@@ -1,8 +1,6 @@
 --[[
-                                
-     Holo Awesome WM config 2.0 
-     github.com/copycat-killer  
-                                
+     Holo Awesome WM config 2.0
+     github.com/copycat-killer 
 --]]
 
 theme                               = {}
@@ -66,6 +64,7 @@ theme.tasklist_maximized_vertical   = ""
 theme.useless_gap_width             = 5
 theme.layout_uselesstileleft        = theme.icon_dir .. "/layouts/uselesstileleft.png"
 theme.layout_uselesstiletop         = theme.icon_dir .. "/layouts/uselesstiletop.png"
+theme.layout_uselesstilebottom         = theme.icon_dir .. "/layouts/uselesstilebottom.png"
 
 -- lain
 theme.layout_cascade               = theme.icon_dir .. "/layouts/cascadew.png"

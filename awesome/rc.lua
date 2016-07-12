@@ -13,7 +13,7 @@ local wibox     = require("wibox")
 local beautiful = require("beautiful")
 local naughty   = require("naughty")
 local drop      = require("scratchdrop")
-local lain      = require("lain")
+lain      = require("lain")
 local separators = require("separators")
 local blingbling = require("blingbling")
 local revelation = require("revelation")
@@ -132,43 +132,48 @@ sleep_command = "systemctl hybrid-sleep"
 shutdown_command = "systemctl poweroff"
 
 local layouts = {
-    lain.layout.uselesspiral,
-    awful.layout.suit.magnifier,
+    --awful.layout.suit.magnifier,
     --awful.layout.suit.fair,
     --awful.layout.suit.fair.horizontal,
-    awful.layout.suit.floating,
     --awful.layout.suit.tile,
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.bottom,
     --awful.layout.suit.tile.top,
     --awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,
-    --lain.layout.uselessfair.horizontal,
-    lain.layout.cascade,
-   -- lain.layout.cascadebrowse,
-    lain.layout.cascadetile,
-    lain.layout.centerfair,
-    lain.layout.centerwork,
-    lain.layout.termfair,
+    --awful.layout.suit.max,
+
+    lain.layout.uselesstile,
     lain.layout.uselessfair,
     --lain.layout.uselesspiral,
-    lain.layout.uselesstile
+    --lain.layout.uselessfair.horizontal,
+    --lain.layout.cascade,
+    --lain.layout.cascadebrowse,
+    --lain.layout.cascadetile,
+    --lain.layout.centerfair,
+    lain.layout.centerwork,
+    lain.layout.termfair, --good for portraite mode
+    
+    --lain.layout.uselesspiral,
     --lain.layout.uselesstile.left,
-    --lain.layout.uselesstile.bottom,
+    lain.layout.uselesstile.bottom, -- good for portraite mode
     --lain.layout.uselesstile.top,
     --lain.layout.uselesspiral.dwindle,
+    awful.layout.suit.floating,
 }
 -- }}}
-
--- TODO two layout lists, one for layout_landscape and one for layout_portrait
+ 
+-- default layouts
+-- starts at 1 (not 0)
+local default_layout_landscape = 1
+local default_layout_portrait = 5
 
 -- {{{ Tags
 tags = {
    names = { "❶", "❷", "❸", "❹", "❺", "❻", "❼", "❽", "❾" },
    --layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1]},
-   layout_landscape = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1]},
-   layout_portrait = { layouts[9], layouts[9], layouts[9], layouts[9], layouts[9], layouts[9], layouts[9], layouts[9], layouts[9]},
+   layout_landscape = { layouts[default_layout_landscape], layouts[default_layout_landscape], layouts[default_layout_landscape], layouts[default_layout_landscape], layouts[default_layout_landscape], layouts[default_layout_landscape], layouts[default_layout_landscape], layouts[default_layout_landscape], layouts[default_layout_landscape]},
+   layout_portrait = { layouts[default_layout_portrait], layouts[default_layout_portrait], layouts[default_layout_portrait], layouts[default_layout_portrait], layouts[default_layout_portrait], layouts[default_layout_portrait], layouts[default_layout_portrait], layouts[default_layout_portrait], layouts[default_layout_portrait]},
 }
 
 for s = 1, screen.count() do
@@ -682,6 +687,7 @@ awful.rules.rules = {
 local sloppyfocus_last = {c=nil}
 client.connect_signal("manage", function (c, startup)
     -- Enable sloppy focus
+    -- TOOD this can cause the non-active window to have the mouse over it
     client.connect_signal("mouse::enter", function(c)
          if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
             and awful.client.focus.filter(c) then
