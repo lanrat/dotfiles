@@ -2,15 +2,6 @@
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
 # exists.
 
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-    . "$HOME/.bashrc"
-    fi
-fi
-
-
 # -------------------
 # PATH
 # -------------------
@@ -40,14 +31,11 @@ export EDITOR='vim'
 # -------------------
 
 #enable color, case-insensitive search, and no-wrapping in less
-# -F exit if all data fits in term
-export LESS="-SiR"
+# -FX exit if all data fits in term
+export LESS="-SiRFX"
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-#tell google chrome to use ram for cache
-export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
 
 
 # -------------------
@@ -56,11 +44,11 @@ export CHROMIUM_USER_FLAGS="--disk-cache-dir=/tmp"
 
 ## Detect and configure touchpad. See 'man synclient' for more info.
 if egrep -iq 'touchpad' /proc/bus/input/devices 2>/dev/null; then
-	synclient VertEdgeScroll=0
-	synclient HorizTwoFingerScroll=1
-	synclient PalmDetect=1
-	synclient VertScrollDelta=-30
-	synclient HorizScrollDelta=-30
+    synclient VertEdgeScroll=0
+    synclient HorizTwoFingerScroll=1
+    synclient PalmDetect=1
+    synclient VertScrollDelta=-30
+    synclient HorizScrollDelta=-30
 fi
 
 
