@@ -5,6 +5,7 @@
 ---------------------------------------------------------------------------
 -- location: /usr/share/awesome/lib/awful/mouse/init.lua
 -- modified for mouse resize on uselesstiles
+-- sudo cp mouse_init.lua /usr/share/awesome/lib/awful/mouse/init.lua
 
 -- Grab environment we need
 local layout = require("awful.layout")
