@@ -119,17 +119,11 @@ function link_tmux {
     make_link $cwd/tmux/tmux.conf ~/.tmux.conf
 }
 
-function link_xscreensaver {
-    echo "Linking xscreensaver"
-    make_link $cwd/xscreensaver/xscreensaver ~/.xscreensaver
-    make_link $cwd/xscreensaver/Xresources ~/.Xresources
-    xrdb ~/.Xresources
-}
-
 function link_awesome {
     echo "Linking awesome"
     get_submodule https://github.com/copycat-killer/lain.git $cwd/awesome/lain
     get_submodule https://github.com/cedlemo/blingbling.git $cwd/awesome/blingbling
+    echo "ensure to checkout v2.2 for blingbling"
     get_submodule https://github.com/guotsuan/awesome-revelation.git $cwd/awesome/revelation
     make_link $cwd/awesome ~/.config/awesome
 }
@@ -137,18 +131,6 @@ function link_awesome {
 function link_compton {
     echo "Linking compton"
     make_link $cwd/compton/compton.conf ~/.config/compton.conf
-}
-
-function link_terminator {
-    echo "Linking terminator"
-    make_link $cwd/terminator/terminator ~/.config/terminator
-}
-
-function link_urxvt {
-    echo "Linking urxvt"
-    make_link $cwd/urxvt ~/.urxvt
-    make_link $cwd/urxvt/Xresources ~/.Xresources
-    xrdb ~/.Xresources
 }
 
 function link_sublime3 {
