@@ -1,4 +1,9 @@
-# this causes bashrc to work on all systems
+# bash_profile is executed for login shells (login and ssh)
+
+if [ -f ~/.profile ]; then
+   source ~/.profile
+fi
+
 if [ -f ~/.bashrc ]; then
    source ~/.bashrc
 fi

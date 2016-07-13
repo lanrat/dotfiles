@@ -1,5 +1,6 @@
 # -----------
 # .bashrc
+# bashrc is executed for interactive non-login shells (gui-terminal, bash)
 # -----------
 
 # If not running interactively, don't do anything
