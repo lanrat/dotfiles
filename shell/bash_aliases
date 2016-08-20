@@ -34,7 +34,7 @@ alias s="du -sh"
 alias mtr='mtr -t'
 
 #faster opens
-alias o='xdg-open'
+alias o='gnome-open'
 
 #get my ip
 alias myip='curl curlmyip.com'

@@ -3,42 +3,6 @@
 # exists.
 
 # -------------------
-# PATH
-# -------------------
-
-if [ -d "/sbin" ] ; then
-    PATH="/sbin:$PATH"
-fi
-if [ -d "/usr/sbin" ] ; then
-    PATH="/usr/sbin:$PATH"
-fi
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-
-# -------------------
-# Default Apps
-# -------------------
-
-export PAGER='less'
-export EDITOR='vim'
-
-
-# -------------------
-# App Settings
-# -------------------
-
-#enable color, case-insensitive search, and no-wrapping in less
-# -FX exit if all data fits in term
-export LESS="-SiRFX"
-
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-
-# -------------------
 # Touchpad
 # -------------------
 
