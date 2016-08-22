@@ -97,7 +97,7 @@ run_once("nitrogen --restore")
 run_once("xset b off")
 run_once("mate-settings-daemon") -- GTK theme
 run_once("wmname LG3D")  -- fixes some java apps
-run_once("compton -b")
+run_once("compton")
 -- applets
 run_once("nm-applet")
 run_once("mate-power-manager")
