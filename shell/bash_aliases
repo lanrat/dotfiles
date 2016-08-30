@@ -20,29 +20,29 @@ alias ls='ls --color=auto'
 alias ll='ls -l'
 
 
-#netstat the way I like it
+# netstat the way I like it
 alias ports='netstat -tupl --numeric-ports | grep -E ":[0-9]+\s"'
 alias portse='netstat -tup --numeric-ports | grep -E ":[0-9]+\s"'
 
-#dmesg with readable time
+# dmesg with readable time
 alias dmesg='dmesg -T'
 
-# I use du-sh way to much
+# I use du -sh way to much
 alias s="du -sh"
 
 # force mtr to text mode
 alias mtr='mtr -t'
 
-#faster opens
+# faster opens
 alias o='gnome-open'
 
-#get my ip
+# get my ip
 alias myip='curl curlmyip.com'
 
-#incognito
+# incognito
 alias incogterm='unset HISTFILE'
 
-#fix htop inside tmux
+# fix htop inside tmux
 alias htop="TERM=screen htop"
 
 # htop for only current user
@@ -58,6 +58,9 @@ alias ta="tmux a"
 
 # send myself email notifications
 alias pong="mail -s PONG $USER"
+
+# upload command output to clbin
+alias clbin="curl -F 'clbin=<-' https://clbin.com"
 
 # cleaner docker ps
 alias dps="docker ps -a --format \"table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Image}}\""

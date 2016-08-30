@@ -2,10 +2,6 @@
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
 # exists.
 
-# -------------------
-# Touchpad
-# -------------------
-
 ## Detect and configure touchpad. See 'man synclient' for more info.
 if egrep -iq 'touchpad' /proc/bus/input/devices 2>/dev/null; then
     synclient VertEdgeScroll=0
@@ -15,10 +11,25 @@ if egrep -iq 'touchpad' /proc/bus/input/devices 2>/dev/null; then
     synclient HorizScrollDelta=-30
 fi
 
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+    fi
+fi
 
-# -------------------
-# Other
-# -------------------
+# sbin PATH
+if [ -d "/sbin" ] ; then
+    PATH="/sbin:$PATH"
+fi
+if [ -d "/usr/sbin" ] ; then
+    PATH="/usr/sbin:$PATH"
+fi
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
 
 # disable Software flow control
 # AKA: Ctrl-s freezing term until ctrl-q is pressed
@@ -28,4 +39,3 @@ stty -ixon
 if [ -f ~/.profile_local ]; then
     . ~/.profile_local
 fi
-

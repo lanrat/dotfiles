@@ -9,20 +9,6 @@ case $- in
       *) return;;
 esac
 
-# -------------------
-# PATH
-# -------------------
-
-if [ -d "/sbin" ] ; then
-    PATH="/sbin:$PATH"
-fi
-if [ -d "/usr/sbin" ] ; then
-    PATH="/usr/sbin:$PATH"
-fi
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
 
 # -------------------
 # Default Apps
@@ -42,7 +28,6 @@ export LESS="-SiRFX"
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
