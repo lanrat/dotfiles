@@ -1,23 +1,6 @@
-# ~/.profile: executed by the command interpreter for login shells.
+# ~/.profile: executed by the command interpreter for login shells (non-gui).
 # This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
 # exists.
-
-## Detect and configure touchpad. See 'man synclient' for more info.
-if egrep -iq 'touchpad' /proc/bus/input/devices 2>/dev/null; then
-    synclient VertEdgeScroll=0
-    synclient HorizTwoFingerScroll=1
-    synclient PalmDetect=1
-    synclient VertScrollDelta=-30
-    synclient HorizScrollDelta=-30
-fi
-
-# if running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-    . "$HOME/.bashrc"
-    fi
-fi
 
 # sbin PATH
 if [ -d "/sbin" ] ; then
@@ -35,7 +18,7 @@ fi
 # AKA: Ctrl-s freezing term until ctrl-q is pressed
 stty -ixon
 
-# Incluse local machiene specific settings
+# Include local machiene specific settings
 if [ -f ~/.profile_local ]; then
     . ~/.profile_local
 fi

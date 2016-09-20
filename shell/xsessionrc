@@ -1,0 +1,16 @@
+# ~/.xsessionrc is executed when you log in in graphical mode 
+# (on a display manager) and the display manager invokes the
+# “custom” session type. Debian only.
+
+## Detect and configure touchpad. See 'man synclient' for more info.
+if egrep -iq 'touchpad' /proc/bus/input/devices 2>/dev/null; then
+    synclient VertEdgeScroll=0
+    synclient HorizTwoFingerScroll=1
+    synclient PalmDetect=1
+    synclient VertScrollDelta=-30
+    synclient HorizScrollDelta=-30
+fi
+
+if [ -f ~/.profile ]; then
+    . ~/.profile
+fi
