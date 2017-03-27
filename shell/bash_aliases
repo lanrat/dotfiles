@@ -19,6 +19,9 @@ alias cgrep='grep --color=always -RIin'
 alias ls='ls --color=auto'
 alias ll='ls -l'
 
+# print dd status
+alias dd-status='pkill -USR1 ^dd'
+
 
 # netstat the way I like it
 alias ports='netstat -tupl --numeric-ports | grep -E ":[0-9]+\s"'

@@ -2,7 +2,7 @@
 
 help()
 {
-    echo "Usage: $0 file.cbz|file.cbr"
+    echo "Usage: $0 folder|file.cbz|file.cbr"
 }
 
 run()
@@ -17,8 +17,9 @@ run()
     elif [ "$extension" = "cbz" ]; then
         unzip "${1}" -d $dir
     else
+        echo "$1"
         echo "Unsupported Extension: $extension"
-        exit
+        return
     fi
     
     echo "Creating ${filename}"
@@ -32,7 +33,13 @@ run()
 if [ $# -ne 1 ]; then
     help
 else
-    if [ -e "$1" ]; then
+    if [ -d "$1" ];
+    then
+        for f in $1/*.cbr $1/*.cbz
+        do
+            run "$f"
+        done
+    elif [ -e "$1" ]; then
         run "$1"
     else
         echo "$1 does not exist"
