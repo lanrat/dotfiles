@@ -11,6 +11,10 @@ if egrep -iq 'touchpad' /proc/bus/input/devices 2>/dev/null; then
     synclient HorizScrollDelta=-30
 fi
 
+#disable caps-lock
+setxkbmap -option ctrl:nocaps
+# to re-enable: setxkbmap -option
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
