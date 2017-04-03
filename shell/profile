@@ -18,6 +18,10 @@ fi
 # AKA: Ctrl-s freezing term until ctrl-q is pressed
 stty -ixon
 
+#disable caps-lock
+setxkbmap -option ctrl:nocaps
+# to re-enable: setxkbmap -optio
+
 # Include local machiene specific settings
 if [ -f ~/.profile_local ]; then
     . ~/.profile_local
