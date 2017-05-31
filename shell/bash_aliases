@@ -58,6 +58,7 @@ alias t="tmux"
 alias ta="tmux a"
 
 #alias subl="subl -n"
+alias sn="subl -n ."
 
 # send myself email notifications
 alias pong="mail -s PONG $USER"
