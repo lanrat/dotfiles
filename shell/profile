@@ -19,7 +19,7 @@ fi
 stty -ixon
 
 #disable caps-lock
-setxkbmap -option ctrl:nocaps
+#setxkbmap -option ctrl:nocaps
 # to re-enable: setxkbmap -optio
 
 # Include local machiene specific settings
