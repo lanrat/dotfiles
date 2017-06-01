@@ -161,6 +161,8 @@ function link_scripts {
     done
     wget --no-verbose --output-document ~/bin/rsub https://raw.githubusercontent.com/aurora/rmate/master/rmate 
     chmod +x ~/bin/rsub
+    wget --no-verbose --output-document ~/bin/speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
+    chmod +x ~/bin/speedtest-cli
 }
 
 function link_ssh {
