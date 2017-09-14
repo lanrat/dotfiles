@@ -85,10 +85,6 @@ function link_vim {
     vim +PluginInstall +qall
 }
 
-function link_conky {
-    echo "Linking conky"
-    make_link $cwd/conky/conkyrc ~/.conkyrc
-}
 
 function link_git {
     echo "Linking git"
