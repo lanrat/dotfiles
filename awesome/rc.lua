@@ -419,7 +419,12 @@ clientkeys = awful.util.table.join(
             c.maximized = not c.maximized
             c:raise()
         end ,
-        {description = "maximize", group = "client"})
+        {description = "maximize", group = "client"}),
+
+    -- Custom
+    awful.key({ modkey, "Control"}, "t", awful.titlebar.toggle,
+              {description = "toggle titlebar", group = "client"})
+
 )
 
 -- Bind all key numbers to tags.
@@ -525,7 +530,7 @@ awful.rules.rules = {
 
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = titlebars_enabled
+      }, properties = { titlebars_enabled = true
   }
     },
 
@@ -590,7 +595,64 @@ client.connect_signal("request::titlebars", function(c)
         },
         layout = wibox.layout.align.horizontal
     }
+    -- Hide the menubar
+    if not titlebars_enabled then
+        awful.titlebar.hide(c)
+    end
 end)
+
+-- how/hide the title bar automatically whenever you toggle the floating attribute
+client.connect_signal("property::floating", function (c)
+    if c.floating then
+        awful.titlebar.show(c)
+    else
+        awful.titlebar.hide(c)
+    end
+end)
+
+-- no border when maximized
+--client.connect_signal("property::maximized", function(c) 
+--    c.border_width = c.maximized and 0 or beautiful.border_width
+--end)
+
+
+-- No border for maximized clients
+client.connect_signal("focus",
+    function(c)
+        if c.maximized_horizontal == true and c.maximized_vertical == true then
+            c.border_color = beautiful.border_normal
+        else
+            c.border_color = beautiful.border_focus
+        end
+    end)
+client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+-- }}}
+
+-- {{{ Arrange signal handler
+for s = 1, screen.count() do screen[s]:connect_signal("arrange", function ()
+        local clients = awful.client.visible(s)
+        local layout  = awful.layout.getname(awful.layout.get(s))
+
+        if #clients > 0 then -- Fine grained borders and floaters control
+            for _, c in pairs(clients) do -- Floaters always have borders
+                if awful.client.floating.get(c) or layout == "floating" then
+                    c.border_width = beautiful.border_width
+
+                -- No borders with only one visible client
+                elseif #clients == 1 or layout == "max" then
+                    c.border_width = 0
+                    -- if only 1 client remove useless gaps
+                    -- TODO find the correct way to do this
+                    -- beautiful.useless_gap = 0
+                    -- c.screen.selected_tag.gap = 0
+                else
+                    c.border_width = beautiful.border_width
+                end
+            end
+        end
+      end)
+end
+-- }}}
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)

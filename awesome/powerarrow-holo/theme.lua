@@ -34,8 +34,8 @@ theme.bg_systray                    = theme.bg_normal
 
 theme.awesome_icon                  = theme.icon_dir .. "awesome_icon.png"
 theme.submenu_icon                  = theme.icon_dir .. "submenu.png"
--- theme.taglist_squares_sel           = theme.icon_dir .. "square_sel.png"
---theme.taglist_squares_unsel         = theme.icon_dir .. "square_unsel.png"
+theme.taglist_squares_sel           = theme.icon_dir .. "square_sel.png"
+theme.taglist_squares_unsel         = theme.icon_dir .. "square_unsel.png"
 
 -- example to generate icons automatically:
 -- https://awesomewm.org/apidoc/sample%20files/theme.lua.html
