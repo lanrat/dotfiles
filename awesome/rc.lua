@@ -18,6 +18,10 @@ require("autostart")
 --local app_menu = require("menugen")
 local menu = require("menu")
 
+-- chevrons
+local separators = require("separators")
+
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -192,6 +196,18 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 -- screen.connect_signal("property::geometry", set_wallpaper)
 
+
+-- Arrow Separators
+arrl = separators.chevron_left(beautiful.bg_focus)
+arrl_dl = separators.arrow_left(beautiful.bg_focus, "alpha")
+arrl_ld = separators.arrow_left("alpha", beautiful.bg_focus)
+arrr = separators.chevron_right(beautiful.bg_focus)
+arrr_dl = separators.arrow_right(beautiful.bg_focus, "alpha")
+arrr_ld = separators.arrow_right("alpha", beautiful.bg_focus)
+spr = wibox.widget.textbox(' ')
+
+
+
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     -- set_wallpaper(s)
@@ -231,12 +247,18 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             mylauncher,
+            arrr_ld,
             s.mytaglist,
+            arrr_dl,
             s.mypromptbox,
+            arrr,
+            spr,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
+            spr,
+            arrl,
             mykeyboardlayout,
             wibox.widget.systray(),
             mytextclock,
