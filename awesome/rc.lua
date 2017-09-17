@@ -197,17 +197,6 @@ end
 -- screen.connect_signal("property::geometry", set_wallpaper)
 
 
--- Arrow Separators
-arrl = separators.chevron_left(beautiful.bg_focus)
-arrl_dl = separators.arrow_left(beautiful.bg_focus, "alpha")
-arrl_ld = separators.arrow_left("alpha", beautiful.bg_focus)
-arrr = separators.chevron_right(beautiful.bg_focus)
-arrr_dl = separators.arrow_right(beautiful.bg_focus, "alpha")
-arrr_ld = separators.arrow_right("alpha", beautiful.bg_focus)
-spr = wibox.widget.textbox(' ')
-
-
-
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     -- set_wallpaper(s)
@@ -242,29 +231,24 @@ awful.screen.connect_for_each_screen(function(s)
     s.mywibox = awful.wibar({ position = "top", screen = s })
 
     -- Add widgets to the wibox
+    ---[[
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             mylauncher,
-            arrr_ld,
-            s.mytaglist,
-            arrr_dl,
-            s.mypromptbox,
-            arrr,
-            spr,
+            separators.group_right(s.mytaglist, s.mypromptbox),
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            spr,
-            arrl,
-            mykeyboardlayout,
+            separators.group_left(mykeyboardlayout),
             wibox.widget.systray(),
-            mytextclock,
+            separators.group_left(mytextclock),
             s.mylayoutbox,
         },
     }
+    --- ]]
 end)
 -- }}}
 
