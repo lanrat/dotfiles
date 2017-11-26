@@ -43,7 +43,8 @@ function make_link {
         echo "${src} already exists, makeing backup ${src}.bak"
         mv "${src}" "${src}.bak"
     fi
-    mkdir -p `dirname "${src}"`
+    parent_dir=$(dirname "${src}")
+    echo mkdir -p "${parent_dir}"
     echo "Creating symlink for ${src}"
     ln -sf "${target}" "${src}"
 }
@@ -138,7 +139,8 @@ function link_sublime3 {
     BASE=~/.config/sublime-text-3
     if [ "$(uname)" = "Darwin" ]; then
         echo "Detected OSX"
-        BASE=~/Library/Application\ Support/Sublime\ Text\ 3
+        ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
+        BASE="${HOME}/Library/Application Support/Sublime Text 3"
     fi
     SUBL_Pacakge_DIR="${BASE}/Installed Packages/"
     SUBL_Package_Control_URL="https://sublime.wbond.net/Package%20Control.sublime-package"
@@ -146,7 +148,7 @@ function link_sublime3 {
     if [ ! -e "${SUBL_Pacakge_DIR}/Package Control.sublime-package" ]
     then
         echo "Downloading Package Manager Plugin"
-        wget -P "${SUBL_Pacakge_DIR}" "${SUBL_Package_Control_URL}"
+        wget --no-verbose -P "${SUBL_Pacakge_DIR}" "${SUBL_Package_Control_URL}"
     fi
     echo "Please run sublime and wait a few minutes for packages to be downloaded"
 }
