@@ -43,7 +43,8 @@ function make_link {
         echo "${src} already exists, makeing backup ${src}.bak"
         mv "${src}" "${src}.bak"
     fi
-    mkdir -p `dirname "${src}"`
+    parent_dir=$(dirname "${src}")
+    mkdir -p "${parent_dir}"
     echo "Creating symlink for ${src}"
     ln -sf "${target}" "${src}"
 }
@@ -134,8 +135,9 @@ function link_sublime3 {
     echo "Linking Sublime Text"
     BASE=~/.config/sublime-text-3
     if [ "$(uname)" = "Darwin" ]; then
-        echo "Detected OSX"
-        BASE=~/Library/Application\ Support/Sublime\ Text\ 3
+        echo -e "\tDetected OSX"
+        ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
+        BASE="${HOME}/Library/Application Support/Sublime Text 3"
     fi
     SUBL_Pacakge_DIR="${BASE}/Installed Packages/"
     SUBL_Package_Control_URL="https://sublime.wbond.net/Package%20Control.sublime-package"
@@ -143,9 +145,11 @@ function link_sublime3 {
     if [ ! -e "${SUBL_Pacakge_DIR}/Package Control.sublime-package" ]
     then
         echo "Downloading Package Manager Plugin"
-        wget -P "${SUBL_Pacakge_DIR}" "${SUBL_Package_Control_URL}"
+        wget --no-verbose -P "${SUBL_Pacakge_DIR}" "${SUBL_Package_Control_URL}"
     fi
     echo "Please run sublime and wait a few minutes for packages to be downloaded"
+    echo "To enable rsub, add this to your ssh config file profiles:"
+    echo -e "\tRemoteForward 52698 127.0.0.1:52698"
 }
 
 function link_scripts {
@@ -161,18 +165,6 @@ function link_scripts {
     wget --no-verbose --output-document ~/bin/speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
     chmod +x ~/bin/speedtest-cli
 }
-
-function link_ssh {
-    echo "Linking ssh"
-    SSH_CONFIG=~/Dropbox/config/ssh
-    if [ -e "$SSH_CONFIG" ];
-    then
-        make_link $SSH_CONFIG ~/.ssh/config
-    else
-        echo "$SSH_CONFIG does not exist!"
-    fi
-}
-
 
 if [ "$#" -eq 0 ];
 then
