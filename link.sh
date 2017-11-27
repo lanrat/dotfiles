@@ -135,7 +135,7 @@ function link_sublime3 {
     echo "Linking Sublime Text"
     BASE=~/.config/sublime-text-3
     if [ "$(uname)" = "Darwin" ]; then
-        echo -e "\tDetected OSX"
+        echo -e "\t Detected OSX"
         ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
         BASE="${HOME}/Library/Application Support/Sublime Text 3"
     fi
@@ -149,7 +149,7 @@ function link_sublime3 {
     fi
     echo "Please run sublime and wait a few minutes for packages to be downloaded"
     echo "To enable rsub, add this to your ssh config file profiles:"
-    echo -e "\tRemoteForward 52698 127.0.0.1:52698"
+    echo -e "\t RemoteForward 52698 127.0.0.1:52698"
 }
 
 function link_scripts {
