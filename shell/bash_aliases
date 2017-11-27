@@ -16,8 +16,11 @@ alias grep='grep --color=auto'
 alias cgrep='grep --color=always -RIin'
 
 # ls aliases
-alias ls='ls --color=auto'
-alias ll='ls -l'
+if [ "$(uname)" = "Darwin" ]; then
+    alias ls='ls -G'
+else
+    alias ls='ls --color=auto'
+fi
 
 # print dd status
 alias dd-status='pkill -USR1 ^dd'
