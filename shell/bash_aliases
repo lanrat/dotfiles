@@ -71,3 +71,5 @@ alias clbin="curl -F 'clbin=<-' https://clbin.com"
 
 # cleaner docker ps
 alias dps="docker ps -a --format \"table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Image}}\""
+
+alias gopath="export GOPATH=\"${GOPATH}:${HOME}/code/go\""
