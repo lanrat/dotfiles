@@ -30,8 +30,14 @@ alias dd-status='pkill -USR1 ^dd'
 alias ports='netstat -tupl --numeric-ports | grep -E ":[0-9]+\s"'
 alias portse='netstat -tup --numeric-ports | grep -E ":[0-9]+\s"'
 alias lsports='sudo lsof -PiTCP -sTCP:LISTEN'
-# dmesg with readable time
-alias dmesg='dmesg -T'
+
+if [[ "$(uname)" == 'Linux' ]]; then
+    # dmesg with readable time
+    alias dmesg='dmesg -T'
+
+    # faster opens
+    alias o='gnome-open'
+fi
 
 # I use du -sh way to much
 alias s="du -sh"
@@ -39,8 +45,6 @@ alias s="du -sh"
 # force mtr to text mode
 alias mtr='mtr -t'
 
-# faster opens
-alias o='gnome-open'
 
 # get my ip
 alias myip='curl curlmyip.com'
