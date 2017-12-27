@@ -215,10 +215,12 @@ l () {
     fi
 }
 
-# Incluse local machiene specific settings
+# Include local machine specific settings
 if [ -f ~/.bashrc_local ];
 then
     . ~/.bashrc_local
 fi
 
+[[ -s "$HOME/code/go/" ]] && export GOPATH=$HOME/code/go
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
+[[ -s "$HOME/code/go/bin" ]] && export PATH="${PATH}:${HOME}/code/go/bin"
