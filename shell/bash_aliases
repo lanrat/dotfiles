@@ -16,8 +16,11 @@ alias grep='grep --color=auto'
 alias cgrep='grep --color=always -RIin'
 
 # ls aliases
-alias ls='ls --color=auto'
-alias ll='ls -l'
+if [ "$(uname)" = "Darwin" ]; then
+    alias ls='ls -G'
+else
+    alias ls='ls --color=auto'
+fi
 
 # print dd status
 alias dd-status='pkill -USR1 ^dd'
@@ -26,9 +29,15 @@ alias dd-status='pkill -USR1 ^dd'
 # netstat the way I like it
 alias ports='netstat -tupl --numeric-ports | grep -E ":[0-9]+\s"'
 alias portse='netstat -tup --numeric-ports | grep -E ":[0-9]+\s"'
+alias lsports='sudo lsof -PiTCP -sTCP:LISTEN'
 
-# dmesg with readable time
-alias dmesg='dmesg -T'
+if [[ "$(uname)" == 'Linux' ]]; then
+    # dmesg with readable time
+    alias dmesg='dmesg -T'
+
+    # faster opens
+    alias o='gnome-open'
+fi
 
 # I use du -sh way to much
 alias s="du -sh"
@@ -68,3 +77,5 @@ alias clbin="curl -F 'clbin=<-' https://clbin.com"
 
 # cleaner docker ps
 alias dps="docker ps -a --format \"table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Image}}\""
+
+alias gopath="export GOPATH=\"${GOPATH}:${HOME}/code/go\""

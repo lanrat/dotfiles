@@ -35,7 +35,7 @@ shopt -s checkwinsize
 
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
-shopt -s globstar
+#shopt -s globstar
 
 # Alias definitions.
 if [ -f ~/.bash_aliases ];
@@ -166,6 +166,8 @@ if ! shopt -oq posix; then
     . /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
+  elif [ -f /usr/local/etc/bash_completion ]; then
+    . /usr/local/etc/bash_completion # OSX brew bash-completion location
   fi
 fi
 
@@ -213,10 +215,12 @@ l () {
     fi
 }
 
-# Incluse local machiene specific settings
+# Include local machine specific settings
 if [ -f ~/.bashrc_local ];
 then
     . ~/.bashrc_local
 fi
 
+[[ -s "$HOME/code/go/" ]] && export GOPATH=$HOME/code/go
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
+[[ -s "$HOME/code/go/bin" ]] && export PATH="${PATH}:${HOME}/code/go/bin"
