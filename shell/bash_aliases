@@ -45,6 +45,8 @@ alias s="du -sh"
 # force mtr to text mode
 alias mtr='mtr -t'
 
+# faster opens
+alias o='xdg-open'
 
 # get my ip
 alias myip='curl curlmyip.com'
