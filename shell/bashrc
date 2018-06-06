@@ -193,6 +193,7 @@ extract () {
           *.Z)         uncompress "$1"  ;;
           *.7z)        7z x "$1"        ;;
           *.lz4)       lz4 -d "$1"      ;;
+          *.deb)       dpkg -X "$1" "$(basename "${1%.*}")"     ;;
           *)           echo "don't know how to extract '$1'..." ;;
       esac
   else
