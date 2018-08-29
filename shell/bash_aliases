@@ -45,6 +45,8 @@ alias s="du -sh"
 # force mtr to text mode
 alias mtr='mtr -t'
 
+# faster opens
+alias o='xdg-open'
 
 # get my ip
 alias myip='curl curlmyip.com'
@@ -75,5 +77,13 @@ alias clbin="curl -F 'clbin=<-' https://clbin.com"
 
 # cleaner docker ps
 alias dps="docker ps -a --format \"table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Image}}\""
+alias docker-tail="docker logs --tail=50 -f"
 
 alias gopath="export GOPATH=\"${GOPATH}:${HOME}/code/go\""
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# does the internet work?
+alias p1="ping 1.1.1.1" 
