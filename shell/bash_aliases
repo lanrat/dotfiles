@@ -14,6 +14,16 @@ alias grep='grep --color=auto'
 
 # search code faster
 alias cgrep='grep --color=always -RIin'
+if [[ "$(uname)" == 'Darwin' ]]; then
+    unalias cgrep
+    function cgrep
+    {
+        paths=${@:2}
+        paths=${paths:-"."}
+        #echo "Search ($1) paths($paths)"
+        grep --color=always -RIin "$1" $paths
+    }
+fi
 
 # ls aliases
 if [ "$(uname)" = "Darwin" ]; then
