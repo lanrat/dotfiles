@@ -16,6 +16,7 @@ esac
 
 export PAGER='less'
 export EDITOR='vim'
+export P4DIFF='colordiff -u'
 
 
 # -------------------
@@ -194,6 +195,7 @@ extract () {
           *.7z)        7z x "$1"        ;;
           *.lz4)       lz4 -d "$1"      ;;
           *.deb)       dpkg -X "$1" "$(basename "${1%.*}")"     ;;
+          *.rpm)       rpm2cpio "$1" | cpio -idmv -D "$(basename "${1%.*}")" ;;
           *)           echo "don't know how to extract '$1'..." ;;
       esac
   else
@@ -225,3 +227,4 @@ fi
 [[ -s "$HOME/code/go/" ]] && export GOPATH=$HOME/code/go
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 [[ -s "$HOME/code/go/bin" ]] && export PATH="${PATH}:${HOME}/code/go/bin"
+[[ -s "$HOME/go/bin" ]] && export PATH="${PATH}:${HOME}/go/bin"
