@@ -16,6 +16,7 @@ esac
 
 export PAGER='less'
 export EDITOR='vim'
+export P4DIFF='colordiff -u'
 
 
 # -------------------

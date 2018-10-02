@@ -1,6 +1,9 @@
 #!/bin/sh
 CONNECTED_OUTPUTS=$(xrandr -q | grep "\Wconnected" | cut -d ' ' -f1)
 DISCONNECTED_OUTPUTS=$(xrandr -q | grep "\Wdisconnected" | cut -d ' ' -f1)
+PRIMARY_DISPLAY=$(echo $CONNECTED_OUTPUTS | cut -f1 -d " ")
+SECONDARY_DISPLAY=$(echo $CONNECTED_OUTPUTS | cut -f2 -d " ")
+
 
 disable()
 {
@@ -23,16 +26,12 @@ enable_auto()
 enable_up()
 {
     xrandr \
-        --output HDMI1 --preferred --pos 0x0 \
-        --output eDP1 --preferred --below HDMI1
+        --output $PRIMARY_DISPLAY --preferred --pos 0x0 \
+        --output $SECONDARY_DISPLAY --preferred --above $PRIMARY_DISPLAY
 }
 
 #diable old
 disable
-
-#check for eve config
-#UP_EEID='00ffffffffffff000472a1ad43260175'
-#v=$(xrandr -q --verbose | grep ${UP_EEID})
 
 
 if [ $? -eq 0 ];
