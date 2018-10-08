@@ -121,7 +121,7 @@ parse_options "$@"
 # Executable check
 WMCOMMAND=$(which $WM)
 XEPHYR=$(which Xephyr)
-[[ -x "$WMCOMMAND" ]] || errorout "Please install ${WM} first"
 [[ -x "$XEPHYR" ]] || errorout 'Please install Xephyr first'
+[[ -x "$WMCOMMAND" ]] || errorout "Please install ${WM} first"
 
 main

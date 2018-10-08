@@ -73,7 +73,7 @@ alias utop='htop -u $USER'
 alias csort="LC_COLLATE=C sort"
 
 # faster tmux resume
-if type "tmx2" > /dev/null; then
+if type "tmx2" 2>/dev/null >/dev/null; then
   alias tmux="tmx2"
 fi
 alias t="tmux"
