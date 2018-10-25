@@ -2,6 +2,7 @@
 # .bashrc
 # bashrc is executed for interactive non-login shells (gui-terminal, bash)
 # -----------
+# profiling: https://stackoverflow.com/questions/5014823/how-to-profile-a-bash-shell-script-slow-startup
 
 # If not running interactively, don't do anything
 case $- in
@@ -225,6 +226,6 @@ then
 fi
 
 [[ -s "$HOME/code/go/" ]] && export GOPATH=$HOME/code/go
-[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 [[ -s "$HOME/code/go/bin" ]] && export PATH="${PATH}:${HOME}/code/go/bin"
 [[ -s "$HOME/go/bin" ]] && export PATH="${PATH}:${HOME}/go/bin"
+
