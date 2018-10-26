@@ -83,7 +83,7 @@ alias ta="tmux a"
 alias sn="subl -n ."
 
 # send myself email notifications
-if type "sendgmr" 2> /dev/null; then
+if type "sendgmr" > /dev/null 2>&1; then
     alias pong="sendgmr --subject='PONG' --to=$USER"
 else
     alias pong="mail -s PONG $USER"
