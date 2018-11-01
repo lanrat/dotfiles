@@ -62,6 +62,7 @@ screenshot_command = "xfce4-screenshooter"
 browser_command    = "google-chrome" 
 file_browser_command = "caja"
 skippy_command = "skippy-xd-runner --activate-window-picker"
+dashboard_command = "xfdashboard -t"
 
 
 
@@ -366,6 +367,8 @@ globalkeys = awful.util.table.join(
               {description = "take screenshot", group = "launcher"}),
     awful.key({ modkey }, "e", function () awful.spawn(skippy_command) end,
               {description = "skippy-xd", group = "launcher"}),
+    awful.key({ modkey }, "t", function () awful.spawn(dashboard_command) end,
+              {description = "dashboard", group = "launcher"}),
 
 
     -- move window and view to workspace left or right
@@ -536,8 +539,16 @@ awful.rules.rules = {
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
       }, properties = { titlebars_enabled = true
-  }
-    },
+    }},
+
+    -- xfdashboard
+    { rule_any = {
+        name = {
+          "xfdashboard",
+        },
+      }, properties = {
+        maximized = true,
+    }},
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
