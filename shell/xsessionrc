@@ -13,13 +13,13 @@
 
 # xps13 touchpad scrolling
 # libinput Natural Scrolling Enabled 
-xinput set-prop "DLL0665:01 06CB:76AD Touchpad" "libinput Natural Scrolling Enabled" 1
+#xinput set-prop "DLL0665:01 06CB:76AD Touchpad" "libinput Natural Scrolling Enabled" 1
 
 # To enable two-finger and three-finger clicking for this trackpad
-xinput set-prop "DLL0665:01 06CB:76AD Touchpad" "libinput Click Method Enabled" 0 1
+#xinput set-prop "DLL0665:01 06CB:76AD Touchpad" "libinput Click Method Enabled" 0 1
 
 # slightly increase pointer speed
-xinput set-prop "DLL0665:01 06CB:76AD Touchpad" "libinput Accel Speed" 0.5
+#xinput set-prop "DLL0665:01 06CB:76AD Touchpad" "libinput Accel Speed" 0.5
 
 if [ -f ~/.profile ]; then
     . ~/.profile

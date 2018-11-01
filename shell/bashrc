@@ -2,6 +2,7 @@
 # .bashrc
 # bashrc is executed for interactive non-login shells (gui-terminal, bash)
 # -----------
+# profiling: https://stackoverflow.com/questions/5014823/how-to-profile-a-bash-shell-script-slow-startup
 
 # If not running interactively, don't do anything
 case $- in
@@ -16,6 +17,7 @@ esac
 
 export PAGER='less'
 export EDITOR='vim'
+export P4DIFF='colordiff -u'
 
 
 # -------------------
@@ -28,14 +30,6 @@ export LESS="-SiRFX"
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
-shopt -s checkwinsize
-
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
 
 # Alias definitions.
 if [ -f ~/.bash_aliases ];
@@ -81,7 +75,7 @@ if [ "$color_prompt" = yes ]; then
     if [[ $EUID -eq 0 ]];
     then
         p='#'
-        user_c='\e[0;31m'
+        user_c='\e[0;31m'     # Red
     fi
     PS1="\[$user_c\]\u\[$gray_c\]@\[$host_c\]\h\[$gray_c\]:\[$path_c\]\w\[$gray_c\]$p\[$reset_c\] "
     PS2="\[$path_c\]>\[$reset_c\] "
@@ -109,7 +103,7 @@ if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
 
-# limit lenght of PS directory
+# limit length of PS directory
 export PROMPT_DIRTRIM=3
 
 # Less Colors for Man Pages
@@ -130,12 +124,6 @@ man()
     LESS_TERMCAP_ue=$'\E[0m' \
     LESS_TERMCAP_us=$'\E[04;38;5;146m' \
     man "$@"
-}
-
-# combine grep and less, allow colors
-lgrep()
-{
-    grep --color=always $@ | less -Sir
 }
 
 # -----------
@@ -194,26 +182,12 @@ extract () {
           *.7z)        7z x "$1"        ;;
           *.lz4)       lz4 -d "$1"      ;;
           *.deb)       dpkg -X "$1" "$(basename "${1%.*}")"     ;;
+          *.rpm)       rpm2cpio "$1" | cpio -idmv -D "$(basename "${1%.*}")" ;;
           *)           echo "don't know how to extract '$1'..." ;;
       esac
   else
       echo "'$1' is not a valid file!"
   fi
-}
-
-
-## less and ls in 1
-l () {
-    A=.
-    if [ $# -gt 0 ]; then
-    A=$1
-    fi
-    if [ ! -d "$A" ];
-    then
-        less $A
-    else
-        ls $A
-    fi
 }
 
 # Include local machine specific settings
@@ -223,5 +197,6 @@ then
 fi
 
 [[ -s "$HOME/code/go/" ]] && export GOPATH=$HOME/code/go
-[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 [[ -s "$HOME/code/go/bin" ]] && export PATH="${PATH}:${HOME}/code/go/bin"
+[[ -s "$HOME/go/bin" ]] && export PATH="${PATH}:${HOME}/go/bin"
+

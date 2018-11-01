@@ -14,6 +14,16 @@ alias grep='grep --color=auto'
 
 # search code faster
 alias cgrep='grep --color=always -RIin'
+if [[ "$(uname)" == 'Darwin' ]]; then
+    unalias cgrep
+    function cgrep
+    {
+        paths=${@:2}
+        paths=${paths:-"."}
+        #echo "Search ($1) paths($paths)"
+        grep --color=always -RIin "$1" $paths
+    }
+fi
 
 # ls aliases
 if [ "$(uname)" = "Darwin" ]; then
@@ -63,6 +73,9 @@ alias utop='htop -u $USER'
 alias csort="LC_COLLATE=C sort"
 
 # faster tmux resume
+if type "tmx2" 2>/dev/null >/dev/null; then
+  alias tmux="tmx2"
+fi
 alias t="tmux"
 alias ta="tmux a"
 
@@ -70,7 +83,11 @@ alias ta="tmux a"
 alias sn="subl -n ."
 
 # send myself email notifications
-alias pong="mail -s PONG $USER"
+if type "sendgmr" > /dev/null 2>&1; then
+    alias pong="sendgmr --subject='PONG' --to=$USER"
+else
+    alias pong="mail -s PONG $USER"
+fi
 
 # upload command output to clbin
 alias clbin="curl -F 'clbin=<-' https://clbin.com"
