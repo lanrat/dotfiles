@@ -58,6 +58,7 @@ editor = os.getenv("EDITOR") or "editor" -- sudo update-alternatives --config ed
 editor_cmd = terminal .. " -e " .. editor
 titlebars_enabled = false
 shutdown_command = "systemctl poweroff"
+hibernate_command = "systemctl hibernate"
 screenshot_command = "xfce4-screenshooter"
 browser_command    = "google-chrome" 
 file_browser_command = "caja"
@@ -120,6 +121,7 @@ myawesomemenu = {
    -- { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart wm", awesome.restart },
    { "logout", function() awesome.quit() end},
+   { "hibernate", hibernate_command },
    { "shutdown", shutdown_command },
 }
 
