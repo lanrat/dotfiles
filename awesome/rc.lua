@@ -61,6 +61,7 @@ shutdown_command = "systemctl poweroff"
 screenshot_command = "xfce4-screenshooter"
 browser_command    = "google-chrome" 
 file_browser_command = "caja"
+skippy_command = "skippy-xd-runner --activate-window-picker"
 
 
 
@@ -367,6 +368,8 @@ globalkeys = awful.util.table.join(
               {description = "launch file browser", group = "launcher"}),
     awful.key({ }, "Print", function () awful.spawn(screenshot_command) end,
               {description = "take screenshot", group = "launcher"}),
+    awful.key({ modkey }, "e", function () awful.spawn(skippy_command) end,
+              {description = "skippy-xd", group = "launcher"}),
 
 
     -- move window and view to workspace left or right
