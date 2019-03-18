@@ -2,7 +2,15 @@
 # info: https://wiki.archlinux.org/index.php/Bluetooth_headset#Troubleshooting
 set -eu
 
-DEVICE_NAME="PLT_BBTPRO"
+#DEVICE_NAME="QC35"
+DEVICE_NAME="Moon"
+#DEVICE_NAME="PLT_BBTPRO"
+
+
+list_devices()
+{
+    echo -e 'paired-devices\nquit' | bluetoothctl | grep "^Device"
+}
 
 reset_bt()
 {
@@ -18,7 +26,7 @@ reset_bt()
     # turn card off
     CARD=$(pactl list cards short | cut -f2 | grep blue | head -1)
     if [ ! -z "${CARD}" ]; then
-        echo "Setting a2dp card off: $CARD"
+        echo "Setting audio card off: $CARD"
         pacmd set-card-profile "$CARD" off
         sleep 2
     fi
@@ -35,7 +43,7 @@ reset_bt()
 connect_bt()
 {
     # find device MAC
-    MAC=$(echo -e 'paired-devices\nquit' | bluetoothctl | grep "^Device" | grep "$DEVICE_NAME" | cut -d ' ' -f2)
+    MAC=$(echo -e 'paired-devices\nquit' | bluetoothctl | grep "^Device" | grep -i "$DEVICE_NAME" | cut -d ' ' -f2)
     # bt connect
     echo -e "connect $MAC\nquit" | bluetoothctl
     echo "Waiting for Connection to settle"
@@ -65,8 +73,12 @@ set_audio()
         return $(false)
     fi
 
-    echo "Setting a2dp card: $CARD"
-    pacmd set-card-profile "$CARD" a2dp_sink
+    HSP_PROFILE="headset_head_unit"
+    A2DP_PROFILE="a2dp_sink"
+    # TODO allow HSP/A2DP toggle
+
+    echo "Setting audio profile for card: $CARD"
+    pacmd set-card-profile "$CARD" "$A2DP_PROFILE"
     sleep 1
 
     # set sink
