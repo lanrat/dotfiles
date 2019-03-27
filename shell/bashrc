@@ -10,6 +10,8 @@ case $- in
       *) return;;
 esac
 
+# fix Ctrl-S freezing terminal (Ctrl-Q to resume)
+stty -ixon
 
 # -------------------
 # Default Apps
