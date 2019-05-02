@@ -131,6 +131,12 @@ function link_compton {
     make_link $cwd/compton/compton.conf ~/.config/compton.conf
 }
 
+function link_skippy-xd {
+    echo "Linking skippy-xd"
+    make_link $cwd/skippy-xd ~/.config/skippy-xd
+}
+
+
 function link_sublime3 {
     echo "Linking Sublime Text"
     BASE=~/.config/sublime-text-3
