@@ -8,6 +8,9 @@ alias sudo='sudo '
 # does what it should
 alias untar="tar -xf"
 
+# easier ssh-exists
+alias ssh-exit="ssh -O exit"
+
 # make grep use color
 # DEPRECATED: export GREP_OPTIONS="--color=auto"
 alias grep='grep --color=auto'
