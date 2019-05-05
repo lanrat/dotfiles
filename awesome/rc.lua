@@ -11,6 +11,11 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 
+local revelation=require("revelation")
+local calendar = require("calendar35")
+
+
+
 -- autostart programs
 require("autostart")
 
@@ -50,7 +55,7 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(awful.util.get_configuration_dir() .. "powerarrow-holo/theme.lua")
-
+revelation.init()
 
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator" -- sudo update-alternatives --config x-terminal-emulator 
@@ -58,12 +63,13 @@ editor = os.getenv("EDITOR") or "editor" -- sudo update-alternatives --config ed
 editor_cmd = terminal .. " -e " .. editor
 titlebars_enabled = false
 shutdown_command = "systemctl poweroff"
+hibernate_command = "systemctl hibernate"
 screenshot_command = "xfce4-screenshooter"
 browser_command    = "google-chrome" 
 file_browser_command = "caja"
 skippy_command = "skippy-xd-runner --activate-window-picker"
 dashboard_command = "xfdashboard -t"
-
+wallpaper_file = "/home/ifoster/Pictures/white-4k-mountains.png"
 
 
 -- Default modkey.
@@ -120,6 +126,7 @@ myawesomemenu = {
    -- { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart wm", awesome.restart },
    { "logout", function() awesome.quit() end},
+   { "hibernate", hibernate_command },
    { "shutdown", shutdown_command },
 }
 
@@ -135,6 +142,8 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
+calendar.addToWidget(mytextclock)
+
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = awful.util.table.join(
@@ -180,25 +189,32 @@ local tasklist_buttons = awful.util.table.join(
                                           end))
 
 -- this us unused, we use nitrogen instead
-local function set_wallpaper(s)
-    -- Wallpaper
-    if beautiful.wallpaper then
-        local wallpaper = beautiful.wallpaper
-        -- If wallpaper is a function, call it with the screen
-        if type(wallpaper) == "function" then
-            wallpaper = wallpaper(s)
-        end
-        gears.wallpaper.maximized(wallpaper, s, true)
-    end
-end
+-- local function set_wallpaper(s)
+--     -- Wallpaper
+--     if beautiful.wallpaper then
+--         local wallpaper = beautiful.wallpaper
+--         -- If wallpaper is a function, call it with the screen
+--         if type(wallpaper) == "function" then
+--             wallpaper = wallpaper(s)
+--         end
+--         gears.wallpaper.maximized(wallpaper, s, true)
+--     end
+-- end
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 -- screen.connect_signal("property::geometry", set_wallpaper)
 
+local function set_wallpaper(s)
+  -- https://awesomewm.org/doc/api/libraries/gears.wallpaper.html
+  gears.wallpaper.fit(wallpaper_file, s, "#000000")
+end
+
+--set_wallpaper(nil)
+
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
-    -- set_wallpaper(s)
+    set_wallpaper(s)
 
     -- find the screen orientation to set the defaut layout
     local layout_idx = default_layout_landscape
@@ -369,6 +385,11 @@ globalkeys = awful.util.table.join(
               {description = "skippy-xd", group = "launcher"}),
     awful.key({ modkey }, "t", function () awful.spawn(dashboard_command) end,
               {description = "dashboard", group = "launcher"}),
+    awful.key({ modkey }, "g", function ()
+                                  revelation()
+                                  awful.spawn(skippy_command)
+                                end,
+              {description = "revelation", group = "launcher"}),
 
 
     -- move window and view to workspace left or right
@@ -681,3 +702,42 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+
+-- save tag placement when changing monitors
+-- https://www.reddit.com/r/awesomewm/comments/5r9mgu/client_layout_not_preserved_when_switching/
+tag.connect_signal("request::screen", function(t)
+    clients = t:clients()
+    for s in screen do
+        if s ~= t.screen and clients and next(clients) then
+            t.screen = s
+            t.original_tag_name = t.original_tag_name or t.name
+            t.name = t.name .. "'"
+            t.volatile = true
+            return
+        end
+    end
+end)
+
+screen.connect_signal("added", function(s)
+  set_wallpaper(s)
+    for k,t in pairs(root.tags()) do
+        if t.original_tag_name then
+          -- find the new tag on the new screen
+            new_tag = awful.tag.find_by_name(s, t.original_tag_name)
+            if new_tag then
+                t.name = t.original_tag_name
+                t.original_tag_name = nil
+                new_tag:swap(t)
+                new_tag:delete(t, true)
+            end
+        end
+    end
+end)
+
+
+screen.connect_signal("removed", function(s)
+  for s in screen do
+    set_wallpaper(s)
+  end
+end)

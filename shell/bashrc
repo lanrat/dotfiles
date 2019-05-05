@@ -10,6 +10,8 @@ case $- in
       *) return;;
 esac
 
+# fix Ctrl-S freezing terminal (Ctrl-Q to resume)
+stty -ixon
 
 # -------------------
 # Default Apps
@@ -196,7 +198,5 @@ then
     . ~/.bashrc_local
 fi
 
-[[ -s "$HOME/code/go/" ]] && export GOPATH=$HOME/code/go
-[[ -s "$HOME/code/go/bin" ]] && export PATH="${PATH}:${HOME}/code/go/bin"
 [[ -s "$HOME/go/bin" ]] && export PATH="${PATH}:${HOME}/go/bin"
 
