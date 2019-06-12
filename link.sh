@@ -131,6 +131,21 @@ function link_compton {
     make_link $cwd/compton/compton.conf ~/.config/compton.conf
 }
 
+function link_i3 {
+    echo "Linking i3"
+    make_link $cwd/i3/ ~/.config/i3/
+}
+
+function link_polybar {
+    echo "Linking polybar"
+    make_link $cwd/polybar/ ~/.config/polybar/
+}
+
+function link_rofi {
+    echo "Linking rofi"
+    make_link $cwd/rofi/ ~/.config/rofi/
+}
+
 function link_skippy-xd {
     echo "Linking skippy-xd"
     make_link $cwd/skippy-xd ~/.config/skippy-xd

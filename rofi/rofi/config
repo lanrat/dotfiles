@@ -1,0 +1,4 @@
+#rofi.theme: /usr/share/rofi/themes/glue_pro_blue.rasi
+rofi.theme: material.rasi
+rofi.modi: combi
+rofi.combi-modi: window,drun,ssh
