@@ -114,10 +114,10 @@ function link_shell {
 function link_tmux {
     echo "Linking tmux"
     make_link $cwd/tmux/tmux.conf ~/.tmux.conf
-    echo "Tmux Plugins"
-    make_link $cwd/tmux/plugins ~/.tmux_plugins
-    get_submodule https://github.com/tmux-plugins/tmux-resurrect $cwd/tmux/plugins/resurrect 
-    get_submodule https://github.com/tmux-plugins/tmux-continuum $cwd/tmux/plugins/continuum 
+    #echo "Tmux Plugins"
+    #make_link $cwd/tmux/plugins ~/.tmux_plugins
+    #get_submodule https://github.com/tmux-plugins/tmux-resurrect $cwd/tmux/plugins/resurrect 
+    #get_submodule https://github.com/tmux-plugins/tmux-continuum $cwd/tmux/plugins/continuum 
 }
 
 function link_awesome {
