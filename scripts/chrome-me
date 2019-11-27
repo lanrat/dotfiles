@@ -1,0 +1,6 @@
+#!/bin/sh
+bwrap \
+    --dev-bind / / \
+    --tmpfs /etc/opt/chrome \
+    google-chrome \
+        --user-data-dir=".config/google-chrome-x"
