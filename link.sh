@@ -132,6 +132,12 @@ function link_skippy-xd {
     make_link $cwd/skippy-xd ~/.config/skippy-xd
 }
 
+function link_sqlite {
+    echo "Linking sqlite"
+    make_link $cwd/sqlite/sqliterc ~/.sqliterc
+}
+
+
 
 function link_sublime3 {
     echo "Linking Sublime Text"
