@@ -147,17 +147,7 @@ function link_sublime3 {
         ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
         BASE="${HOME}/Library/Application Support/Sublime Text 3"
     fi
-    SUBL_Pacakge_DIR="${BASE}/Installed Packages/"
-    SUBL_Package_Control_URL="https://sublime.wbond.net/Package%20Control.sublime-package"
     make_link "${cwd}/sublime-text-3/User" "${BASE}/Packages/User"
-    if [ ! -e "${SUBL_Pacakge_DIR}/Package Control.sublime-package" ]
-    then
-        echo "Downloading Package Manager Plugin"
-        wget --no-verbose -P "${SUBL_Pacakge_DIR}" "${SUBL_Package_Control_URL}"
-    fi
-    echo "Please run sublime and wait a few minutes for packages to be downloaded"
-    echo "To enable rsub, add this to your ssh config file profiles:"
-    echo -e "\t RemoteForward 52698 127.0.0.1:52698"
 }
 
 function link_scripts {
