@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # pass -incognito for incognito mode
 TMP="/tmp"
 chrome="google-chrome"
@@ -8,7 +8,11 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     if type "bwrap" > /dev/null; then
         echo "Using bubblewrap container"
         # I could also set the user-data-dir to a tmpfs dir in bwrap if I want
-        chrome="bwrap --dev-bind / / --tmpfs /etc/opt/chrome $chrome"
+        tmpfs=""
+        if [ -d "/etc/opt/chrome" ]; then
+          tmpfs="--tmpfs /etc/opt/chrome"
+        fi
+        chrome="bwrap --dev-bind / / $tmpfs $chrome"
     fi
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     chrome="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
@@ -18,5 +22,5 @@ else
 fi
 TMPDIR=$(mktemp -d $TMP/chrome-XXXXX)
 echo "Using TMPDIR: $TMPDIR"
-$chrome --user-data-dir="$TMPDIR" --no-first-run --no-make-default-browser "$@"
+$chrome --user-data-dir="$TMPDIR" --no-first-run --no-make-default-browser --no-sandbox "$@"
 rm -rf "$TMPDIR"
