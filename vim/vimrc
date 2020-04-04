@@ -1,6 +1,8 @@
 " ##########################################
-"               Vim Settings
+"               Legacy Vim Settings
 " ##########################################
+if !has('nvim')
+set ttymouse=xterm2
 
 " This setting prevents vim from emulating the original vi's bugs and limitations.
 set nocompatible
@@ -8,12 +10,55 @@ set nocompatible
 " Remove Lag
 set ttyfast
 
-" Map ; to : in normal mode for mega-easy vim commands.
-nnoremap ; :
-
 " Encoding
 set encoding=utf-8  " Set file encoding
 "set termencoding=utf-8
+
+"This setting ensures that each window contains a statusline that displays the
+"current cursor position.
+set ruler
+
+"With this nifty option, vim will search for text as you enter it.
+set incsearch
+"highlight search results
+set hlsearch
+
+"enable syntax highlighting
+syntax on
+
+" be quiet
+set vb t_vb=""
+
+" turn on command line completion wild style
+set wildmenu
+
+" always show the status line
+set laststatus=2
+
+" we do what to show tabs, to ensure we get them  out of my files
+set list
+" show tabs and trailing
+set listchars=tab:>-,trail:-
+
+" show the command being typed
+set showcmd
+
+" make backspace always work
+set backspace=indent,eol,start
+
+endif
+
+
+" ##########################################
+"               Neo Vim Settings
+" ##########################################
+if has('nvim')
+  set termguicolors
+endif
+
+" ##########################################
+"               General Settings
+" ##########################################
 
 "The first setting tells vim to use 'autoindent' (that is, use the current
 "line's indent level to set the indent level of new lines). The second makes
@@ -42,40 +87,21 @@ endif
 autocmd FileType make setlocal noexpandtab
 autocmd FileType go setlocal noexpandtab
 
-"aura cmp files
-au BufNewFile,BufRead *.cmp set filetype=html
-
 " show matching brackets
 set showmatch
-
-"This setting ensures that each window contains a statusline that displays the
-"current cursor position.
-set ruler
-
-"With this nifty option, vim will search for text as you enter it.
-set incsearch
-"highlight search results
-set hlsearch
 
 "ignore search case with all lowercase, use case when all uppercase
 set ignorecase
 set smartcase
 
 "syntax stuff
-syntax on
 syntax sync fromstart "increases syntax accuracy
-"go
-au BufReadPost *.go set filetype=go
 
 "STFU
 set noerrorbells
-set vb t_vb=""
 
 " use mouse everywhere
 set mouse=a
-
-" turn on command line completion wild style
-set wildmenu
 
 "ignore these list file extensions
 set wildignore=*.dll,*.o,*.obj,*.exe,*.pyc,*.jpg,*.gif,*.png,*.class,*.ln
@@ -85,22 +111,11 @@ set wildmode=list:longest " turn on wild mode huge list
 set scrolloff=2
 set sidescrolloff=4 " Keep n lines at the side
 
-" always show the status line
-set laststatus=2
-
-" we do what to show tabs, to ensure we get them  out of my files
-set list
-" show tabs and trailing
-set listchars=tab:>-,trail:-
-
 "show line numbers
 set number
 
 " Show number of lines changed by : commands
 set report=0
-
-" show the command being typed
-set showcmd
 
 " do not wrap line
 "set nowrap
@@ -117,11 +132,11 @@ set nolist  " list disables linebreak
 "Highlight current line
 set cursorline
 
-" make backspace always work
-set backspace=indent,eol,start
-
 " toggle paste mode
 set pastetoggle=<F2>
+
+" Change directory to the current buffer when opening files.
+set autochdir
 
 " toggle spellcheck
 map <F7> :setlocal spell! spelllang=en_us<CR>
@@ -132,9 +147,18 @@ nnoremap \s ea<C-X><C-S>
 " make up/down work in warp-mode
 nnoremap <Up> gk
 nnoremap <Down> gj
-" TODO make isnert mode work
+" TODO make insert mode work
 imap <silent> <Up> <C-o>gk
 imap <silent> <Down> <C-o>gj
+
+" auto close brackets, etc...
+inoremap (; (<CR>);<C-c>O
+inoremap (, (<CR>),<C-c>O
+inoremap {; {<CR>};<C-c>O
+inoremap {, {<CR>},<C-c>O
+inoremap [; [<CR>];<C-c>O
+inoremap [, [<CR>],<C-c>O
+
 " ##########################################
 "               Plugin Code
 " ##########################################
@@ -145,22 +169,21 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'scrooloose/nerdtree'
-Plugin 'Townk/vim-autoclose'
-Plugin 'Lokaltog/vim-powerline'
-Plugin 'nanotech/jellybeans.vim'
-
-" make airline use powerline fonts
-let g:airline_powerline_fonts = 1
+Plugin 'preservim/nerdtree'
+Plugin 'powerline/powerline'
+Plugin 'sickill/vim-monokai'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
+"powerline statusbar
+"let g:Powerline_symbols = 'fancy' "does not work with vim-tiny
+
 " key used to launch nerdtree
 map <C-d> :NERDTreeToggle<CR>
 map <F6> :NERDTreeToggle<CR>
-" have nerdtree open when vim started wih no file
+" have nerdtree open when vim started with no file
 autocmd vimenter * if !argc() | NERDTree | endif
 " close nerdtree if it is the last window open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
@@ -168,24 +191,78 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 let NERDTreeIgnore=['\.o$', '\~$', '\.ln', '\.class', '\.pyc']
 
 "color scheme
-set t_Co=256 "this forces vim to use 256 colors even if the console says it is not supported
-"Use this colorscheme, but dont complain if we can't find it
 try
-    colorscheme jellybeans
+    colorscheme monokai
 catch /^Vim\%((\a\+)\)\=:E185/
     " deal with it
 endtry
-"try to get the background to match the terminal
-"highlight NonText ctermbg=none
-"hi Normal ctermbg=none
+let g:rehash256 = 1
 
-"powerline statusbar
-"let g:Powerline_symbols = 'fancy' "does not work with vim-tiny
+" ##########################################
+"               make netrw like NerdTree
+" ##########################################
 
-"tagbar
-"requires ctags [exuberant-ctags] to be installed
-nmap <F8> :TagbarToggle<CR>
+let g:NetrwIsOpen=0
+function! ToggleNetrw()
+    if g:NetrwIsOpen
+        let i = bufnr("$")
+        while (i >= 1)
+            if (getbufvar(i, "&filetype") == "netrw")
+                silent exe "bwipeout " . i
+            endif
+            let i-=1
+        endwhile
+        let g:NetrwIsOpen=0
+    else
+        let g:NetrwIsOpen=1
+        silent Lexplore
+    endif
+endfunction
 
+noremap <silent> <C-E> :call ToggleNetrw()<CR>
+
+" Per default, netrw leaves unmodified buffers open. This autocommand
+" deletes netrw's buffer once it's hidden (using ':q', for example)
+autocmd FileType netrw setl bufhidden=delete
+
+" Hit enter in the file browser to open the selected
+" file with :vsplit to the right of the browser.
+" use the previous window to open file
+let g:netrw_browse_split = 4
+
+let g:netrw_altv = 1
+
+" absolute width of netrw window
+let g:netrw_winsize = -30
+
+" do not display info on the top of window
+let g:netrw_banner = 0
+
+" tree-view
+let g:netrw_liststyle = 3
+
+" sort is affecting only: directories on the top, files below
+"let g:netrw_sort_sequence = '[\/]$,*'
+
+" Per default, netrw leaves unmodified buffers open. This autocommand
+" deletes netrw's buffer once it's hidden (using ':q', for example)
+"autocmd FileType netrw setl bufhidden=delete
+
+" auto close if netrw is the only pane left
+aug netrw_close
+  au!
+  au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw"|q|endif
+aug END
+
+" remap control-enter to open files in new tab
+"nmap <silent> <C-CR> t :rightbelow 20vs<CR>:e .<CR>:wincmd h<CR>
+
+" ##########################################
+"               Filetype specific bits
+" ##########################################
+
+"go
+au BufReadPost *.go set filetype=go
 
 "enable wrappin in tex
 augroup WrapLineInTeXFile
@@ -206,4 +283,3 @@ augroup END
 "fix arrow key problem with indent plugin
 set ttimeout
 set ttimeoutlen=100
-

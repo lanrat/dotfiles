@@ -52,7 +52,7 @@ function make_link {
 function get_submodule {
     REPO=$1
     FOLDER=$2
-    
+
     if [ ! -e $FOLDER ];
     then
         echo "Cloning $REPO to $FOLDER"
@@ -61,7 +61,7 @@ function get_submodule {
         echo "Updating git repo in $FOLDER"
         git --git-dir=$FOLDER/.git pull
     fi
- 
+
 }
 
 #
@@ -77,11 +77,12 @@ function link_vim {
         echo "Downloading Vundle"
         get_submodule $VUNDLE_URL $VUNDLE_DIR
     fi
-    
+
     echo "Linking vim"
     make_link $cwd/vim/vimrc ~/.vimrc
     make_link $cwd/vim/vim ~/.vim
-    
+    make_link $cwd/nvim ~/.config/nvim
+
     echo "Downloading plugins"
     vim +PluginInstall +qall
 }
@@ -158,7 +159,7 @@ function link_scripts {
         name="${bname%.*}"
         make_link $script ~/bin/$name
     done
-    wget --no-verbose --output-document ~/bin/rsub https://raw.githubusercontent.com/aurora/rmate/master/rmate 
+    wget --no-verbose --output-document ~/bin/rsub https://raw.githubusercontent.com/aurora/rmate/master/rmate
     chmod +x ~/bin/rsub
     wget --no-verbose --output-document ~/bin/speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
     chmod +x ~/bin/speedtest-cli
