@@ -151,6 +151,17 @@ function link_sublime3 {
     make_link "${cwd}/sublime-text-3/User" "${BASE}/Packages/User"
 }
 
+function link_atom {
+    echo "Linking atom"
+    if [ "$(uname)" = "Darwin" ]; then
+        echo -e "\t Detected OSX"
+        exit 5 # todo
+    fi
+    make_link "${cwd}/atom/config.cson" ~/.atom/config.cson
+    apm install --packages-file ${cwd}/atom/package.list
+    # backup with: apm list --installed --bare > atom/package.list
+}
+
 function link_scripts {
     echo "Linking scripts"
     for script in $cwd/scripts/*

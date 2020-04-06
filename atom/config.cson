@@ -1,0 +1,11 @@
+"*":
+  core:
+    audioBeep: false
+    restorePreviousWindowsOnStart: "no"
+    telemetryConsent: "no"
+  "exception-reporting":
+    userId: "22fb34ac-6373-4398-8fcb-9db6a3e5dcc1"
+  "tree-view":
+    hideVcsIgnoredFiles: true
+  welcome:
+    showOnStartup: false
