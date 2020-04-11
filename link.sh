@@ -153,10 +153,6 @@ function link_sublime3 {
 
 function link_atom {
     echo "Linking atom"
-    if [ "$(uname)" = "Darwin" ]; then
-        echo -e "\t Detected OSX"
-        exit 5 # todo
-    fi
     make_link "${cwd}/atom/config.cson" ~/.atom/config.cson
     apm install --packages-file ${cwd}/atom/package.list
     # backup with: apm list --installed --bare > atom/package.list
