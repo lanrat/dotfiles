@@ -1,4 +1,6 @@
 "*":
+  "autocomplete-plus":
+    confirmCompletion: "tab always, enter when suggestion explicitly selected"
   core:
     audioBeep: false
     restorePreviousWindowsOnStart: "no"
