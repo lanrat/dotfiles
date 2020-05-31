@@ -80,6 +80,7 @@ filetype plugin indent on "indent depends on filetype
 "ignore whitespace in vimdiff
 if &diff
     " diff mode
+    set diffopt-=internal
     set diffopt+=iwhite
 endif
 
