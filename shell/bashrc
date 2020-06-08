@@ -194,6 +194,15 @@ extract () {
   fi
 }
 
+# github checkout pr
+ghpr () {
+  if [ "$#" -ne 1 ]; then
+    echo "usage: ghpr PR_ID"
+  else
+    git fetch origin pull/"$1"/head:"pr-$1" && echo "created new branch pr-$1"
+  fi
+}
+
 # Include local machine specific settings
 if [ -f ~/.bashrc_local ];
 then
