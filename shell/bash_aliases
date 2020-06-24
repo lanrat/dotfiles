@@ -16,17 +16,22 @@ alias ssh-exit="ssh -O exit"
 alias grep='grep --color=auto'
 
 # search code faster
-alias cgrep='grep --color=always -RIin'
-if [[ "$(uname)" == 'Darwin' ]]; then
-    unalias cgrep
-    function cgrep
-    {
-        paths=${@:2}
-        paths=${paths:-"."}
-        #echo "Search ($1) paths($paths)"
-        grep --color=always -RIin "$1" $paths
-    }
-fi
+#alias cgrep='grep --color=always -RIin'
+#if [[ "$(uname)" == 'Darwin' ]]; then
+#    unalias cgrep
+function cgrep
+{
+  f="RIn"
+  if [[ ! "$1" =~ [A-Z] ]]; then
+    # only lowercase searched, case-insensitive
+    f="${f}i"
+  fi
+  paths=${@:2}
+  paths=${paths:-"."}
+  #echo "Search ($1) (-$f) paths($paths)"
+  grep --color=always --exclude-dir=.git -$f "$1" $paths
+}
+#fi
 
 # ls aliases
 if [ "$(uname)" = "Darwin" ]; then
