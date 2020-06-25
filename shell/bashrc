@@ -199,4 +199,5 @@ then
 fi
 
 [[ -s "$HOME/go/bin" ]] && export PATH="${PATH}:${HOME}/go/bin"
+[[ -s "$HOME/.local/bin" ]] && export PATH="${PATH}:${HOME}/.local/bin"
 
