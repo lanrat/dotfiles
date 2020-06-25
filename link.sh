@@ -151,6 +151,13 @@ function link_sublime3 {
     make_link "${cwd}/sublime-text-3/User" "${BASE}/Packages/User"
 }
 
+function link_atom {
+    echo "Linking atom"
+    make_link "${cwd}/atom/config.cson" ~/.atom/config.cson
+    apm install --packages-file ${cwd}/atom/package.list
+    # backup with: apm list --installed --bare > atom/package.list
+}
+
 function link_scripts {
     echo "Linking scripts"
     for script in $cwd/scripts/*
@@ -159,10 +166,10 @@ function link_scripts {
         name="${bname%.*}"
         make_link $script ~/bin/$name
     done
-    wget --no-verbose --output-document ~/bin/rsub https://raw.githubusercontent.com/aurora/rmate/master/rmate
-    chmod +x ~/bin/rsub
-    wget --no-verbose --output-document ~/bin/speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
-    chmod +x ~/bin/speedtest-cli
+    #wget --no-verbose --output-document ~/bin/rsub https://raw.githubusercontent.com/aurora/rmate/master/rmate
+    #chmod +x ~/bin/rsub
+    #wget --no-verbose --output-document ~/bin/speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
+    #chmod +x ~/bin/speedtest-cli
 }
 
 if [ "$#" -eq 0 ];

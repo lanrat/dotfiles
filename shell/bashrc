@@ -152,12 +152,14 @@ HISTFILESIZE=2000
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  elif [ -f /usr/local/etc/bash_completion ]; then
-    . /usr/local/etc/bash_completion # OSX brew bash-completion location
+  if [ -r "/usr/share/bash-completion/bash_completion" ]; then
+    . "/usr/share/bash-completion/bash_completion"
+  elif [ -r ""/etc/bash_completion ]; then
+    . "/etc/bash_completion"
+  elif [ -r "/usr/local/etc/profile.d/bash_completion.sh" ]; then
+    . "/usr/local/etc/profile.d/bash_completion.sh" # OSX brew bash-completion location
+  elif [ -r "/usr/local/etc/bash_completion" ]; then
+    . "/usr/local/etc/bash_completion" # older OSX brew bash-completion location
   fi
 fi
 
@@ -189,6 +191,15 @@ extract () {
       esac
   else
       echo "'$1' is not a valid file!"
+  fi
+}
+
+# github checkout pr
+ghpr () {
+  if [ "$#" -ne 1 ]; then
+    echo "usage: ghpr PR_ID"
+  else
+    git fetch origin pull/"$1"/head:"pr-$1" && echo "created new branch pr-$1"
   fi
 }
 

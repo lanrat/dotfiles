@@ -1,0 +1,15 @@
+"*":
+  "autocomplete-plus":
+    confirmCompletion: "tab always, enter when suggestion explicitly selected"
+  core:
+    audioBeep: false
+    restorePreviousWindowsOnStart: "no"
+    telemetryConsent: "no"
+  "exception-reporting":
+    userId: "22fb34ac-6373-4398-8fcb-9db6a3e5dcc1"
+  "split-diff":
+    ignoreWhitespace: true
+  "tree-view":
+    hideVcsIgnoredFiles: true
+  welcome:
+    showOnStartup: false
