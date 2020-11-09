@@ -97,6 +97,9 @@ else
     alias pong="mail -s PONG $USER"
 fi
 
+# wget with filename from header
+alias wgetc="wget --content-disposition"
+
 # upload command output to clbin
 alias clbin="curl -F 'clbin=<-' https://clbin.com"
 
