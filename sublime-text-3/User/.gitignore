@@ -1,3 +1,8 @@
-!*.sublime-settings
-!*.sublime-keymap
+Package Control.*
+# Ignore everything
+*
+
+# But not these files...
 !.gitignore
+Preferences.sublime-settings
+Preferences.*
