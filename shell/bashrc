@@ -79,7 +79,7 @@ if [ "$color_prompt" = yes ]; then
         p='#'
         user_c='\e[0;31m'     # Red
     fi
-    PS1="\[$user_c\]\u\[$gray_c\]@\[$host_c\]\h\[$gray_c\]:\[$path_c\]\w\[$gray_c\]$p\[$reset_c\] "
+    PS1="\$(EXIT=\$?; if [ \$EXIT != 0 ]; then echo -en \e[0\;31m[\$EXIT]\e[0m; fi;)\[$user_c\]\u\[$gray_c\]@\[$host_c\]\h\[$gray_c\]:\[$path_c\]\w\[$gray_c\]$p\[$reset_c\] "
     PS2="\[$path_c\]>\[$reset_c\] "
     unset reset_c user_c host_c path_c
 else
@@ -154,7 +154,7 @@ HISTFILESIZE=2000
 if ! shopt -oq posix; then
   if [ -r "/usr/share/bash-completion/bash_completion" ]; then
     . "/usr/share/bash-completion/bash_completion"
-  elif [ -r ""/etc/bash_completion ]; then
+  elif [ -r "/etc/bash_completion" ]; then
     . "/etc/bash_completion"
   elif [ -r "/usr/local/etc/profile.d/bash_completion.sh" ]; then
     . "/usr/local/etc/profile.d/bash_completion.sh" # OSX brew bash-completion location
@@ -213,3 +213,4 @@ fi
 [[ -s "$HOME/go/bin" ]] && export PATH="${PATH}:${HOME}/go/bin"
 [[ -s "$HOME/.local/bin" ]] && export PATH="${PATH}:${HOME}/.local/bin"
 
+true # this ensures the bashrc always has a 0 exit code
