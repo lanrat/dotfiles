@@ -154,12 +154,20 @@ HISTFILESIZE=2000
 if ! shopt -oq posix; then
   if [ -r "/usr/share/bash-completion/bash_completion" ]; then
     . "/usr/share/bash-completion/bash_completion"
-  elif [ -r "/etc/bash_completion" ]; then
+  fi
+  if [ -r "/etc/bash_completion" ]; then
     . "/etc/bash_completion"
-  elif [ -r "/usr/local/etc/profile.d/bash_completion.sh" ]; then
-    . "/usr/local/etc/profile.d/bash_completion.sh" # OSX brew bash-completion location
-  elif [ -r "/usr/local/etc/bash_completion" ]; then
-    . "/usr/local/etc/bash_completion" # older OSX brew bash-completion location
+  fi
+  # bash completeion for brew on OSX
+  if type brew &>/dev/null; then
+    HOMEBREW_PREFIX="$(brew --prefix)"
+    if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+      source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+    else
+      for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+        [[ -r "$COMPLETION" ]] && source "$COMPLETION"
+      done
+    fi
   fi
 fi
 
