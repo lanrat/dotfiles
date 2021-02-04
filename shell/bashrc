@@ -67,19 +67,19 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    #PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
     reset_c='\e[0m'
     path_c='\e[0;36m'         # Cyan
     host_c='\e[0;32m'         # Green
     user_c='\e[0;34m'         # Blue
     gray_c='\e[1;30m'
+    red_c='\e[0;31m'
     p='\$'
     if [[ $EUID -eq 0 ]];
     then
         p='#'
-        user_c='\e[0;31m'     # Red
+        user_c=$red_c # root user is red
     fi
-    PS1="\$(EXIT=\$?; if [ \$EXIT != 0 ]; then echo -en \e[0\;31m[\$EXIT]\e[0m; fi;)\[$user_c\]\u\[$gray_c\]@\[$host_c\]\h\[$gray_c\]:\[$path_c\]\w\[$gray_c\]$p\[$reset_c\] "
+    PS1="\$(EXIT=\$?; if [ \$EXIT != 0 ]; then echo -en \[\e[0\;31m\][\$EXIT]\[$reset_c\]; fi;)\[$user_c\]\u\[$gray_c\]@\[$host_c\]\h\[$gray_c\]:\[$path_c\]\w\[$gray_c\]$p\[$reset_c\] "
     PS2="\[$path_c\]>\[$reset_c\] "
     unset reset_c user_c host_c path_c
 else
