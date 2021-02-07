@@ -79,7 +79,7 @@ if [ "$color_prompt" = yes ]; then
         p='#'
         user_c=$red_c # root user is red
     fi
-    PS1="\$(EXIT=\$?; if [ \$EXIT != 0 ]; then echo -en \[\e[0\;31m\][\$EXIT]\[$reset_c\]; fi;)\[$user_c\]\u\[$gray_c\]@\[$host_c\]\h\[$gray_c\]:\[$path_c\]\w\[$gray_c\]$p\[$reset_c\] "
+    PS1="\[$user_c\]\u\[$gray_c\]@\[$host_c\]\h\[$gray_c\]:\[$path_c\]\w\$(EXIT=\$?; if [ \$EXIT != 0 ]; then echo -en \[\e[0\;31m\][\$EXIT]\[$reset_c\]; fi;)\[$gray_c\]$p\[$reset_c\] "
     PS2="\[$path_c\]>\[$reset_c\] "
     unset reset_c user_c host_c path_c
 else
