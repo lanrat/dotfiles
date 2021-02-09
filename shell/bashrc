@@ -159,11 +159,11 @@ if ! shopt -oq posix; then
     . "/etc/bash_completion"
   fi
   # bash completeion for brew on OSX
-  if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
-  fi
   if type brew &>/dev/null; then
     HOMEBREW_PREFIX="$(brew --prefix)"
+    if [ -r "${HOMEBREW_PREFIX}/etc/bash_completion" ]; then
+      source "${HOMEBREW_PREFIX}/etc/bash_completion"
+    fi
     if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
       source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
     else
