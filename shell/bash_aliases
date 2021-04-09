@@ -71,6 +71,7 @@ alias myip='curl curlmyip.com'
 
 # clear color ip info
 alias ipa='ip -c -br a'
+alias ipr='ip -c -br r'
 
 # incognito
 alias incogterm='unset HISTFILE'
