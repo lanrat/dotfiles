@@ -84,10 +84,6 @@ if &diff
     set diffopt+=iwhite
 endif
 
-"allow tabs on makefiles
-autocmd FileType make setlocal noexpandtab
-autocmd FileType go setlocal noexpandtab
-
 " show matching brackets
 set showmatch
 
@@ -264,6 +260,8 @@ aug END
 
 "go
 au BufReadPost *.go set filetype=go
+" use tabs in go
+autocmd FileType go setlocal noexpandtab
 
 "enable wrappin in tex
 augroup WrapLineInTeXFile
@@ -276,6 +274,12 @@ augroup WrapLineInMdFile
     autocmd!
     autocmd FileType md setlocal wrap
 augroup END
+
+"allow tabs on makefiles
+autocmd FileType make setlocal noexpandtab
+
+" two spaces for yaml indentations
+autocmd FileType yaml,yml setlocal ts=2 sts=2 sw=2 expandtab
 
 " ##########################################
 "               Testing
