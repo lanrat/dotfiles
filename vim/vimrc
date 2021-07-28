@@ -120,7 +120,7 @@ set report=0
 set showbreak=↪
 " use softwrap
 set linebreak
-set nolist  " list disables linebreak
+"set nolist  " list disables linebreak
 
 "statusline
 "replaced by vim-powerline plugin
