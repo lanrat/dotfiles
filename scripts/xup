@@ -1,14 +1,20 @@
 #!/bin/sh
+set -e
+#set -x
 CONNECTED_OUTPUTS=$(xrandr -q | grep "\Wconnected" | cut -d ' ' -f1)
 DISCONNECTED_OUTPUTS=$(xrandr -q | grep "\Wdisconnected" | cut -d ' ' -f1)
 PRIMARY_DISPLAY=$(echo $CONNECTED_OUTPUTS | cut -f1 -d " ")
 SECONDARY_DISPLAY=$(echo $CONNECTED_OUTPUTS | cut -f2 -d " ")
+#SECONDARY_4K_SCALE=1.5
 
+echo "Primary display: $PRIMARY_DISPLAY"
+echo "Secondary display: $SECONDARY_DISPLAY"
 
 disable()
 {
     for output in $DISCONNECTED_OUTPUTS;
     do
+        #echo "disabling $output"
         xrandr --output $output --off
     done
 }
@@ -31,19 +37,56 @@ enable_up()
 
     off_w=`echo $(( ($ext_w-$int_w)/2 )) | sed 's/^-//'`
 
+    secondary_height=`xrandr | grep ^DP-1 | rev | cut -d ' ' -f1 | rev | cut -f1 -dm`
+    #scale="--scale 1x1"
+    # fixes mouse flicker
+        # https://unix.stackexchange.com/questions/358992/cursor-flickers-with-xrandr-scaling
+    scale="--scale 0.9999x0.9999" # fix scaleing
+    echo "2nd height = $secondary_height"
+    if [ "$secondary_height" -lt "300" ]; then # in mm
+        echo "scaling 2nd monitor"
+        # TODO switch to enable_up_1080?
+        scale="--scale ${SECONDARY_4K_SCALE}x${SECONDARY_4K_SCALE}"
+    fi
+
     xrandr \
         --output $PRIMARY_DISPLAY --preferred --pos ${off_w}x${ext_h} \
-        --output $SECONDARY_DISPLAY --preferred --pos 0x0
+        --output $SECONDARY_DISPLAY --preferred --pos 0x0 $scale
+}
+
+enable_up_1080()
+{
+  mode="1920x1080"
+  ext_h=`xrandr | sed 's/^'"${SECONDARY_DISPLAY}"' [^0-9]* [0-9]\+x\([0-9]\+\).*$/\1/p;d'`
+  ext_w=`xrandr | sed 's/^'"${SECONDARY_DISPLAY}"' [^0-9]* \([0-9]\+\)x.*$/\1/p;d'`
+  int_w=`echo $mode | cut -dx -f1`
+
+  off_w=`echo $(( ($ext_w-$int_w)/2 )) | sed 's/^-//'`
+
+  scale="--scale 1x1"
+
+  xrandr \
+      --output $PRIMARY_DISPLAY --mode $mode --pos ${off_w}x${ext_h} \
+      --output $SECONDARY_DISPLAY --preferred --pos 0x0 $scale
 }
 
 #diable old
 disable
 
+case $1 in
 
-if [ $? -eq 0 ];
-then
-    enable_up
-else
+  auto )
+    echo "enable_auto"
     enable_auto
-fi
+    ;;
 
+  1080 | "10" | "ldpi" | "scale")
+    echo "enable_up_1080"
+    enable_up_1080
+    ;;
+
+  * )
+    echo "enable_up"
+    enable_up
+    ;;
+esac
