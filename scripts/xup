@@ -1,14 +1,30 @@
 #!/bin/sh
 set -e
 #set -x
-CONNECTED_OUTPUTS=$(xrandr -q | grep "\Wconnected" | cut -d ' ' -f1)
-DISCONNECTED_OUTPUTS=$(xrandr -q | grep "\Wdisconnected" | cut -d ' ' -f1)
+X_QUERY="$(xrandr --query)" # + is for prefered mode, * for current mode
+CONNECTED_OUTPUTS=$(echo "$X_QUERY" | grep "\Wconnected" | cut -d ' ' -f1)
+DISCONNECTED_OUTPUTS=$(echo "$X_QUERY" | grep "\Wdisconnected" | cut -d ' ' -f1)
 PRIMARY_DISPLAY=$(echo $CONNECTED_OUTPUTS | cut -f1 -d " ")
 SECONDARY_DISPLAY=$(echo $CONNECTED_OUTPUTS | cut -f2 -d " ")
 #SECONDARY_4K_SCALE=1.5
 
-echo "Primary display: $PRIMARY_DISPLAY"
-echo "Secondary display: $SECONDARY_DISPLAY"
+PRIMARY_PREFFERED_RES="$(echo "$X_QUERY" | grep -A1 "^${PRIMARY_DISPLAY}" | grep '+ ' | cut -d ' ' -f4)"
+SECONDARY_PREFFERED_RES="$(echo "$X_QUERY" | grep -A1 "^${SECONDARY_DISPLAY}" | grep '+ ' | cut -d ' ' -f4)"
+
+PRIMARY_PREFFERED_W="$(echo "$PRIMARY_PREFFERED_RES" | cut -dx -f1)"
+PRIMARY_PREFFERED_H="$(echo "$PRIMARY_PREFFERED_RES" | cut -dx -f2)"
+
+SECONDARY_PREFFERED_W="$(echo "$SECONDARY_PREFFERED_RES" | cut -dx -f1)"
+SECONDARY_PREFFERED_H="$(echo "$SECONDARY_PREFFERED_RES" | cut -dx -f2)"
+
+#scale="--scale 1x1"
+# fixes mouse flicker
+    # https://unix.stackexchange.com/questions/358992/cursor-flickers-with-xrandr-scaling
+scale="--scale 0.9999x0.9999" # fix scaleing
+
+echo "Outputs: ${CONNECTED_OUTPUTS//$'\n'/ }" # replace newlines with space for printing
+echo "> Primary display: $PRIMARY_DISPLAY (${PRIMARY_PREFFERED_W}x${PRIMARY_PREFFERED_H})"
+echo "> Secondary display: $SECONDARY_DISPLAY (${SECONDARY_PREFFERED_W}x${SECONDARY_PREFFERED_H})"
 
 disable()
 {
@@ -21,52 +37,33 @@ disable()
 
 enable_auto()
 {
-    prev=''
-    for output in $CONNECTED_OUTPUTS;
-    do
-        xrandr --output $output --auto $prev
-        prev="--right-of $output"
-    done
+    if [ "$SECONDARY_PREFFERED_H" -lt "$PRIMARY_PREFFERED_H" ]; then
+      echo "Setting 1080p mode"
+      enable_up_1080
+    else
+      echo "using native reoslutions"
+      enable_up
+    fi
 }
 
 enable_up()
 {
-    ext_h=`xrandr | sed 's/^'"${SECONDARY_DISPLAY}"' [^0-9]* [0-9]\+x\([0-9]\+\).*$/\1/p;d'`
-    ext_w=`xrandr | sed 's/^'"${SECONDARY_DISPLAY}"' [^0-9]* \([0-9]\+\)x.*$/\1/p;d'`
-    int_w=`xrandr | sed 's/^'"${PRIMARY_DISPLAY}"' [^0-9]* \([0-9]\+\)x.*$/\1/p;d'`
-
-    off_w=`echo $(( ($ext_w-$int_w)/2 )) | sed 's/^-//'`
-
-    secondary_height=`xrandr | grep ^DP-1 | rev | cut -d ' ' -f1 | rev | cut -f1 -dm`
-    #scale="--scale 1x1"
-    # fixes mouse flicker
-        # https://unix.stackexchange.com/questions/358992/cursor-flickers-with-xrandr-scaling
-    scale="--scale 0.9999x0.9999" # fix scaleing
-    echo "2nd height = $secondary_height"
-    if [ "$secondary_height" -lt "300" ]; then # in mm
-        echo "scaling 2nd monitor"
-        # TODO switch to enable_up_1080?
-        scale="--scale ${SECONDARY_4K_SCALE}x${SECONDARY_4K_SCALE}"
-    fi
+    offset_w=`echo $((($SECONDARY_PREFFERED_W-$PRIMARY_PREFFERED_W)/2 )) | sed 's/^-//'`
 
     xrandr \
-        --output $PRIMARY_DISPLAY --preferred --pos ${off_w}x${ext_h} \
+        --output $PRIMARY_DISPLAY --preferred --pos ${offset_w}x${SECONDARY_PREFFERED_H} \
         --output $SECONDARY_DISPLAY --preferred --pos 0x0 $scale
 }
 
 enable_up_1080()
 {
   mode="1920x1080"
-  ext_h=`xrandr | sed 's/^'"${SECONDARY_DISPLAY}"' [^0-9]* [0-9]\+x\([0-9]\+\).*$/\1/p;d'`
-  ext_w=`xrandr | sed 's/^'"${SECONDARY_DISPLAY}"' [^0-9]* \([0-9]\+\)x.*$/\1/p;d'`
   int_w=`echo $mode | cut -dx -f1`
 
-  off_w=`echo $(( ($ext_w-$int_w)/2 )) | sed 's/^-//'`
-
-  scale="--scale 1x1"
+  offset_w=`echo $(( ($SECONDARY_PREFFERED_W-$int_w)/2 )) | sed 's/^-//'`
 
   xrandr \
-      --output $PRIMARY_DISPLAY --mode $mode --pos ${off_w}x${ext_h} \
+      --output $PRIMARY_DISPLAY --mode $mode --pos ${offset_w}x${SECONDARY_PREFFERED_H} \
       --output $SECONDARY_DISPLAY --preferred --pos 0x0 $scale
 }
 
@@ -75,18 +72,18 @@ disable
 
 case $1 in
 
-  auto )
-    echo "enable_auto"
-    enable_auto
+  up )
+    echo "enable_up"
+    enable_up
     ;;
 
-  1080 | "10" | "ldpi" | "scale")
+  1080 | "10" | "ldpi" | "scale" | "s")
     echo "enable_up_1080"
     enable_up_1080
     ;;
 
   * )
-    echo "enable_up"
-    enable_up
+    echo "Default: enable_auto"
+    enable_auto
     ;;
 esac
