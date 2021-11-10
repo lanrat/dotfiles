@@ -43,4 +43,7 @@
 -- ask us about errors
 \set ON_ERROR_ROLLBACK interactive
 
+-- set autocompolete to use uppercase
+\set COMP_KEYWORD_CASE upper
+
 \set QUIET OFF
