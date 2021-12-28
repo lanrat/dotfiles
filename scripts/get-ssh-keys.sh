@@ -21,7 +21,7 @@ local_keys=$(cat "$KEY_FILE" | cut -f1-2 -d ' ' | sort)
 
 # print counts. Need to use sed to remove blank lines and cleanup wc output whitespace
 echo "> Found "$(echo "$remote_keys" | sed '/^\s*$/d' | wc -l | sed 's/^ *//g')" remote keys"
-echo "> Checking agenst "$(echo "$local_keys" | sed '/^\s*$/d' | wc -l | sed 's/^ *//g')" local keys"
+echo "> Checking against "$(echo "$local_keys" | sed '/^\s*$/d' | wc -l | sed 's/^ *//g')" local keys"
 
 # perform diff of sorted keys and store common and new keys in variables.
 common_keys=$(comm -1 -2 <(echo "$local_keys") <(echo "$remote_keys"))
