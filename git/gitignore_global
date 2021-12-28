@@ -10,7 +10,6 @@
 # Editor Files #
 ###################
 *.swp
-.vscode/
 
 # OS generated files #
 ######################
