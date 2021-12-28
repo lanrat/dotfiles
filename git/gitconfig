@@ -18,3 +18,5 @@
     prompt = false
 [push]
 	default = matching
+[pull]
+	rebase = false
