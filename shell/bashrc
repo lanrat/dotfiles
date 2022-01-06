@@ -224,4 +224,11 @@ fi
 [[ -s "$HOME/go/bin" ]] && export PATH="${PATH}:${HOME}/go/bin"
 [[ -s "$HOME/.local/bin" ]] && export PATH="${PATH}:${HOME}/.local/bin"
 
+
+# let postgresql use colors
+export PG_COLOR=auto
+
+# disable docker Snyk
+export DOCKER_SCAN_SUGGEST=false
+
 true # this ensures the bashrc always has a 0 exit code
