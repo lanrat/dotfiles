@@ -45,9 +45,10 @@ alias dd-status='pkill -USR1 ^dd'
 
 
 # netstat the way I like it
-alias ports='netstat -tupl --numeric-ports | grep -E ":[0-9]+\s"'
-alias portse='netstat -tup --numeric-ports | grep -E ":[0-9]+\s"'
-alias lsports='sudo lsof -PiTCP -sTCP:LISTEN'
+#alias ports='netstat -tupl --numeric-ports | grep -E ":[0-9]+\s"'
+#alias portse='netstat -tup --numeric-ports | grep -E ":[0-9]+\s"'
+#alias lsports='sudo lsof -PiTCP -sTCP:LISTEN'
+alias ports='ss -lnptua'
 
 if [[ "$(uname)" == 'Linux' ]]; then
     # dmesg with readable time
