@@ -121,6 +121,9 @@ function docker-tail
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+# python 1 line web server
+alias py-serv='python -m http.server 8006'
+
 # does the internet work?
 alias p1="ping 1.1.1.1"
 alias p6="ping6 2606:4700:4700::1111"
