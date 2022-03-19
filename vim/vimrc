@@ -117,7 +117,7 @@ set report=0
 " do not wrap line
 "set nowrap
 "if we do ever decide to wrap display a nice wrap image
-set showbreak='↳ '
+set showbreak="↳ "
 " use softwrap
 set linebreak
 "set nolist  " list disables linebreak
