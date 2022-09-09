@@ -128,5 +128,8 @@ alias py-serv='python3 -m http.server 8006'
 alias p1="ping 1.1.1.1"
 alias p6="ping6 2606:4700:4700::1111"
 
+[[ -s "/Applications/Tailscale.app/Contents/MacOS/Tailscale" ]] && alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+
 # TODO code or code-server?
 alias code-server="code-server -e"
+
