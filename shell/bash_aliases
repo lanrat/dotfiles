@@ -133,3 +133,14 @@ alias p6="ping6 2606:4700:4700::1111"
 # TODO code or code-server?
 alias code-server="code-server -e"
 
+# fucntion to use our ssh-copy-id if ssh-copy-id does not exist
+function ssh-copy-id
+{
+    if command -v ssh-copy-id &> /dev/null; then
+        command ssh-copy-id $@
+        return $?
+    fi
+    ssh-copy-id-lite $@
+    return $?
+}
+
