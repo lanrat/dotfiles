@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+docker_cli_plugin_metadata() {
+	local vendor="lanrat"
+	local description="print volumes in use by containers"
+	cat <<-EOF
+	{"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
+EOF
+}
+
+docker-volumes() {
+    VOLUMES="$(docker volume ls -q)"
+    for volume in $VOLUMES;
+    do
+        echo "$volume"
+        docker ps -a --filter volume="$volume" --format "\t{{.Names}}\t{{.ID}}"
+    done
+}
+
+case "$1" in
+	docker-cli-plugin-metadata)
+		docker_cli_plugin_metadata
+		;;
+	*)
+        docker-volumes
+		;;
+esac

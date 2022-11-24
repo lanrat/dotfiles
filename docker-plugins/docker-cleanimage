@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+docker_cli_plugin_metadata() {
+	local vendor="lanrat"
+	local description="remove untagged images"
+	cat <<-EOF
+	{"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
+EOF
+}
+
+docker-clean-images() {
+    images="$(docker image ls -q --filter=dangling=true)"
+	if [ -z "$images" ]; then
+		echo "no images to clean"
+	else
+    	docker image rm $images
+	fi
+}
+
+case "$1" in
+	docker-cli-plugin-metadata)
+		docker_cli_plugin_metadata
+		;;
+	*)
+        docker-clean-images
+		;;
+esac

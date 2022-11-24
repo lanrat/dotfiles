@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+docker_cli_plugin_metadata() {
+	local vendor="lanrat"
+	local description="print images in use by containers"
+	cat <<-EOF
+	{"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
+EOF
+}
+
+docker-images() {
+    IMAGES="$(docker image ls -q)"
+    for image in $IMAGES;
+    do
+        docker image ls --format "{{.Repository}}:{{.Tag}}\t{{.ID}}" | grep "$image"
+        docker ps -a --filter ancestor="$image" --format "\t{{.Names}}\t{{.ID}}"
+    done
+}
+
+case "$1" in
+	docker-cli-plugin-metadata)
+		docker_cli_plugin_metadata
+		;;
+	*)
+        docker-images
+		;;
+esac
