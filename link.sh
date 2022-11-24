@@ -126,6 +126,10 @@ function link_sqlite {
     make_link "$cwd/sqlite/sqliterc" ~/.sqliterc
 }
 
+function link_docker-plugins {
+    echo "Linking Docker"
+    make_link "$cwd/docker-plugins" ~/.docker/cli-plugins
+}
 
 function link_sublime3 {
     echo "Linking Sublime Text"
