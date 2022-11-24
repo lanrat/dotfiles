@@ -29,7 +29,7 @@ function cgrep
   paths=${@:2}
   paths=${paths:-"."}
   #echo "Search ($1) (-$f) paths($paths)"
-  grep --color=always --exclude-dir=.git -$f "$1" $paths
+  grep --color=always --exclude-dir=.git -$f "$1" "$paths"
 }
 #fi
 
@@ -114,7 +114,7 @@ alias dps="docker ps -a --format \"table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Im
 
 function docker-tail
 {
-    while true; do docker logs --tail=50 -f $1; sleep 1; done
+    while true; do docker logs --tail=50 -f "$1"; sleep 1; done
 }
 
 # Add an "alert" alias for long running commands.  Use like so:
