@@ -16,22 +16,25 @@ alias ssh-exit="ssh -O exit"
 alias grep='grep --color=auto'
 
 # search code faster
-#alias cgrep='grep --color=always -RIin'
-#if [[ "$(uname)" == 'Darwin' ]]; then
-#    unalias cgrep
 function cgrep
 {
+  if [ "$#" -eq 0 ]; then
+    echo "usage: cgrep 'pattern' [path]..."
+    return 1
+  fi
+  args=("$@")
+  if [ "$#" -eq 1 ]; then
+    # add . to empty search path
+    args+=(".")
+  fi
   f="RIn"
   if [[ ! "$1" =~ [A-Z] ]]; then
     # only lowercase searched, case-insensitive
     f="${f}i"
   fi
-  paths=${@:2}
-  paths=${paths:-"."}
-  #echo "Search ($1) (-$f) paths($paths)"
-  grep --color=always --exclude-dir=.git -$f "$1" "$paths"
+  grep --exclude-dir=.git -$f "${args[@]}"
 }
-#fi
+
 
 # ls aliases
 if [ "$(uname)" = "Darwin" ]; then
@@ -97,9 +100,9 @@ alias sn="subl -n ."
 
 # send myself email notifications
 if type "sendgmr" > /dev/null 2>&1; then
-    alias pong="sendgmr --subject='PONG' --to=$USER"
+    alias pong="sendgmr --subject='PONG' --to=\$USER"
 else
-    alias pong="mail -s PONG $USER"
+    alias pong="mail -s PONG \$USER"
 fi
 
 # wget with filename from header
@@ -137,10 +140,10 @@ alias code-server="code-server -e"
 function ssh-copy-id
 {
     if command -v ssh-copy-id &> /dev/null; then
-        command ssh-copy-id $@
+        command ssh-copy-id "$@"
         return $?
     fi
-    ssh-copy-id-lite $@
+    ssh-copy-id-lite "$@"
     return $?
 }
 
