@@ -3,6 +3,7 @@
 # bashrc is executed for interactive non-login shells (gui-terminal, bash)
 # -----------
 # profiling: https://stackoverflow.com/questions/5014823/how-to-profile-a-bash-shell-script-slow-startup
+# shellcheck shell=bash
 
 # If not running interactively, don't do anything
 case $- in
@@ -34,6 +35,7 @@ export LESS="-SiRFXn"
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Alias definitions.
+# shellcheck source=/dev/null
 if [ -f ~/.bash_aliases ];
 then
     . ~/.bash_aliases
@@ -151,6 +153,7 @@ HISTFILESIZE=2000
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
+# shellcheck source=/dev/null
 if ! shopt -oq posix; then
   if [ -r "/usr/share/bash-completion/bash_completion" ]; then
     . "/usr/share/bash-completion/bash_completion"
@@ -211,7 +214,7 @@ ghpr () {
   if [ "$#" -ne 1 ]; then
     echo "usage: ghpr PR_ID"
   else
-    git fetch origin pull/"$1"/head:"pr-$1" && echo "created new branch pr-$1"
+    git fetch origin "pull/$1/head:pr-$1" && echo "created new branch pr-$1"
   fi
 }
 
@@ -223,17 +226,18 @@ function calc() {
         #
         if [[ "$result" == *.* ]]; then
                 # improve the output for decimal numbers
-                printf "$result" |
+                printf "%s" "$result" |
                 sed -e 's/^\./0./'        `# add "0" for cases like ".5"` \
                     -e 's/^-\./-0./'      `# add "0" for cases like "-.5"`\
                     -e 's/0*$//;s/\.$//'   # remove trailing zeros
         else
-                printf "$result"
+                printf "%s" "$result"
         fi
         printf "\n"
 }
 
 # Include local machine specific settings
+# shellcheck source=/dev/null
 if [ -f ~/.bashrc_local ];
 then
     . ~/.bashrc_local
@@ -248,5 +252,33 @@ export PG_COLOR=auto
 
 # disable docker Snyk
 export DOCKER_SCAN_SUGGEST=false
+
+#docker-tail completions
+_complete_docker_containers ()
+{
+        COMPREPLY=()
+        cur="${COMP_WORDS[COMP_CWORD]}"
+        comp_docker_containers="$(docker ps -a --format '{{.Names}}')"
+        COMPREPLY=( $(compgen -W "${comp_docker_containers}" -- "$cur"))
+        return 0
+}
+complete -F _complete_docker_containers docker-tail
+
+# _complete_ssh_hosts ()
+# {
+#         COMPREPLY=()
+#         cur="${COMP_WORDS[COMP_CWORD]}"
+#         comp_ssh_hosts=$(cut -f 1 -d ' ' < ~/.ssh/known_hosts | \
+#                          sed -e s/,.*//g | \
+#                          grep -v ^\# | \
+#                          uniq | \
+#                          grep -v "\[" ;
+#                          grep -i --color=never "^Host " < ~/.ssh/known_hosts | \
+#                          awk '{print $2}'
+#                    )
+#         COMPREPLY=( $(compgen -W "${comp_ssh_hosts}" -- "$cur"))
+#         return 0
+# }
+#complete -F _complete_ssh_hosts ssh
 
 true # this ensures the bashrc always has a 0 exit code
