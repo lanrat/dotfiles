@@ -1,5 +1,13 @@
 #!/bin/sh
 
+# prefer built-in ssh-copy-id if exists
+if command -v ssh-copy-id &> /dev/null
+then
+    echo "native ssh-copy-id found, using that.."
+    ssh-copy-id $@
+    exit $?
+fi
+
 # Shell script to install your public key on a remote machine
 # Takes the remote machine name as an argument.
 # Obviously, the remote machine must accept password authentication,

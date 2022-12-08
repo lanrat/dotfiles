@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+docker_cli_plugin_metadata() {
+	local vendor="lanrat"
+	local description="tail -f for docker services"
+	cat <<-EOF
+	{"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
+EOF
+}
+
+docker-tail() {
+    while true; do
+        docker logs --tail=50 -f "$1"
+        sleep 1
+    done
+}
+
+case "$1" in
+	docker-cli-plugin-metadata)
+		docker_cli_plugin_metadata
+		;;
+	*)
+        docker-tail "$2"
+		;;
+esac

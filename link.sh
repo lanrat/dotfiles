@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-
-# the dir this script is in
-cwd="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+set -eu
+set -o pipefail
+if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 #
 # helper functions
@@ -9,7 +10,7 @@ cwd="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 function run {
     c="${1%/}"
-    if [ $c == "sublime-text-3" ];
+    if [ "$c" == "sublime-text-3" ];
     then
         c="sublime3"
     fi
@@ -19,7 +20,7 @@ function run {
 
 function link_all {
     echo "Linking all configs"
-    for dir in $cwd/*/
+    for dir in "$SCRIPT_DIR"/*/
     do
         dir=${dir%*/}
         dir=${dir##*/}
@@ -53,7 +54,7 @@ function get_submodule {
     REPO="$1"
     FOLDER="$2"
 
-    if [ ! -e $FOLDER ];
+    if [ ! -e "$FOLDER" ];
     then
         echo "Cloning $REPO to $FOLDER"
         git clone --depth 1 "$REPO" "$FOLDER"
@@ -69,23 +70,23 @@ function get_submodule {
 #
 
 function link_code-server {
-    make_link "$cwd/code-server" ~/.config/code-server
+    make_link "$SCRIPT_DIR/code-server" "$HOME/.config/code-server"
 }
 
 function link_vim {
     VUNDLE_URL="https://github.com/gmarik/Vundle.vim.git"
-    VUNDLE_DIR="$cwd/vim/vim/bundle/Vundle.vim"
+    VUNDLE_DIR="$SCRIPT_DIR/vim/vim/bundle/Vundle.vim"
 
-    if [ ! -e $VUNDLE_DIR ];
+    if [ ! -e "$VUNDLE_DIR" ];
     then
         echo "Downloading Vundle"
         get_submodule "$VUNDLE_URL" "$VUNDLE_DIR"
     fi
 
     echo "Linking vim"
-    make_link "$cwd/vim/vimrc" ~/.vimrc
-    make_link "$cwd/vim/vim" ~/.vim
-    make_link "$cwd/nvim" ~/.config/nvim
+    make_link "$SCRIPT_DIR/vim/vimrc" "$HOME/.vimrc"
+    make_link "$SCRIPT_DIR/vim/vim" "$HOME/.vim"
+    make_link "$SCRIPT_DIR/nvim" "$HOME/.config/nvim"
 
     echo "Downloading plugins"
     vim +PluginInstall +qall
@@ -94,69 +95,69 @@ function link_vim {
 
 function link_git {
     echo "Linking git"
-    for file in $(ls $cwd/git);
+    for file in "$SCRIPT_DIR"/git/*;
     do
-        make_link "$cwd/git/$file" ~/.$file
+        make_link "$SCRIPT_DIR/git/$file" "$HOME/.$file"
     done
 }
 
 function link_psql {
     echo "Linking psql"
-    for file in $(ls "$cwd/psql");
+    for file in "$SCRIPT_DIR"/psql/*;
     do
-        make_link "$cwd/psql/$file" ~/.$file
+        make_link "$SCRIPT_DIR/psql/$file" "$HOME/.$file"
     done
 }
 
 function link_shell {
     echo "Linking shell"
-    for file in $(ls "$cwd/shell");
+    for file in "$SCRIPT_DIR"/shell/*;
     do
-        make_link "$cwd/shell/$file" ~/.$file
+        make_link "$SCRIPT_DIR/shell/$file" "$HOME/.$file"
     done
 }
 
 function link_tmux {
     echo "Linking tmux"
-    make_link "$cwd/tmux/tmux.conf" ~/.tmux.conf
+    make_link "$SCRIPT_DIR/tmux/tmux.conf" "$HOME/.tmux.conf"
 }
 
 function link_sqlite {
     echo "Linking sqlite"
-    make_link "$cwd/sqlite/sqliterc" ~/.sqliterc
+    make_link "$SCRIPT_DIR/sqlite/sqliterc" "$HOME/.sqliterc"
 }
 
+function link_docker-plugins {
+    echo "Linking Docker"
+    make_link "$SCRIPT_DIR/docker-plugins" "$HOME/.docker/cli-plugins"
+}
 
 function link_sublime3 {
     echo "Linking Sublime Text"
-    BASE=~/.config/sublime-text-3
+    BASE="$HOME/.config/sublime-text-3"
     if [ "$(uname)" = "Darwin" ]; then
         echo -e "\t Detected OSX"
         ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
         BASE="$HOME/Library/Application Support/Sublime Text 3"
     fi
-    make_link "$cwd/sublime-text-3/User" "$BASE/Packages/User"
+    make_link "$SCRIPT_DIR/sublime-text-3/User" "$BASE/Packages/User"
 }
 
 function link_atom {
     echo "Linking atom"
-    make_link "$cwd/atom/config.cson" ~/.atom/config.cson
-    apm install --packages-file "$cwd/atom/package.list"
+    make_link "$SCRIPT_DIR/atom/config.cson" "$HOME/.atom/config.cson"
+    apm install --packages-file "$SCRIPT_DIR/atom/package.list"
     # backup with: apm list --installed --bare > atom/package.list
 }
 
 function link_scripts {
     echo "Linking scripts"
-    for script in $cwd/scripts/*
+    for script in "$SCRIPT_DIR"/scripts/*
     do
         bname=$(basename "$script")
         name="${bname%.*}"
-        make_link "$script" ~/bin/$name
+        make_link "$script" "$HOME/bin/$name"
     done
-    #wget --no-verbose --output-document ~/bin/rsub https://raw.githubusercontent.com/aurora/rmate/master/rmate
-    #chmod +x ~/bin/rsub
-    #wget --no-verbose --output-document ~/bin/speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
-    #chmod +x ~/bin/speedtest-cli
 }
 
 if [ "$#" -eq 0 ];

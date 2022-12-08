@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+docker_cli_plugin_metadata() {
+	local vendor="lanrat"
+	local description="copy volume from old_name to new_name"
+	cat <<-EOF
+	{"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
+EOF
+}
+
+docker-volumecp() {
+    if [ ! $# -eq 2 ]
+    then
+        echo "Usage: $(basename "$0") existing_volume new_volume"
+        exit
+    fi
+
+    if ! docker volume ls -q | grep -q "^$1\$"; then
+        echo "volume $1 does not exist!"
+        exit 1
+    fi
+
+    if docker volume ls -q | grep -q "^$2\$"; then
+        echo "volume $2 already exists!"
+        exit 1
+    fi
+
+    echo "Copying $1 -> $2"
+    docker run --rm -it -v "$1:/old/:ro" -v "$2:/new" bash cp -drp /old/. /new
+}
+
+case "$1" in
+	docker-cli-plugin-metadata)
+		docker_cli_plugin_metadata
+		;;
+	*)
+        docker-volumecp "${@:2}"
+		;;
+esac
