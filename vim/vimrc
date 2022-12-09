@@ -263,6 +263,12 @@ au BufReadPost *.go set filetype=go
 " use tabs in go
 autocmd FileType go setlocal noexpandtab
 
+"caddy
+au BufReadPost *.caddy set filetype=caddy
+au BufReadPost *Caddyfile set filetype=caddy
+" use tabs for caddy
+autocmd FileType caddy setlocal noexpandtab
+
 "enable wrappin in tex
 augroup WrapLineInTeXFile
     autocmd!
