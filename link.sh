@@ -113,7 +113,8 @@ function link_shell {
     echo "Linking shell"
     for file in "$SCRIPT_DIR"/shell/*;
     do
-        make_link "$SCRIPT_DIR/shell/$file" "$HOME/.$file"
+        bname=$(basename "$file")
+        make_link "$SCRIPT_DIR/shell/$bname" "$HOME/.$bname"
     done
 }
 
