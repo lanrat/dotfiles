@@ -221,6 +221,7 @@ function extract () {
           *.apk)       unzip -d "${1%*.apk}" "$1"       ;;
           *.Z)         uncompress "$1"  ;;
           *.7z)        7z x "$1"        ;;
+          *.exe)       7z x "$1"        ;;
           *.lz4)       lz4 -d "$1"      ;;
           *.deb)       dpkg -X "$1" "$(basename "${1%.*}")"     ;;
           *.rpm)       rpm2cpio "$1" | cpio -idmv -D "$(basename "${1%.*}")" || tar -xvzf "$1" ;;

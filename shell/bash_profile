@@ -19,4 +19,13 @@ if [[ $OSTYPE == 'darwin'* ]]; then
   export BASH_SILENCE_DEPRECATION_WARNING=1
 fi
 
+# use firefox wayland if using wayland
+if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
+    export MOZ_ENABLE_WAYLAND=1
+    if command -v code &>/dev/null
+    then
+        alias code="code --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations"
+    fi
+fi
+
 #echo "bash_profile end"
