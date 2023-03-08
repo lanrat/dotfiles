@@ -5,10 +5,12 @@
 # profiling: https://stackoverflow.com/questions/5014823/how-to-profile-a-bash-shell-script-slow-startup
 # shellcheck shell=bash
 
+#echo "bashrc start"
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
-      *) return;;
+      *) exit;;
 esac
 
 # fix Ctrl-S freezing terminal (Ctrl-Q to resume)
@@ -26,6 +28,14 @@ export P4DIFF='colordiff -u'
 # -------------------
 # App Settings
 # -------------------
+
+## TODO move these exports (above and below) to profile
+
+# let postgresql use colors
+export PG_COLOR=auto
+
+# disable docker Snyk
+export DOCKER_SCAN_SUGGEST=false
 
 #enable color, case-insensitive search, and no-wrapping in less
 # -FX exit if all data fits in term
@@ -158,7 +168,8 @@ HISTFILESIZE=2000
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 # shellcheck source=/dev/null
-if ! shopt -oq posix; then
+if shopt -q progcomp; then
+  #echo "bash_completion running"
   if [ -r "/usr/share/bash-completion/bash_completion" ]; then
     . "/usr/share/bash-completion/bash_completion"
   fi
@@ -166,15 +177,18 @@ if ! shopt -oq posix; then
     . "/etc/bash_completion"
   fi
   # bash completeion for brew on OSX
-  if type brew &>/dev/null; then
+  if [[ $OSTYPE == 'darwin'* ]] && type brew &>/dev/null; then
     HOMEBREW_PREFIX="$(brew --prefix)"
     if [ -r "${HOMEBREW_PREFIX}/etc/bash_completion" ]; then
+      #echo "brew 1"
       source "${HOMEBREW_PREFIX}/etc/bash_completion"
     fi
     if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+      #echo "brew 2"
       source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
     else
       for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+        #echo "brew 3: $COMPLETION"
         [[ -r "$COMPLETION" ]] && source "$COMPLETION"
       done
     fi
@@ -186,8 +200,12 @@ fi
 # Other
 # -------------------
 
-#Extracts archives correctly. No more memorizing evil tar.
-extract () {
+# Extracts archives correctly. No more memorizing tar.
+function extract () {
+  if [ "$#" -ne 1 ]; then
+    echo "Pass only 1 file to extract"
+    return 2
+  fi
   if [ -f "$1" ] ; then
       case "$1" in
           *.tar.bz2)   tar xvjf "$1"    ;;
@@ -214,7 +232,7 @@ extract () {
 }
 
 # github checkout pr
-ghpr () {
+function ghpr () {
   if [ "$#" -ne 1 ]; then
     echo "usage: ghpr PR_ID"
   else
@@ -244,18 +262,8 @@ function calc() {
 # shellcheck source=/dev/null
 if [ -f ~/.bashrc_local ];
 then
-    . ~/.bashrc_local
+    source ~/.bashrc_local
 fi
-
-[[ -s "$HOME/go/bin" ]] && export PATH="${PATH}:${HOME}/go/bin"
-[[ -s "$HOME/.local/bin" ]] && export PATH="${PATH}:${HOME}/.local/bin"
-
-
-# let postgresql use colors
-export PG_COLOR=auto
-
-# disable docker Snyk
-export DOCKER_SCAN_SUGGEST=false
 
 #docker-tail completions
 _complete_docker_containers ()
@@ -283,6 +291,8 @@ complete -F _complete_docker_containers docker-tail
 #         COMPREPLY=( $(compgen -W "${comp_ssh_hosts}" -- "$cur"))
 #         return 0
 # }
+
 #complete -F _complete_ssh_hosts ssh
+# echo "bashrc end"
 
 true # this ensures the bashrc always has a 0 exit code
