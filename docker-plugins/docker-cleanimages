@@ -13,6 +13,7 @@ docker-clean-images() {
 	if [ -z "$images" ]; then
 		echo "no images to clean"
 	else
+		# shellcheck disable=SC2086
     	docker image rm $images
 	fi
 }
@@ -20,6 +21,9 @@ docker-clean-images() {
 case "$1" in
 	docker-cli-plugin-metadata)
 		docker_cli_plugin_metadata
+		;;
+	__completeNoDesc)
+		echo " "
 		;;
 	*)
         docker-clean-images

@@ -2,17 +2,18 @@
 
 docker_cli_plugin_metadata() {
 	local vendor="lanrat"
-	local description="tail -f for docker services"
+	local description="list container IPs"
 	cat <<-EOF
 	{"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
 EOF
 }
 
-docker-tail() {
-    while true; do
-        docker logs --tail=50 -f "$1"
-        sleep 1
-    done
+docker-ip() {
+	query="$1"
+	if [ -z "${1}" ]; then
+		query="$(docker ps -a --format '{{.Names}}')"
+	fi
+	docker inspect --format "{{.Name}}|{{range \$i, \$v := .NetworkSettings.Networks}}{{if \$i}}|{{end}}{{\$v.IPAddress}}{{end}}" $query  | cut -d '/' -f2 | sed 's/|/\t/g'
 }
 
 ## TODO use completion functions here
@@ -45,6 +46,6 @@ case "$1" in
 		_complete_docker_containers "${arg[*]}"
 		;;
 	*)
-        docker-tail "$2"
+        docker-ip "$2"
 		;;
 esac

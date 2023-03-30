@@ -21,6 +21,9 @@ case "$1" in
 	docker-cli-plugin-metadata)
 		docker_cli_plugin_metadata
 		;;
+	__completeNoDesc)
+		echo " "
+		;;
 	*)
         docker-images
 		;;

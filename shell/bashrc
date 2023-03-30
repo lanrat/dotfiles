@@ -257,17 +257,6 @@ export PG_COLOR=auto
 # disable docker Snyk
 export DOCKER_SCAN_SUGGEST=false
 
-#docker-tail completions
-_complete_docker_containers ()
-{
-        COMPREPLY=()
-        cur="${COMP_WORDS[COMP_CWORD]}"
-        comp_docker_containers="$(docker ps -a --format '{{.Names}}')"
-        COMPREPLY=( $(compgen -W "${comp_docker_containers}" -- "$cur"))
-        return 0
-}
-complete -F _complete_docker_containers docker-tail
-
 # _complete_ssh_hosts ()
 # {
 #         COMPREPLY=()

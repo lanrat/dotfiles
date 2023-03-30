@@ -29,9 +29,34 @@ docker-volumecp() {
     docker run --rm -it -v "$1:/old/:ro" -v "$2:/new" bash cp -drp /old/. /new
 }
 
+## TODO use completion functions here
+# https://github.com/docker/cli/pull/4094
+# https://github.com/docker/cli/blob/master/contrib/completion/bash/docker
+
+
+# docker completions
+_complete_docker_volumes () {
+	COMPREPLY=()
+	#cur="${COMP_WORDS[COMP_CWORD]}"
+	cur="$1"
+	comp_docker_volumes="$(docker volume ls -q)"
+	COMPREPLY=( $(compgen -W "${comp_docker_volumes}" -- "$cur"))
+	if [ "${#COMPREPLY}" -gt "0" ]; then
+    	echo "${COMPREPLY[*]}"
+	else
+		echo " " # space terminated the completion
+	fi
+	return 0
+}
+
+
 case "$1" in
 	docker-cli-plugin-metadata)
 		docker_cli_plugin_metadata
+		;;
+	__completeNoDesc)
+		arg=("${@:2}")
+		_complete_docker_volumes "${arg[*]}"
 		;;
 	*)
         docker-volumecp "${@:2}"
