@@ -1,6 +1,7 @@
 # -------------------
 # Aliases
 # -------------------
+# shellcheck shell=bash
 
 # This allows sudo to work with aliases
 alias sudo='sudo '
