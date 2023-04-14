@@ -10,7 +10,7 @@
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
-      *) exit;;
+      *) return;; # using exit here breaks non-interactive scripts
 esac
 
 # fix Ctrl-S freezing terminal (Ctrl-Q to resume)
