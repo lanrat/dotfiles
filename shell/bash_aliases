@@ -96,7 +96,6 @@ fi
 alias t="tmux"
 alias ta="tmux a"
 
-#alias subl="subl -n"
 alias sn="subl -n ."
 
 # send myself email notifications
@@ -130,6 +129,12 @@ alias p6="ping6 2606:4700:4700::1111"
 
 # TODO code or code-server?
 alias code-server="code-server -e"
+
+# vscode wayland
+if command -v code &>/dev/null
+then
+    alias code="code --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations"
+fi
 
 # fucntion to use our ssh-copy-id if ssh-copy-id does not exist
 function ssh-copy-id
