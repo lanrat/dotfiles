@@ -10,12 +10,13 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 function run {
     c="${1%/}"
-    if [ "$c" == "sublime-text-3" ];
-    then
+    if [ "$c" == "sublime-text-3" ]; then
         c="sublime3"
+    elif [ "$c" == "nvim" ]; then
+        c="vim"
     fi
     c="link_$c"
-    eval ${c}
+    eval "$c"
 }
 
 function link_all {
@@ -154,6 +155,20 @@ function link_scripts {
     done
 }
 
+function link_apps {
+    echo "Linking apps"
+    if [ "$(uname)" != "Linux" ]; then
+        echo "Apps only supported on Linux"
+        exit 1
+    fi
+    for app in "$SCRIPT_DIR"/apps/*.desktop
+    do
+        bname=$(basename "$app")
+        make_link "$app" "$HOME/.local/share/applications/$bname"
+    done
+    update-desktop-database "$HOME/.local/share/applications/"
+}
+
 if [ "$#" -eq 0 ];
 then
     echo "Usage: $0 {all | CONFIG_TO_LINK}"
@@ -161,4 +176,3 @@ then
 fi
 
 run $1
-
