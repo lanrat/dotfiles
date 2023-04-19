@@ -160,7 +160,6 @@ function mkscript
   fi
   touch "$1"
   chmod +x "$1"
-  echo "created $1"
   cat <<EOF > "$1"
 #!/usr/bin/env bash
 set -eu
@@ -169,4 +168,5 @@ if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 EOF
+  echo "created $1"
 }
