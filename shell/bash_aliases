@@ -151,7 +151,7 @@ function ssh-copy-id
 function mkscript
 {
   if [ "$#" -ne 1 ]; then
-    echo "usage: $0 filename"
+    echo "usage: ${FUNCNAME[0]} filename"
     return 1
   fi
   if [ -f "$1" ]; then
