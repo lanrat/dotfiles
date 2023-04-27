@@ -54,7 +54,7 @@ alias dd-status='pkill -USR1 ^dd'
 #alias lsports='sudo lsof -PiTCP -sTCP:LISTEN'
 alias ports='ss -lnptua'
 
-if [[ "$(uname)" == 'Linux' ]]; then
+if [[ "$(uname)" = 'Linux' ]]; then
     # dmesg with readable time
     alias dmesg='dmesg -T'
 
@@ -131,7 +131,7 @@ alias p6="ping6 2606:4700:4700::1111"
 alias code-server="code-server -e"
 
 # vscode wayland
-if command -v code &>/dev/null
+if command -v code &>/dev/null && [ "$(uname)" = "Linux" ]
 then
     alias code="code --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations"
 fi
