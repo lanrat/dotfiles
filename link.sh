@@ -10,12 +10,13 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 function run {
     c="${1%/}"
-    if [ "$c" == "sublime-text-3" ];
-    then
+    if [ "$c" == "sublime-text-3" ]; then
         c="sublime3"
+    elif [ "$c" == "nvim" ]; then
+        c="vim"
     fi
     c="link_$c"
-    eval ${c}
+    eval "$c"
 }
 
 function link_all {
@@ -144,13 +145,6 @@ function link_sublime3 {
     make_link "$SCRIPT_DIR/sublime-text-3/User" "$BASE/Packages/User"
 }
 
-function link_atom {
-    echo "Linking atom"
-    make_link "$SCRIPT_DIR/atom/config.cson" "$HOME/.atom/config.cson"
-    apm install --packages-file "$SCRIPT_DIR/atom/package.list"
-    # backup with: apm list --installed --bare > atom/package.list
-}
-
 function link_scripts {
     echo "Linking scripts"
     for script in "$SCRIPT_DIR"/scripts/*
@@ -161,6 +155,20 @@ function link_scripts {
     done
 }
 
+function link_apps {
+    echo "Linking apps"
+    if [ "$(uname)" != "Linux" ]; then
+        echo "Apps only supported on Linux"
+        exit 1
+    fi
+    for app in "$SCRIPT_DIR"/apps/*.desktop
+    do
+        bname=$(basename "$app")
+        make_link "$app" "$HOME/.local/share/applications/$bname"
+    done
+    update-desktop-database "$HOME/.local/share/applications/"
+}
+
 if [ "$#" -eq 0 ];
 then
     echo "Usage: $0 {all | CONFIG_TO_LINK}"
@@ -168,4 +176,3 @@ then
 fi
 
 run $1
-

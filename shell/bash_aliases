@@ -54,7 +54,7 @@ alias dd-status='pkill -USR1 ^dd'
 #alias lsports='sudo lsof -PiTCP -sTCP:LISTEN'
 alias ports='ss -lnptua'
 
-if [[ "$(uname)" == 'Linux' ]]; then
+if [[ "$(uname)" = 'Linux' ]]; then
     # dmesg with readable time
     alias dmesg='dmesg -T'
 
@@ -96,7 +96,6 @@ fi
 alias t="tmux"
 alias ta="tmux a"
 
-#alias subl="subl -n"
 alias sn="subl -n ."
 
 # send myself email notifications
@@ -131,6 +130,12 @@ alias p6="ping6 2606:4700:4700::1111"
 # TODO code or code-server?
 alias code-server="code-server -e"
 
+# vscode wayland
+if command -v code &>/dev/null && [ "$(uname)" = "Linux" ]
+then
+    alias code="code --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations"
+fi
+
 # fucntion to use our ssh-copy-id if ssh-copy-id does not exist
 function ssh-copy-id
 {
@@ -142,3 +147,26 @@ function ssh-copy-id
     return $?
 }
 
+# helper for creating new shell scripts
+function mkscript
+{
+  if [ "$#" -ne 1 ]; then
+    echo "usage: ${FUNCNAME[0]} filename"
+    return 1
+  fi
+  if [ -f "$1" ]; then
+    echo "$1 exists."
+    return 1
+  fi
+  touch "$1"
+  chmod +x "$1"
+  cat <<EOF > "$1"
+#!/usr/bin/env bash
+set -eu
+set -o pipefail
+if [[ "\${TRACE-0}" == "1" ]]; then set -o xtrace; fi
+SCRIPT_DIR=\$( cd -- "\$( dirname -- "\${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+EOF
+  echo "created $1"
+}
