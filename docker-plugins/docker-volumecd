@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+docker_cli_plugin_metadata() {
+	local vendor="lanrat"
+	local description="cd to volume location on the host"
+	cat <<-EOF
+	{"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
+EOF
+}
+
+docker-volumecd() {
+    if [ ! $# -eq 1 ]
+    then
+        echo "Usage: $(basename "$0") volume_name"
+        exit
+    fi
+
+    if ! docker volume ls -q | grep -q "^$1\$"; then
+        echo "volume $1 does not exist!"
+        exit 1
+    fi
+
+    location="$(docker volume inspect --format "{{.Mountpoint}}" "$1")"
+    echo "location: $location"
+    #source <(echo " cd $location")
+}
+
+# docker completions
+_complete_docker_volumes () {
+	COMPREPLY=()
+	#cur="${COMP_WORDS[COMP_CWORD]}"
+	cur="$1"
+	comp_docker_volumes="$(docker volume ls -q)"
+	COMPREPLY=( $(compgen -W "${comp_docker_volumes}" -- "$cur"))
+	if [ "${#COMPREPLY}" -gt "0" ]; then
+    	echo "${COMPREPLY[*]}"
+	else
+		echo " " # space terminated the completion
+	fi
+	return 0
+}
+
+
+case "$1" in
+	docker-cli-plugin-metadata)
+		docker_cli_plugin_metadata
+		;;
+	__completeNoDesc)
+		arg=("${@:2}")
+		_complete_docker_volumes "${arg[*]}"
+		;;
+	*)
+        docker-volumecd "${@:2}"
+		;;
+esac
