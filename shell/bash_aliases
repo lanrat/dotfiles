@@ -170,3 +170,13 @@ SCRIPT_DIR=\$( cd -- "\$( dirname -- "\${BASH_SOURCE[0]}" )" &> /dev/null && pwd
 EOF
   echo "created $1"
 }
+
+# esphome using a device instead of mdns
+function esphomed
+{
+  # find filename
+  file="$(echo "$@" | grep -oP "\w+.ya?ml\W*")"
+  host="${file%.*}"
+  echo "using device: $host"
+  esphome $@ "--device=$host"
+}
