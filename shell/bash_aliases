@@ -175,7 +175,7 @@ EOF
 function esphomed
 {
   # find filename
-  file="$(echo "$@" | grep -oP "\w+.ya?ml\W*")"
+  file="$(echo "$@" | grep -oP "[\w-]+.ya?ml\W*")"
   host="${file%.*}"
   echo "using device: $host"
   esphome $@ "--device=$host"
