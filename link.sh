@@ -155,6 +155,11 @@ function link_scripts {
     done
 }
 
+function link_ssh {
+    echo "Linking SSH TODO"
+    # TODO
+}
+
 function link_apps {
     echo "Linking apps"
     if [ "$(uname)" != "Linux" ]; then
