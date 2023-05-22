@@ -180,4 +180,8 @@ then
     exit 1
 fi
 
-run $1
+# run all links
+for arg in "$@"
+do
+    run "$arg"
+done
