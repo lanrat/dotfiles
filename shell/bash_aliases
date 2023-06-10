@@ -177,6 +177,8 @@ function esphomed
   # find filename
   file="$(echo "$@" | grep -oP "[\w-]+.ya?ml\W*")"
   host="${file%.*}"
+  # get name from file?
+  # esphome config sonoff-plug-1b32a1.yaml 2>/dev/null | grep node_name: | cut -d : -f2 | tr -d ' '
   echo "using device: $host"
   esphome $@ "--device=$host"
 }
