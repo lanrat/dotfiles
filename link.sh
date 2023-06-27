@@ -160,6 +160,11 @@ function link_ssh {
     # TODO
 }
 
+function link_iterm2 {
+    echo "Linking iterm2"
+    "$SCRIPT_DIR"/iterm2/iterm2.sh
+}
+
 function link_apps {
     echo "Linking apps"
     if [ "$(uname)" != "Linux" ]; then
