@@ -3,6 +3,41 @@
 # -------------------
 # shellcheck shell=bash
 
+# given a defined alias, get the command (argv[0])
+function aliascmd {
+  local a="$(alias "$1")"
+  local arr=(${a//\'/ })
+  echo "${arr[2]}"
+}
+
+# Wraps a completion function, eg for use with an alias.
+# based on: https://unix.stackexchange.com/questions/4219/how-do-i-get-bash-completion-for-command-aliases
+# Usage:
+# make-completion-wrapper <actual completion function> <command name> <list supplied arguments>
+# eg.
+#   alias agi='apt-get install'
+#   make-completion-wrapper _apt_get apt-get install
+#     # defines a function called _apt_get_install (that's $2) that will
+#     # complete the 'agi' alias.
+# to get the default compolete function name for an existing command, run:
+#     complete -p <command>
+function completion-wrapper {
+  local function_name="_$2"
+  local arg_count=$(( $#-2 ))
+  local comp_function_name="$1"
+  shift 1
+  # for lazy loading, if $comp_function_name is not defined and __load_completion is defined, call it to load the function
+  local function="function $function_name {
+      [[ \$(type -t \"$comp_function_name\") != function ]] && [[ \$(type -t __load_completion) == function ]] && __load_completion \"\$(aliascmd $1)\"
+      (( COMP_CWORD += $arg_count ))
+      COMP_WORDS=( \"\$@\" \${COMP_WORDS[@]:1} )
+      \"$comp_function_name\"
+    }"
+  #echo "$function"
+  eval "$function"
+  complete -F "$comp_function_name-exit" "$1"
+}
+
 # This allows sudo to work with aliases
 alias sudo='sudo '
 
@@ -11,6 +46,7 @@ alias untar="tar -xf"
 
 # easier ssh-exists
 alias ssh-exit="ssh -O exit"
+completion-wrapper _ssh ssh-exit
 
 # make grep use color
 # DEPRECATED: export GREP_OPTIONS="--color=auto"
@@ -72,7 +108,7 @@ alias mtr='mtr -t'
 alias o='xdg-open'
 
 # get my ip
-alias myip='curl curlmyip.com'
+alias myip='curl icanhazip.com'
 
 # clear color ip info
 alias ipa='ip -c -br a'
@@ -182,3 +218,6 @@ function esphomed
   echo "using device: $host"
   esphome $@ "--device=$host"
 }
+
+# don't completion-wrapper
+unset -f completion-wrapper
