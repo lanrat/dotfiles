@@ -174,7 +174,13 @@ function link_apps {
     for app in "$SCRIPT_DIR"/apps/*.desktop
     do
         bname=$(basename "$app")
-        make_link "$app" "$HOME/.local/share/applications/$bname"
+        # only copy if app is installed
+        if [ -f "/usr/share/applications/$bname" ]; then
+            echo ">> $bname installed"
+            make_link "$app" "$HOME/.local/share/applications/$bname"
+        else
+            echo "app $bname not found, skipping..."
+        fi        
     done
     update-desktop-database "$HOME/.local/share/applications/"
 }
