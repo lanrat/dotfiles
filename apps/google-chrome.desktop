@@ -3,7 +3,7 @@ Version=1.0
 Name=Google Chrome
 GenericName=Web Browser
 Comment=Access the Internet
-Exec=/usr/bin/google-chrome-stable --force-dark-mode --ozone-platform-hint=auto --enable-features=WebRTCPipeWireCapturer %U
+Exec=/usr/bin/google-chrome-stable --force-dark-mode --ozone-platform-hint=auto --enable-features=WebRTCPipeWireCapturer --disable-gpu-compositing --enable-features=VaapiVideoEncoder,VaapiVideoDecode %U
 StartupNotify=true
 Terminal=false
 Icon=google-chrome
