@@ -219,5 +219,10 @@ function esphomed
   esphome $@ "--device=$host"
 }
 
+# pgrep with additional information
+# source: https://serverfault.com/questions/77162/how-to-get-pgrep-to-display-full-process-info
+function ppgrep() { pgrep "$@" | xargs --no-run-if-empty ps fp; }
+
+
 # don't completion-wrapper
 unset -f completion-wrapper
