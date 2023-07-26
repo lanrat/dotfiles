@@ -13,7 +13,7 @@ docker-net() {
 	if [ -z "${1}" ]; then
 		query="$(docker network ls --format '{{.Name}}')"
 	fi
-	docker network inspect --format "{{.Name}}|{{.Driver}}|{{(index .IPAM.Config 0).Subnet}}|{{range \$i, \$v := .Containers}}{{\$v.Name}}:{{\$v.IPv4Address}}|{{end}}" $query | column -ts\|
+	docker network inspect --format "{{.Name}}|{{.Driver}}|{{if (index .IPAM.Config)}}{{(index .IPAM.Config 0).Subnet}}{{end}}|{{range \$i, \$v := .Containers}}{{\$v.Name}}:{{\$v.IPv4Address}}|{{end}}" $query | column -ts\|
 }
 
 # docker tail completions
