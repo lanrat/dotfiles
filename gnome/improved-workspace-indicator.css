@@ -1,0 +1,42 @@
+/*
+* copy default from: .local/share/gnome-shell/extensions/improved-workspace-indicator\@michaelaquilina.github.io/stylesheet.css
+* below import does not seem to work as clas rules need to be redefined
+* docs: https://github.com/MichaelAquilina/improved-workspace-indicator/blob/main/docs/how_to_custom_css.md
+*/
+
+@import url('../../.local/share/gnome-shell/extensions/improved-workspace-indicator@michaelaquilina.github.io/stylesheet.css');
+
+.panel-workspace-indicator {
+    padding: 0 6px;
+}
+
+.panel-workspace-indicator-box {
+    padding: 2px 0;
+
+}
+
+.panel-workspace-indicator-box .workspace {
+    width: 40px;
+}
+
+.panel-workspace-indicator,
+.panel-workspace-indicator-box .workspace {
+    /* border: 1px solid #cccccc; */
+    border: 1px solid #ffffff;
+    /* background-color: rgba(200, 200, 200, 0.5); */
+    border-radius: 6px;
+}
+
+.panel-workspace-indicator-box .workspace {
+    /* background-color: rgba(200, 200, 200, 0.3); */
+    border-left-width: 0;
+}
+
+.panel-workspace-indicator-box .workspace:first-child {
+    border-left-width: 1px;
+}
+
+.workspace-indicator-active {
+    /* background-color: rgba(20, 200, 200, 0.5); */
+    background-color: rgba(255, 255, 255, 0.2);
+}

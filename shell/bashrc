@@ -44,14 +44,6 @@ export LESS="-SiRFXn"
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# Alias definitions.
-# shellcheck source=/dev/null
-if [ -f ~/.bash_aliases ];
-then
-    . ~/.bash_aliases
-fi
-
-
 # -----------
 # Colors
 # -----------
@@ -223,6 +215,7 @@ function extract () {
           *.7z)        7z x "$1"        ;;
           *.exe)       7z x "$1"        ;;
           *.lz4)       lz4 -d "$1"      ;;
+          *.xz)        xz --decompress "$1"      ;;
           *.deb)       dpkg -X "$1" "$(basename "${1%.*}")"     ;;
           *.rpm)       rpm2cpio "$1" | cpio -idmv -D "$(basename "${1%.*}")" || tar -xvzf "$1" ;;
           *)           echo "don't know how to extract '$1'..." ;;
@@ -259,6 +252,14 @@ function calc() {
         printf "\n"
 }
 
+# Alias definitions.
+# shellcheck source=/dev/null
+if [ -f ~/.bash_aliases ];
+then
+    . ~/.bash_aliases
+fi
+
+
 # Include local machine specific settings
 # shellcheck source=/dev/null
 if [ -f ~/.bashrc_local ];
@@ -275,24 +276,5 @@ export PG_COLOR=auto
 
 # disable docker Snyk
 export DOCKER_SCAN_SUGGEST=false
-
-# _complete_ssh_hosts ()
-# {
-#         COMPREPLY=()
-#         cur="${COMP_WORDS[COMP_CWORD]}"
-#         comp_ssh_hosts=$(cut -f 1 -d ' ' < ~/.ssh/known_hosts | \
-#                          sed -e s/,.*//g | \
-#                          grep -v ^\# | \
-#                          uniq | \
-#                          grep -v "\[" ;
-#                          grep -i --color=never "^Host " < ~/.ssh/known_hosts | \
-#                          awk '{print $2}'
-#                    )
-#         COMPREPLY=( $(compgen -W "${comp_ssh_hosts}" -- "$cur"))
-#         return 0
-# }
-
-#complete -F _complete_ssh_hosts ssh
-# echo "bashrc end"
 
 true # this ensures the bashrc always has a 0 exit code

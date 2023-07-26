@@ -155,6 +155,16 @@ function link_scripts {
     done
 }
 
+function link_ssh {
+    echo "Linking SSH TODO"
+    # TODO
+}
+
+function link_iterm2 {
+    echo "Linking iterm2"
+    "$SCRIPT_DIR"/iterm2/iterm2.sh
+}
+
 function link_apps {
     echo "Linking apps"
     if [ "$(uname)" != "Linux" ]; then
@@ -164,7 +174,13 @@ function link_apps {
     for app in "$SCRIPT_DIR"/apps/*.desktop
     do
         bname=$(basename "$app")
-        make_link "$app" "$HOME/.local/share/applications/$bname"
+        # only copy if app is installed
+        if [ -f "/usr/share/applications/$bname" ]; then
+            echo ">> $bname installed"
+            make_link "$app" "$HOME/.local/share/applications/$bname"
+        else
+            echo "app $bname not found, skipping..."
+        fi        
     done
     update-desktop-database "$HOME/.local/share/applications/"
 }
@@ -175,4 +191,8 @@ then
     exit 1
 fi
 
-run $1
+# run all links
+for arg in "$@"
+do
+    run "$arg"
+done

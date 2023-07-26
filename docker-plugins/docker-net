@@ -2,31 +2,26 @@
 
 docker_cli_plugin_metadata() {
 	local vendor="lanrat"
-	local description="list container IPs"
+	local description="list container networks"
 	cat <<-EOF
 	{"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
 EOF
 }
 
-docker-ip() {
+docker-net() {
 	query="$1"
 	if [ -z "${1}" ]; then
-		query="$(docker ps -a --format '{{.Names}}')"
+		query="$(docker network ls --format '{{.Name}}')"
 	fi
-	docker inspect --format "{{.Name}}|{{range \$i, \$v := .NetworkSettings.Networks}}{{if \$i}}|{{end}}{{\$v.IPAddress}}{{end}}" $query  | cut -d '/' -f2 | sed 's/|/\t/g' | sort | column -t
+	docker network inspect --format "{{.Name}}|{{.Driver}}|{{if (index .IPAM.Config)}}{{(index .IPAM.Config 0).Subnet}}{{end}}|{{range \$i, \$v := .Containers}}{{\$v.Name}}:{{\$v.IPv4Address}}|{{end}}" $query | column -ts\|
 }
-
-## TODO use completion functions here
-# https://github.com/docker/cli/pull/4094
-# https://github.com/docker/cli/blob/master/contrib/completion/bash/docker
-
 
 # docker tail completions
 _complete_docker_containers () {
 	COMPREPLY=()
 	#cur="${COMP_WORDS[COMP_CWORD]}"
 	cur="$1"
-	comp_docker_containers="$(docker ps -a --format '{{.Names}}')"
+	comp_docker_containers="$(docker network ls --format '{{.Name}}')"
 	COMPREPLY=( $(compgen -W "${comp_docker_containers}" -- "$cur"))
 	if [ "${#COMPREPLY}" -gt "0" ]; then
     	echo "${COMPREPLY[*]}"
@@ -46,6 +41,6 @@ case "$1" in
 		_complete_docker_containers "${arg[*]}"
 		;;
 	*)
-        docker-ip "$2"
+        docker-net "$2"
 		;;
 esac
