@@ -13,7 +13,7 @@ docker-ip() {
 	if [ -z "${1}" ]; then
 		query="$(docker ps -a --format '{{.Names}}')"
 	fi
-	docker inspect --format "{{.Name}}|{{range \$i, \$v := .NetworkSettings.Networks}}{{if \$i}}|{{end}}{{\$v.IPAddress}}{{end}}" $query  | cut -d '/' -f2 | sed 's/|/\t/g' | sort | column -t
+	docker inspect --format "{{.Name}}|{{range \$i, \$v := .NetworkSettings.Networks}}{{if \$i}}|{{end}}{{\$v.IPAddress}}{{if \$v.GlobalIPv6Address}}|{{\$v.GlobalIPv6Address}}{{end}}{{end}}" $query  | cut -d '/' -f2 | sed 's/|/\t/g' | sort | column -t
 }
 
 ## TODO use completion functions here
