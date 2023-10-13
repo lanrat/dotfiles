@@ -1,5 +1,10 @@
-bind-addr: 127.0.0.1:8099
+#bind-addr: 127.0.0.1:8099
+bind-addr: 172.17.0.1:8099
 auth: none
 #auth: password
 #password: 2a093de8297fc8d4471decef
 cert: false
+# allow reverse proxy
+trusted-origins:
+  - '*'
+
