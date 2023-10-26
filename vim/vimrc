@@ -2,7 +2,8 @@
 "               Legacy Vim Settings
 " ##########################################
 if !has('nvim')
-set ttymouse=xterm2
+" breaks mouse on macos
+"set ttymouse=xterm2
 
 " This setting prevents vim from emulating the original vi's bugs and limitations.
 set nocompatible
