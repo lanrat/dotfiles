@@ -36,7 +36,7 @@ docker-volumerestoreinto() {
     echo "Emptying $2"
     docker run --rm -it -v "$2:/new" bash find /new -mindepth 1 -delete
     echo "Restoring $1 -> $2"
-	full_backup_path="(realpath "$1")"
+	full_backup_path="$(realpath "$1")"
     docker run --rm -it -v "$full_backup_path:/backup.tgz:ro" -v "$2:/new" bash tar -xvzf /backup.tgz -C /new/
 }
 
