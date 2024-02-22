@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+docker_cli_plugin_metadata() {
+	local vendor="lanrat"
+	local description="copy volume from backup_file to existing volume new_name"
+	cat <<-EOF
+	{"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
+EOF
+}
+
+docker-volumerestoreinto() {
+    if [ ! $# -eq 2 ]
+    then
+        echo "Usage: $(basename "$0") existing_backup_file existing_target_volume"
+        exit
+    fi
+
+	if [ ! -f "$1" ]; then
+		echo "backup file $1 does not exist!"
+		exit 1
+	fi
+
+	if ! docker volume ls -q | grep -q "^$2\$"; then
+        echo "volume $2 does not exist!"
+        exit 1
+    fi
+
+	read -p "WARNING: Volume $2 will be overridden. Are you sure? " -n 1 -r
+	echo    # (optional) move to a new line
+	if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+		echo "canceled"
+		exit 2
+	fi
+
+
+    echo "Emptying $2"
+    docker run --rm -it -v "$2:/new" bash find /new -mindepth 1 -delete
+    echo "Restoring $1 -> $2"
+	full_backup_path="$(realpath "$1")"
+    docker run --rm -it -v "$full_backup_path:/backup.tgz:ro" -v "$2:/new" bash tar -xvzf /backup.tgz -C /new/
+}
+
+## TODO use completion functions here
+# https://github.com/docker/cli/pull/4094
+# https://github.com/docker/cli/blob/master/contrib/completion/bash/docker
+
+
+# docker completions
+_complete_docker_volumes () {
+	COMPREPLY=()
+	#cur="${COMP_WORDS[COMP_CWORD]}"
+	cur="$1"
+	comp_docker_volumes="$(docker volume ls -q)"
+	COMPREPLY=( $(compgen -W "${comp_docker_volumes}" -- "$cur"))
+	if [ "${#COMPREPLY}" -gt "0" ]; then
+    	echo "${COMPREPLY[*]}"
+	else
+		echo " " # space terminated the completion
+	fi
+	return 0
+}
+
+
+case "$1" in
+	docker-cli-plugin-metadata)
+		docker_cli_plugin_metadata
+		;;
+	# TODO autocompolete files for $1
+	__completeNoDesc)
+		arg=("${@:2}")
+		_complete_docker_volumes "${arg[*]}"
+		;;
+	*)
+        docker-volumerestoreinto "${@:2}"
+		;;
+esac
