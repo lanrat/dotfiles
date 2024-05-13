@@ -185,14 +185,33 @@ function link_apps {
     update-desktop-database "$HOME/.local/share/applications/"
 }
 
-if [ "$#" -eq 0 ];
+function link_dev {
+    run git
+    run vim
+    run shell
+    run scripts
+    run tmux
+    run psql
+    run sqlite
+}
+
+args=("$@")
+
+# test if running in codespaces
+if [ "${CODESPACES-}" = true ] ; then
+    echo 'Enabling codespaces mode'
+    args+=(dev)
+fi
+
+
+if [ "${#args[@]}" -eq 0 ];
 then
     echo "Usage: $0 {all | CONFIG_TO_LINK}"
     exit 1
 fi
 
 # run all links
-for arg in "$@"
+for arg in "$args"
 do
     run "$arg"
 done
