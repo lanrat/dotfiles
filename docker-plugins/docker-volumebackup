@@ -11,7 +11,7 @@ EOF
 docker-volumebackup() {
     if [ ! $# -eq 2 ]
     then
-        echo "Usage: $(basename "$0") volume backup_file"
+        echo "Usage: $(basename "$0") volume backup_dir"
         exit
     fi
 
@@ -26,9 +26,9 @@ docker-volumebackup() {
         exit 1
     fi
 
-    echo "Backing up $1 -> $2"
     full_backup_path="$(realpath "$2")"
-    docker run --name docker-volume-backup --rm -v "$1:/data:ro" -v "$full_backup_path:/backup" bash tar -czf "/backup/$1.tgz" -C /data .
+    echo "Backing up $1 -> $full_backup_path/$1.tgz"
+    docker run --name "docker-volume-backup-$1" --rm -v "$1:/data:ro" -v "$full_backup_path:/backup" bash tar -czf "/backup/$1.tgz" -C /data .
 }
 
 ## TODO use completion functions here
