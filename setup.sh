@@ -27,14 +27,14 @@ function link_all {
         dir=${dir##*/}
         if [ "$dir" != "~" ];
         then
-            run ${dir}
+            run $dir
         fi
     done
 }
 
 function make_link {
-    target=$1
-    src=$2
+    target="$1"
+    src="$2"
 
     if [ -L "$src" ];
     then
@@ -42,12 +42,12 @@ function make_link {
     fi
     if [ -e "$src" ];
     then
-        echo "$src already exists, makeing backup ${src}.bak"
-        mv "$src" "${src}.bak"
+        echo "$src already exists, makeing backup $src.bak"
+        mv "$src" "$src.bak"
     fi
     parent_dir=$(dirname "$src")
     mkdir -p "$parent_dir"
-    echo "Creating symlink for $src"
+    echo "Creating symlink for $src --> $target"
     ln -sf "$target" "$src"
 }
 
@@ -63,7 +63,6 @@ function get_submodule {
         echo "Updating git repo in $FOLDER"
         git --git-dir="$FOLDER/.git" pull
     fi
-
 }
 
 #
@@ -98,7 +97,8 @@ function link_git {
     echo "Linking git"
     for file in "$SCRIPT_DIR"/git/*;
     do
-        make_link "$SCRIPT_DIR/git/$file" "$HOME/.$file"
+        bname=$(basename "$file")
+        make_link "$SCRIPT_DIR/git/$file" "$HOME/.$bname"
     done
 }
 
@@ -106,7 +106,8 @@ function link_psql {
     echo "Linking psql"
     for file in "$SCRIPT_DIR"/psql/*;
     do
-        make_link "$SCRIPT_DIR/psql/$file" "$HOME/.$file"
+        bname=$(basename "$file")
+        make_link "$file" "$HOME/.$bname"
     done
 }
 
@@ -162,7 +163,7 @@ function link_ssh {
 
 function link_iterm2 {
     echo "Linking iterm2"
-    "$SCRIPT_DIR"/iterm2/iterm2.sh
+    "$SCRIPT_DIR/iterm2/iterm2.sh"
 }
 
 function link_apps {
@@ -180,7 +181,7 @@ function link_apps {
             make_link "$app" "$HOME/.local/share/applications/$bname"
         else
             echo "app $bname not found, skipping..."
-        fi        
+        fi
     done
     update-desktop-database "$HOME/.local/share/applications/"
 }
@@ -215,3 +216,4 @@ for arg in "$args"
 do
     run "$arg"
 done
+
