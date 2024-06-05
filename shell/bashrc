@@ -84,7 +84,10 @@ if [ "$color_prompt" = yes ]; then
         user_c=$red_c # root user is red
     fi
     PS1="\[$user_c\]\u\[$gray_c\]@\[$host_c\]\h\[$gray_c\]:\[$path_c\]\w\$(EXIT=\$?; if [ \$EXIT != 0 ]; then echo -en \[\e[0\;31m\][\$EXIT]\[$reset_c\]; fi;)\[$gray_c\]$p\[$reset_c\] "
-    PS2="\[$path_c\]>\[$reset_c\] "
+    # vscode seems to double encode PS2 which breaks it, only set it on normal terms
+    if [ "$TERM_PROGRAM" != "vscode" ]; then
+      PS2="\[$path_c\]>\[$reset_c\] "
+    fi
     unset reset_c user_c host_c path_c
 else
     PS1='\u@\h:\w\$ '
@@ -119,21 +122,21 @@ export PROMPT_DIRTRIM=3
 # Less Colors for Man Pages
 man()
 {
-    # begin blinking
-    # begin bold
-    # end mode
-    # end standout-mode
-    # begin standout-mode - info box & search results
-    # end underline
-    # begin underline
-    env LESS_TERMCAP_mb=$'\E[01;31m' \
-    LESS_TERMCAP_md=$'\E[01;38;5;74m' \
-    LESS_TERMCAP_me=$'\E[0m' \
-    LESS_TERMCAP_se=$'\E[0m' \
-    LESS_TERMCAP_so=$'\E[7;49;35m' \
-    LESS_TERMCAP_ue=$'\E[0m' \
-    LESS_TERMCAP_us=$'\E[04;38;5;146m' \
-    man "$@"
+  export LESS_TERMCAP_mb=$(tput bold; tput setaf 2) # green
+  export LESS_TERMCAP_md=$(tput bold; tput setaf 6) # cyan
+  export LESS_TERMCAP_me=$(tput sgr0)
+  export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 4) # yellow on blue
+  export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
+  export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 7) # white
+  export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
+  export LESS_TERMCAP_mr=$(tput rev)
+  export LESS_TERMCAP_mh=$(tput dim)
+  export LESS_TERMCAP_ZN=$(tput ssubm)
+  export LESS_TERMCAP_ZV=$(tput rsubm)
+  export LESS_TERMCAP_ZO=$(tput ssupm)
+  export LESS_TERMCAP_ZW=$(tput rsupm)
+  export GROFF_NO_SGR=1         # For Konsole and Gnome-terminal
+  command man "$@"
 }
 
 # -----------
@@ -267,7 +270,7 @@ then
     source ~/.bashrc_local
 fi
 
-[[ -s "$HOME/go/bin" ]] && export PATH="${PATH}:${HOME}/go/bin"
+#[[ -s "$HOME/go/bin" ]] && export PATH="${PATH}:${HOME}/go/bin"
 [[ -s "$HOME/.local/bin" ]] && export PATH="${PATH}:${HOME}/.local/bin"
 
 
