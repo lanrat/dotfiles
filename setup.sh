@@ -98,7 +98,7 @@ function link_git {
     for file in "$SCRIPT_DIR"/git/*;
     do
         bname=$(basename "$file")
-        make_link "$file" "$HOME/.$bname"
+        make_link "$SCRIPT_DIR/git/$bname" "$HOME/.$bname"
     done
 }
 
