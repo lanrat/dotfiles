@@ -1,7 +1,6 @@
 [user]
     name = Ian Foster
     email = ian@vorsk.com
-	signingKey = /home/mrlanrat/.ssh/id_rsa.pub
 [color]
     ui = auto
 [core]
@@ -18,10 +17,11 @@
 [difftool]
     prompt = false
 [push]
-	default = matching
+    default = matching
 [pull]
-	rebase = false
+    rebase = false
 [init]
-	defaultBranch = main
+    defaultBranch = main
 [gpg]
-	format = ssh
+    format = ssh
+

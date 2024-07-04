@@ -2,7 +2,7 @@
 
 docker_cli_plugin_metadata() {
     local vendor="lanrat"
-    local description="backup volume from existing volume to backup_file"
+    local description="backup volume from existing volume to backup_dir"
     cat <<-EOF
     {"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
 EOF
@@ -28,6 +28,8 @@ docker-volumebackup() {
 
     full_backup_path="$(realpath "$2")"
     echo "Backing up $1 -> $full_backup_path/$1.tgz"
+    mkdir -p "$full_backup_path"
+    docker volume inspect "$1" > "$full_backup_path/$1.json"
     docker run --name "docker-volume-backup-$1" --rm -v "$1:/data:ro" -v "$full_backup_path:/backup" bash tar -czf "/backup/$1.tgz" -C /data .
 }
 
