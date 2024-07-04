@@ -17,8 +17,11 @@
 [difftool]
     prompt = false
 [push]
-	default = matching
+    default = matching
 [pull]
-	rebase = false
+    rebase = false
 [init]
-	defaultBranch = main
+    defaultBranch = main
+[gpg]
+    format = ssh
+

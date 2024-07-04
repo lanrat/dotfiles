@@ -9,19 +9,22 @@ EOF
 }
 
 docker-volumesize() {
-    if [ ! $# -eq 1 ]
+    if [ $# -lt 1 ]
     then
-        echo "Usage: $(basename "$0") volume_name"
+        echo "Usage: $(basename "$0") volume_name..."
         exit
     fi
 
-    if ! docker volume ls -q | grep -q "^$1\$"; then
-        echo "volume $1 does not exist!"
-        exit 1
-    fi
+    for image in "$@"; do
+        if ! docker volume ls -q | grep -q "^$image\$"; then
+            echo "volume $image does not exist!"
+            continue
+            #exit 1
+        fi
 
-    #location="$(docker volume inspect --format "{{.Mountpoint}}" "$1")"
-	exec docker run --rm --name "volume-size-$1" --volume "$1:/$1/:ro" bash du -sh /$1
+        #location="$(docker volume inspect --format "{{.Mountpoint}}" "$image")"
+        docker run --rm --name "volume-size-$1" --volume "$image:/$image/:ro" bash du -sh /$image
+    done
 }
 
 # docker completions
