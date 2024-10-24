@@ -230,3 +230,7 @@ function ppgrep() { pgrep "$@" | xargs --no-run-if-empty ps fp; }
 
 # don't completion-wrapper
 unset -f completion-wrapper
+
+# create or enter python virtualenv
+alias py-venv='if [ ! -f .venv/bin/activate ]; then python3 -m venv .venv; fi && source .venv/bin/activate'
+
