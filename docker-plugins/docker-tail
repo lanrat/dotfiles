@@ -9,10 +9,13 @@ EOF
 }
 
 docker-tail() {
+	set -e
     while true; do
-        docker logs --tail=50 -f "$1"
-        sleep 1
-    done
+		until [ "$(docker inspect -f "{{.State.Running}}" "$1" 2>/dev/null)" == "true" ]; do
+			sleep 0.1;
+		done;
+		docker logs --tail=50 -f "$1"
+	done
 }
 
 ## TODO use completion functions here

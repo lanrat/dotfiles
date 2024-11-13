@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+docker_cli_plugin_metadata() {
+	local vendor="lanrat"
+	local description="show volume size for local volumes"
+	cat <<-EOF
+	{"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
+EOF
+}
+
+docker-volumesize() {
+    if [ $# -lt 1 ]
+    then
+        echo "Usage: $(basename "$0") volume_name..."
+        exit
+    fi
+
+    for image in "$@"; do
+        if ! docker volume ls -q | grep -q "^$image\$"; then
+            echo "volume $image does not exist!"
+            continue
+            #exit 1
+        fi
+
+        #location="$(docker volume inspect --format "{{.Mountpoint}}" "$image")"
+        docker run --rm --name "volume-size-$1" --volume "$image:/$image/:ro" bash du -sh /$image
+    done
+}
+
+# docker completions
+_complete_docker_volumes () {
+	COMPREPLY=()
+	#cur="${COMP_WORDS[COMP_CWORD]}"
+	cur="$1"
+	comp_docker_volumes="$(docker volume ls -q)"
+	COMPREPLY=( $(compgen -W "${comp_docker_volumes}" -- "$cur"))
+	if [ "${#COMPREPLY}" -gt "0" ]; then
+    	echo "${COMPREPLY[*]}"
+	else
+		echo " " # space terminated the completion
+	fi
+	return 0
+}
+
+
+case "$1" in
+	docker-cli-plugin-metadata)
+		docker_cli_plugin_metadata
+		;;
+	__completeNoDesc)
+		arg=("${@:2}")
+		_complete_docker_volumes "${arg[*]}"
+		;;
+	*)
+        docker-volumesize "${@:2}"
+		;;
+esac

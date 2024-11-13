@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+docker_cli_plugin_metadata() {
+    local vendor="lanrat"
+    local description="backup volume from existing volume to backup_dir"
+    cat <<-EOF
+    {"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
+EOF
+}
+
+docker-volumebackup() {
+    if [ ! $# -eq 2 ]
+    then
+        echo "Usage: $(basename "$0") volume backup_dir"
+        exit
+    fi
+
+    if ! docker volume ls -q | grep -q "^$1\$"; then
+        echo "volume $1 does not exist!"
+        exit 1
+    fi
+
+
+    if [ -f "$2" ]; then
+        echo "backup file $2 exists!"
+        exit 1
+    fi
+
+    full_backup_path="$(realpath "$2")"
+    echo "Backing up $1 -> $full_backup_path/$1.tgz"
+    mkdir -p "$full_backup_path"
+    docker volume inspect "$1" > "$full_backup_path/$1.json"
+    docker run --name "docker-volume-backup-$1" --rm -v "$1:/data:ro" -v "$full_backup_path:/backup" bash tar -czf "/backup/$1.tgz" -C /data .
+}
+
+## TODO use completion functions here
+# https://github.com/docker/cli/pull/4094
+# https://github.com/docker/cli/blob/master/contrib/completion/bash/docker
+
+
+# docker completions
+_complete_docker_volumes () {
+    COMPREPLY=()
+    #cur="${COMP_WORDS[COMP_CWORD]}"
+    cur="$1"
+    comp_docker_volumes="$(docker volume ls -q)"
+    COMPREPLY=( $(compgen -W "${comp_docker_volumes}" -- "$cur"))
+    if [ "${#COMPREPLY}" -gt "0" ]; then
+        echo "${COMPREPLY[*]}"
+    else
+        echo " " # space terminated the completion
+    fi
+    return 0
+}
+
+
+case "$1" in
+    docker-cli-plugin-metadata)
+        docker_cli_plugin_metadata
+        ;;
+    # TODO autocompolete files for $1
+    __completeNoDesc)
+        arg=("${@:2}")
+        _complete_docker_volumes "${arg[*]}"
+        ;;
+    *)
+        docker-volumebackup "${@:2}"
+        ;;
+esac

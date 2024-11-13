@@ -3,7 +3,7 @@ Version=1.0
 Name=Google Chrome
 GenericName=Web Browser
 Comment=Access the Internet
-Exec=/usr/bin/google-chrome-stable --force-dark-mode --ozone-platform-hint=auto --enable-features=WebRTCPipeWireCapturer --enable-features=VaapiVideoEncoder,VaapiVideoDecode %U
+Exec=/usr/bin/google-chrome-stable --force-dark-mode --ozone-platform-hint=auto --enable-features=VaapiVideoEncoder %U
 StartupNotify=true
 Terminal=false
 Icon=google-chrome
@@ -14,8 +14,8 @@ Actions=new-window;new-private-window;
 
 [Desktop Action new-window]
 Name=New Window
-Exec=/usr/bin/google-chrome-stable --force-dark-mode --ozone-platform-hint=auto --enable-features=WebRTCPipeWireCapturer
+Exec=/usr/bin/google-chrome-stable --force-dark-mode --ozone-platform-hint=auto --enable-features=VaapiVideoEncoder
 
 [Desktop Action new-private-window]
 Name=New Incognito Window
-Exec=/usr/bin/google-chrome-stable --force-dark-mode --ozone-platform-hint=auto --enable-features=WebRTCPipeWireCapturer --incognito
+Exec=/usr/bin/google-chrome-stable --force-dark-mode --ozone-platform-hint=auto --enable-features=VaapiVideoEncoder --incognito

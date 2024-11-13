@@ -1,25 +1,10 @@
-dotfiles
-========
+# dotfiles
 
 A place to store my configuration files.
 
-USAGE: Run `./link.sh <module to link>`
+USAGE: Run `./setup.sh <module to link>`
 
-all
---------
-
-Configures all 
+## Scripts
 
 
-Vim
---------
-
-Automagically configures vim with the plugins used.
-
-
-Scripts
---------
-
-Links commonly used scripts to ~/bin/
-
-Scripts linked for all unix systems:
+Links commonly used scripts to `~/bin/`
