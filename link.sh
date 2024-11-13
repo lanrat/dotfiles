@@ -174,8 +174,11 @@ function link_apps {
     for app in "$SCRIPT_DIR"/apps/*.desktop
     do
         bname=$(basename "$app")
-        # only copy if app is installed
-        if [ -f "/usr/share/applications/$bname" ]; then
+        # only copy if app is installed or if named *-app.desktop
+        if [[ "$bname" == *-app.desktop ]]; then
+            echo "STATIC APP: $bname"
+            make_link "$app" "$HOME/.local/share/applications/$bname"
+        elif [ -f "/usr/share/applications/$bname" ]; then
             echo ">> $bname installed"
             make_link "$app" "$HOME/.local/share/applications/$bname"
         else
