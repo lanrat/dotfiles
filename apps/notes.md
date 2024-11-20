@@ -1,5 +1,6 @@
 # Apps
 
+
 Copy from:
 
 * `/usr/share/applications/`
@@ -13,6 +14,12 @@ Make changes take effect:
 
 ```sh
 update-desktop-database "$HOME/.local/share/applications/"
+```
+
+## Testing 
+
+```shell
+desktop-file-validate file.deskop
 ```
 
 
