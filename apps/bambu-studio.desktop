@@ -1,7 +1,6 @@
 [Desktop Entry]
 Name=BambuStudio
-Exec="~/bin/Bambu_Studio_ubuntu-24.04_PR-5005.AppImage %U"
-#Exec=env GDK_BACKEND=x11 ~/bin/Bambu_Studio_ubuntu-24.04_PR-5090.AppImage %U
+Exec=sh -c '"$HOME"/bin/Bambu_Studio*.AppImage %U'
 Terminal=false
 Type=Application
 Icon=applications-engineering

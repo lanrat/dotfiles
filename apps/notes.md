@@ -1,5 +1,8 @@
 # Apps
 
+NOTE: relative paths are not allowed. But can use subshell to use enviroment variables.
+
+ex: `Exec=sh -c '"$HOME"/bin/MyApp*.AppImage %U'`
 
 Copy from:
 
@@ -20,6 +23,7 @@ update-desktop-database "$HOME/.local/share/applications/"
 
 ```shell
 desktop-file-validate file.deskop
+gio launch file.desktop 
 ```
 
 
