@@ -172,6 +172,11 @@ then
     alias code="code --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations"
 fi
 
+# gedit alias
+if command -v gnome-text-editor &>/dev/null && [ "$(uname)" = "Linux" ]
+then
+    alias gedit="gnome-text-editor"
+fi
 
 # update go using godeb
 alias godeb-update='godeb install "$(godeb list | sort -Vr | head -1)"'
