@@ -183,6 +183,15 @@ function link_apps {
             echo "app $bname not found, skipping..."
         fi
     done
+    # for bambu studio
+    BS="Bambu_Studio*.AppImage"
+    BS_appimage=( $HOME/bin/$BS )
+    echo ">> found: BS_appimage: ${BS_appimage[0]}"
+    if [ -f "${BS_appimage[0]}" ]; then
+        app="bambu-studio.desktop"
+        bname="bambu-studio.desktop"
+        make_link "$SCRIPT_DIR/apps/$app" "$HOME/.local/share/applications/$bname"
+    fi
     update-desktop-database "$HOME/.local/share/applications/"
 }
 

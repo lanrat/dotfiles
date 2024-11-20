@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=BambuStudio
+Exec="~/bin/Bambu_Studio_ubuntu-24.04_PR-5005.AppImage %U"
+#Exec=env GDK_BACKEND=x11 ~/bin/Bambu_Studio_ubuntu-24.04_PR-5090.AppImage %U
+Terminal=false
+Type=Application
+Icon=applications-engineering
+Comment=Bambu Labs 3D Printer Slicer
+MimeType=model/stl;application/vnd.ms-3mfdocument;application/prs.wavefront-obj;application/x-amf;
+Categories=Utility;
