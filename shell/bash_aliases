@@ -179,7 +179,7 @@ then
 fi
 
 # update go using godeb
-alias godeb-update='godeb install "$(godeb list | sort -Vr | head -1)"'
+alias godeb-update='godeb install "$(godeb list | sort -Vr | grep -v rc | head -1)"'
 
 # fucntion to use our ssh-copy-id if ssh-copy-id does not exist
 function ssh-copy-id
