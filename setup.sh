@@ -195,6 +195,16 @@ function link_apps {
         bname="bambu-studio.desktop"
         make_link "$SCRIPT_DIR/apps/$app" "$HOME/.local/share/applications/$bname"
     fi
+    # for OrcaSlicer
+    App="OrcaSlicer*.AppImage"
+    appimage=( $HOME/bin/$App )
+    echo ">> found: appimage: ${appimage[0]}"
+    if [ -f "${appimage[0]}" ]; then
+        app="orcaslicer.desktop"
+        bname="orcaslicer.desktop"
+        make_link "$SCRIPT_DIR/apps/$app" "$HOME/.local/share/applications/$bname"
+    fi
+
 
     # for freecad
     App="FreeCAD*.AppImage"
