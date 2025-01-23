@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Winbox
+StartupWMClass=Winbox
+Comment=Mikrotik Winbox
+GenericName=Winbox
+Exec=/home/lanrat/bin/winbox
+Icon=/home/lanrat/code/dotfiles/winbox/winbox.png
+Type=Application
+StartupNotify=true
+Categories=Wine;Network;

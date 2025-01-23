@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=OrcaSlicer
+Exec=sh -c '"$HOME"/bin/OrcaSlicer*.AppImage %U'
+Terminal=false
+Type=Application
+Icon=applications-engineering
+Comment=3D Printer Slicer
+MimeType=model/stl;application/vnd.ms-3mfdocument;application/prs.wavefront-obj;application/x-amf;
+Categories=Utility;
