@@ -42,7 +42,7 @@ function make_link {
     fi
     if [ -e "$src" ];
     then
-        echo "$src already exists, makeing backup $src.bak"
+        echo "$src already exists, making backup $src.bak"
         mv "$src" "$src.bak"
     fi
     parent_dir=$(dirname "$src")
@@ -217,6 +217,12 @@ function link_apps {
     fi
 
     update-desktop-database "$HOME/.local/share/applications/"
+}
+
+function link_claude {
+    echo "Linking Claude Code"
+    make_link "$SCRIPT_DIR/claude/settings.json" "$HOME/.claude/settings.json"
+    make_link "$SCRIPT_DIR/claude/ccstatusline/settings.json" "$HOME/.ccstatusline/settings.json"
 }
 
 function link_dev {
