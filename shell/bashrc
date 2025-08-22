@@ -280,4 +280,6 @@ export PG_COLOR=auto
 # disable docker Snyk
 export DOCKER_SCAN_SUGGEST=false
 
+#alias claude="/home/lanrat/.claude/local/claude"
+
 true # this ensures the bashrc always has a 0 exit code
