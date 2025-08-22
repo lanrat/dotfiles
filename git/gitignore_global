@@ -21,3 +21,7 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+
+## Claude
+.claude/*.local.json
+CLAUDE.local.md

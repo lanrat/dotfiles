@@ -1,6 +1,6 @@
 # Apps
 
-NOTE: relative paths are not allowed. But can use subshell to use enviroment variables.
+NOTE: relative paths are not allowed. But can use sub-shell to use environment variables.
 
 ex: `Exec=sh -c '"$HOME"/bin/MyApp*.AppImage %U'`
 
@@ -19,13 +19,12 @@ Make changes take effect:
 update-desktop-database "$HOME/.local/share/applications/"
 ```
 
-## Testing 
+## Testing
 
 ```shell
-desktop-file-validate file.deskop
+desktop-file-validate file.desktop
 gio launch file.desktop 
 ```
-
 
 ## Flags
 
