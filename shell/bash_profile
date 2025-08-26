@@ -19,4 +19,7 @@ if [[ $OSTYPE == 'darwin'* ]]; then
   export BASH_SILENCE_DEPRECATION_WARNING=1
 fi
 
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
 #echo "bash_profile end"
