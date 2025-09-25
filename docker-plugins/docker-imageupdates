@@ -39,7 +39,16 @@ docker-imageupdates() {
 		# Skip images with no tag specified (defaults to latest but shows as latest)
 		# We can check :latest tags by comparing digests
 
-		echo -n "Checking $image... "
+		echo -n "Checking $image "
+
+		# Check if image was built locally (no RepoDigests means locally built)
+		local repo_digests
+		repo_digests=$(docker inspect "$image" 2>/dev/null | jq -r '.[0].RepoDigests | length' 2>/dev/null || echo "0")
+
+		if [[ "$repo_digests" == "0" ]]; then
+			echo "LOCAL BUILD (skipping)"
+			continue
+		fi
 
 		# Get local image digest
 		local local_digest
@@ -52,7 +61,7 @@ docker-imageupdates() {
 
 		# Use docker pull to check for updates (faster and more reliable)
 		local pull_check
-		pull_check=$(timeout 8 docker pull "$image" 2>&1 | head -5 || true)
+		pull_check=$(timeout 5 docker pull "$image" 2>&1 | head -4 || true)
 
 		if [[ "$pull_check" == *"toomanyrequests"* ]] || [[ "$pull_check" == *"rate limit"* ]]; then
 			echo "RATE LIMITED"
