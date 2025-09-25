@@ -14,7 +14,7 @@ usage() {
 	echo "Print all Docker volumes and the containers that use them."
 }
 
-docker-volumes() {
+docker-volume-use() {
     VOLUMES="$(docker volume ls -q)"
     for volume in $VOLUMES;
     do
@@ -35,7 +35,7 @@ case "$1" in
 		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
 			usage
 		else
-			docker-volumes
+			docker-volume-use
 		fi
 		;;
 esac
