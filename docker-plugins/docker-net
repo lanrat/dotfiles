@@ -8,6 +8,15 @@ docker_cli_plugin_metadata() {
 EOF
 }
 
+usage() {
+	echo "Usage: docker net [network_name]"
+	echo ""
+	echo "List Docker networks with their details. If no network is specified, shows all networks."
+	echo ""
+	echo "Arguments:"
+	echo "  network_name    Name of specific network to inspect (optional)"
+}
+
 docker-net() {
 	query="$1"
 	if [ -z "${1}" ]; then
@@ -16,31 +25,19 @@ docker-net() {
 	docker network inspect --format "{{.Name}}|{{.Driver}}|{{if (index .IPAM.Config)}}{{(index .IPAM.Config 0).Subnet}}{{end}}|{{range \$i, \$v := .Containers}}{{\$v.Name}}:{{\$v.IPv4Address}}|{{end}}" $query | column -ts\|
 }
 
-# docker tail completions
-_complete_docker_containers () {
-	COMPREPLY=()
-	#cur="${COMP_WORDS[COMP_CWORD]}"
-	cur="$1"
-	comp_docker_containers="$(docker network ls --format '{{.Name}}')"
-	COMPREPLY=( $(compgen -W "${comp_docker_containers}" -- "$cur"))
-	if [ "${#COMPREPLY}" -gt "0" ]; then
-    	echo "${COMPREPLY[*]}"
-	else
-		echo " " # space terminated the completion
-	fi
-	return 0
-}
-
 case "$1" in
 	docker-cli-plugin-metadata)
 		docker_cli_plugin_metadata
 		;;
-	__completeNoDesc)
-		#__docker_complete_containers_all --cur "${2##*=}"
-		arg=("${@:2}")
-		_complete_docker_containers "${arg[*]}"
+	__complete)
+		docker network ls --format '{{.Name}}' | grep -v "^$"
 		;;
 	*)
-        docker-net "$2"
+		# Check if second argument is help flag
+		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
+			usage
+		else
+			docker-net "$2"
+		fi
 		;;
 esac

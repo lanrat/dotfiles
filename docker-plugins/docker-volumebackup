@@ -8,11 +8,21 @@ docker_cli_plugin_metadata() {
 EOF
 }
 
+usage() {
+    echo "Usage: docker volumebackup <volume> <backup_dir>"
+    echo ""
+    echo "Backup a Docker volume to a directory as a compressed tar file."
+    echo ""
+    echo "Arguments:"
+    echo "  volume       Name of the volume to backup"
+    echo "  backup_dir   Directory where backup files will be stored"
+}
+
 docker-volumebackup() {
     if [ ! $# -eq 2 ]
     then
-        echo "Usage: $(basename "$0") volume backup_dir"
-        exit
+        usage
+        exit 1
     fi
 
     if ! docker volume ls -q | grep -q "^$1\$"; then
@@ -33,37 +43,28 @@ docker-volumebackup() {
     docker run --name "docker-volume-backup-$1" --rm -v "$1:/data:ro" -v "$full_backup_path:/backup" bash tar -czf "/backup/$1.tgz" -C /data .
 }
 
-## TODO use completion functions here
-# https://github.com/docker/cli/pull/4094
-# https://github.com/docker/cli/blob/master/contrib/completion/bash/docker
-
-
-# docker completions
-_complete_docker_volumes () {
-    COMPREPLY=()
-    #cur="${COMP_WORDS[COMP_CWORD]}"
-    cur="$1"
-    comp_docker_volumes="$(docker volume ls -q)"
-    COMPREPLY=( $(compgen -W "${comp_docker_volumes}" -- "$cur"))
-    if [ "${#COMPREPLY}" -gt "0" ]; then
-        echo "${COMPREPLY[*]}"
-    else
-        echo " " # space terminated the completion
-    fi
-    return 0
-}
-
-
 case "$1" in
     docker-cli-plugin-metadata)
         docker_cli_plugin_metadata
         ;;
-    # TODO autocompolete files for $1
-    __completeNoDesc)
-        arg=("${@:2}")
-        _complete_docker_volumes "${arg[*]}"
+    __complete)
+        # Check how many arguments we have to determine what to complete
+        # $1=volumebackup, $2=first_arg, $3=second_arg, etc.
+        if [[ ${#@} -le 3 ]]; then
+            # Completing first argument - show volume names
+            docker volume ls -q | grep -v "^$"
+        else
+            # Completing second argument (backup_dir) - allow file completion fallback
+            # Return nothing to enable bash file/directory completion
+            :
+        fi
         ;;
     *)
-        docker-volumebackup "${@:2}"
+        # Check if second argument is help flag
+        if [[ "$2" == "--help" || "$2" == "-h" ]]; then
+            usage
+        else
+            docker-volumebackup "${@:2}"
+        fi
         ;;
 esac
