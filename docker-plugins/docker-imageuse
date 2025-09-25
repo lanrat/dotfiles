@@ -8,6 +8,12 @@ docker_cli_plugin_metadata() {
 EOF
 }
 
+usage() {
+	echo "Usage: docker imageuse"
+	echo ""
+	echo "Print all Docker images and the containers that use them."
+}
+
 docker-images() {
     IMAGES="$(docker image ls -q)"
     for image in $IMAGES;
@@ -21,10 +27,15 @@ case "$1" in
 	docker-cli-plugin-metadata)
 		docker_cli_plugin_metadata
 		;;
-	__completeNoDesc)
-		echo " "
+	__complete)
+		# No completion needed - command takes no arguments
 		;;
 	*)
-        docker-images
+		# Check if second argument is help flag
+		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
+			usage
+		else
+			docker-images
+		fi
 		;;
 esac

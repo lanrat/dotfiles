@@ -8,11 +8,20 @@ docker_cli_plugin_metadata() {
 EOF
 }
 
+usage() {
+	echo "Usage: docker volumesize <volume_name...>"
+	echo ""
+	echo "Show the size of one or more Docker volumes."
+	echo ""
+	echo "Arguments:"
+	echo "  volume_name    Name(s) of the volume(s) to check size"
+}
+
 docker-volumesize() {
     if [ $# -lt 1 ]
     then
-        echo "Usage: $(basename "$0") volume_name..."
-        exit
+        usage
+        exit 1
     fi
 
     for image in "$@"; do
@@ -22,36 +31,23 @@ docker-volumesize() {
             #exit 1
         fi
 
-        #location="$(docker volume inspect --format "{{.Mountpoint}}" "$image")"
         docker run --rm --name "volume-size-$1" --volume "$image:/$image/:ro" bash du -sh /$image
     done
 }
-
-# docker completions
-_complete_docker_volumes () {
-	COMPREPLY=()
-	#cur="${COMP_WORDS[COMP_CWORD]}"
-	cur="$1"
-	comp_docker_volumes="$(docker volume ls -q)"
-	COMPREPLY=( $(compgen -W "${comp_docker_volumes}" -- "$cur"))
-	if [ "${#COMPREPLY}" -gt "0" ]; then
-    	echo "${COMPREPLY[*]}"
-	else
-		echo " " # space terminated the completion
-	fi
-	return 0
-}
-
 
 case "$1" in
 	docker-cli-plugin-metadata)
 		docker_cli_plugin_metadata
 		;;
-	__completeNoDesc)
-		arg=("${@:2}")
-		_complete_docker_volumes "${arg[*]}"
+	__complete)
+		docker volume ls -q | grep -v "^$"
 		;;
 	*)
-        docker-volumesize "${@:2}"
+		# Check if second argument is help flag
+		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
+			usage
+		else
+			docker-volumesize "${@:2}"
+		fi
 		;;
 esac

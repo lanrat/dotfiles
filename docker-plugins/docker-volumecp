@@ -8,11 +8,21 @@ docker_cli_plugin_metadata() {
 EOF
 }
 
+usage() {
+	echo "Usage: docker volumecp <existing_volume> <new_volume>"
+	echo ""
+	echo "Copy a Docker volume to a new volume."
+	echo ""
+	echo "Arguments:"
+	echo "  existing_volume    Name of the source volume"
+	echo "  new_volume         Name of the destination volume (must not exist)"
+}
+
 docker-volumecp() {
     if [ ! $# -eq 2 ]
     then
-        echo "Usage: $(basename "$0") existing_volume new_volume"
-        exit
+        usage
+        exit 1
     fi
 
     if ! docker volume ls -q | grep -q "^$1\$"; then
@@ -29,36 +39,19 @@ docker-volumecp() {
     docker run --rm -it -v "$1:/old/:ro" -v "$2:/new" bash cp -drp /old/. /new
 }
 
-## TODO use completion functions here
-# https://github.com/docker/cli/pull/4094
-# https://github.com/docker/cli/blob/master/contrib/completion/bash/docker
-
-
-# docker completions
-_complete_docker_volumes () {
-	COMPREPLY=()
-	#cur="${COMP_WORDS[COMP_CWORD]}"
-	cur="$1"
-	comp_docker_volumes="$(docker volume ls -q)"
-	COMPREPLY=( $(compgen -W "${comp_docker_volumes}" -- "$cur"))
-	if [ "${#COMPREPLY}" -gt "0" ]; then
-    	echo "${COMPREPLY[*]}"
-	else
-		echo " " # space terminated the completion
-	fi
-	return 0
-}
-
-
 case "$1" in
 	docker-cli-plugin-metadata)
 		docker_cli_plugin_metadata
 		;;
-	__completeNoDesc)
-		arg=("${@:2}")
-		_complete_docker_volumes "${arg[*]}"
+	__complete)
+		docker volume ls -q | grep -v "^$"
 		;;
 	*)
-        docker-volumecp "${@:2}"
+		# Check if second argument is help flag
+		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
+			usage
+		else
+			docker-volumecp "${@:2}"
+		fi
 		;;
 esac

@@ -8,6 +8,12 @@ docker_cli_plugin_metadata() {
 EOF
 }
 
+usage() {
+	echo "Usage: docker volumeuse"
+	echo ""
+	echo "Print all Docker volumes and the containers that use them."
+}
+
 docker-volumes() {
     VOLUMES="$(docker volume ls -q)"
     for volume in $VOLUMES;
@@ -21,10 +27,15 @@ case "$1" in
 	docker-cli-plugin-metadata)
 		docker_cli_plugin_metadata
 		;;
-	__completeNoDesc)
-		echo " "
+	__complete)
+		# No completion needed - command takes no arguments
 		;;
 	*)
-        docker-volumes
+		# Check if second argument is help flag
+		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
+			usage
+		else
+			docker-volumes
+		fi
 		;;
 esac

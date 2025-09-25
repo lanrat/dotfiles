@@ -8,11 +8,20 @@ docker_cli_plugin_metadata() {
 EOF
 }
 
+usage() {
+	echo "Usage: docker tail <container>"
+	echo ""
+	echo "Continuously tail logs from a Docker container, waiting for it to start if needed."
+	echo ""
+	echo "Arguments:"
+	echo "  container    Name or ID of the container to tail"
+}
+
 docker-tail() {
 	set -e
 	local container="$1"
 	if [ -z "$container" ]; then
-		echo "Usage: docker tail <container>"
+		usage
 		exit 1
 	fi
 
@@ -38,6 +47,11 @@ case "$1" in
 		docker ps -a --format '{{.Names}}' | grep -v "^$"
 		;;
 	*)
-        docker-tail "$2"
+		# Check if second argument is help flag
+		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
+			usage
+		else
+			docker-tail "$2"
+		fi
 		;;
 esac

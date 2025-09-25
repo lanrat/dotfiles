@@ -8,11 +8,21 @@ docker_cli_plugin_metadata() {
 EOF
 }
 
+usage() {
+	echo "Usage: docker volumerestoreinto <backup_file> <target_volume>"
+	echo ""
+	echo "Restore a volume backup to an existing Docker volume (destructive)."
+	echo ""
+	echo "Arguments:"
+	echo "  backup_file      Path to the backup tar.gz file"
+	echo "  target_volume    Name of the existing target volume (will be overwritten)"
+}
+
 docker-volumerestoreinto() {
     if [ ! $# -eq 2 ]
     then
-        echo "Usage: $(basename "$0") existing_backup_file existing_target_volume"
-        exit
+        usage
+        exit 1
     fi
 
 	if [ ! -f "$1" ]; then
@@ -40,37 +50,28 @@ docker-volumerestoreinto() {
     docker run --rm -it -v "$full_backup_path:/backup.tgz:ro" -v "$2:/new" bash tar -xzf /backup.tgz -C /new/
 }
 
-## TODO use completion functions here
-# https://github.com/docker/cli/pull/4094
-# https://github.com/docker/cli/blob/master/contrib/completion/bash/docker
-
-
-# docker completions
-_complete_docker_volumes () {
-	COMPREPLY=()
-	#cur="${COMP_WORDS[COMP_CWORD]}"
-	cur="$1"
-	comp_docker_volumes="$(docker volume ls -q)"
-	COMPREPLY=( $(compgen -W "${comp_docker_volumes}" -- "$cur"))
-	if [ "${#COMPREPLY}" -gt "0" ]; then
-    	echo "${COMPREPLY[*]}"
-	else
-		echo " " # space terminated the completion
-	fi
-	return 0
-}
-
-
 case "$1" in
 	docker-cli-plugin-metadata)
 		docker_cli_plugin_metadata
 		;;
-	# TODO autocompolete files for $1
-	__completeNoDesc)
-		arg=("${@:2}")
-		_complete_docker_volumes "${arg[*]}"
+	__complete)
+		# Check how many arguments we have to determine what to complete
+		# $1=volumerestoreinto, $2=first_arg, $3=second_arg, etc.
+		if [[ ${#@} -le 3 ]]; then
+			# Completing first argument (backup_file) - allow file completion fallback
+			# Return nothing to enable bash file completion
+			:
+		else
+			# Completing second argument (target_volume) - show volume names
+			docker volume ls -q | grep -v "^$"
+		fi
 		;;
 	*)
-        docker-volumerestoreinto "${@:2}"
+		# Check if second argument is help flag
+		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
+			usage
+		else
+			docker-volumerestoreinto "${@:2}"
+		fi
 		;;
 esac

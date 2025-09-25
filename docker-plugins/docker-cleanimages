@@ -8,6 +8,12 @@ docker_cli_plugin_metadata() {
 EOF
 }
 
+usage() {
+	echo "Usage: docker cleanimages"
+	echo ""
+	echo "Remove all untagged (dangling) Docker images."
+}
+
 docker-clean-images() {
     images="$(docker image ls -q --filter=dangling=true)"
 	if [ -z "$images" ]; then
@@ -22,10 +28,15 @@ case "$1" in
 	docker-cli-plugin-metadata)
 		docker_cli_plugin_metadata
 		;;
-	__completeNoDesc)
-		echo " "
+	__complete)
+		# No completion needed - command takes no arguments
 		;;
 	*)
-        docker-clean-images
+		# Check if second argument is help flag
+		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
+			usage
+		else
+			docker-clean-images
+		fi
 		;;
 esac
