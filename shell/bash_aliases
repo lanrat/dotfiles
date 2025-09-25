@@ -19,7 +19,7 @@ function aliascmd {
 #   make-completion-wrapper _apt_get apt-get install
 #     # defines a function called _apt_get_install (that's $2) that will
 #     # complete the 'agi' alias.
-# to get the default compolete function name for an existing command, run:
+# to get the default complete function name for an existing command, run:
 #     complete -p <command>
 function completion-wrapper {
   local function_name="_$2"

@@ -280,7 +280,6 @@ export PG_COLOR=auto
 # disable docker Snyk
 export DOCKER_SCAN_SUGGEST=false
 
-alias claude="/home/lanrat/.claude/local/claude"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
