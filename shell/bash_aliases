@@ -72,6 +72,10 @@ function cgrep
   grep --exclude-dir=.git -$f "${args[@]}"
 }
 
+# allow running unsigned binary on macOS
+if [ "$(uname)" = "Darwin" ]; then
+    alias unquarantine='xattr -d com.apple.quarantine'
+fi
 
 # ls aliases
 if [ "$(uname)" = "Darwin" ]; then
