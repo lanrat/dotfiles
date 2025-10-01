@@ -69,9 +69,11 @@ docker-imageupdates() {
 			echo "UNAVAILABLE (not found)"
 		elif [[ "$pull_check" == *"unauthorized"* ]] || [[ "$pull_check" == *"denied"* ]]; then
 			echo "UNAVAILABLE (private repository)"
+		elif [[ "$pull_check" == *"no matching manifest"* ]]; then
+			echo "UNAVAILABLE (image no longer available)"
 		elif [[ "$pull_check" == *"Image is up to date"* ]] || [[ "$pull_check" == *"Status: Image is up to date"* ]]; then
 			echo "up to date"
-		elif [[ "$pull_check" == *"Pulling from"* ]] || [[ "$pull_check" == *"Digest:"* ]] || [[ "$pull_check" == *"downloading"* ]]; then
+		elif [[ "$pull_check" == *"Status: Downloaded newer image"* ]] || [[ "$pull_check" == *"Downloaded newer image"* ]]; then
 			echo "UPDATE AVAILABLE"
 			found_updates=true
 			images_with_updates+=("$image")
