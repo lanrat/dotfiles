@@ -89,6 +89,14 @@ docker-imageupdates() {
 		echo "Images with updates available ($update_count):"
 		for img in "${images_with_updates[@]}"; do
 			echo "  - $img"
+			# Get containers using this image
+			local containers
+			containers=$(docker ps -a --filter "ancestor=$img" --format "{{.Names}}" 2>/dev/null)
+			if [[ -n "$containers" ]]; then
+				while IFS= read -r container; do
+					echo "      Container: $container"
+				done <<< "$containers"
+			fi
 		done
 		echo ""
 		echo "Use 'docker pull <image>' to update them."
