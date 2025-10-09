@@ -42,7 +42,7 @@ function make_link {
     fi
     if [ -e "$src" ];
     then
-        echo "$src already exists, makeing backup $src.bak"
+        echo "$src already exists, making backup $src.bak"
         mv "$src" "$src.bak"
     fi
     parent_dir=$(dirname "$src")
@@ -195,6 +195,16 @@ function link_apps {
         bname="bambu-studio.desktop"
         make_link "$SCRIPT_DIR/apps/$app" "$HOME/.local/share/applications/$bname"
     fi
+    # for OrcaSlicer
+    App="OrcaSlicer*.AppImage"
+    appimage=( $HOME/bin/$App )
+    echo ">> found: appimage: ${appimage[0]}"
+    if [ -f "${appimage[0]}" ]; then
+        app="orcaslicer.desktop"
+        bname="orcaslicer.desktop"
+        make_link "$SCRIPT_DIR/apps/$app" "$HOME/.local/share/applications/$bname"
+    fi
+
 
     # for freecad
     App="FreeCAD*.AppImage"
@@ -207,6 +217,12 @@ function link_apps {
     fi
 
     update-desktop-database "$HOME/.local/share/applications/"
+}
+
+function link_claude {
+    echo "Linking Claude Code"
+    make_link "$SCRIPT_DIR/claude/settings.json" "$HOME/.claude/settings.json"
+    make_link "$SCRIPT_DIR/claude/ccstatusline/settings.json" "$HOME/.ccstatusline/settings.json"
 }
 
 function link_dev {

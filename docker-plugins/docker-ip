@@ -8,6 +8,15 @@ docker_cli_plugin_metadata() {
 EOF
 }
 
+usage() {
+	echo "Usage: docker ip [container_name]"
+	echo ""
+	echo "List Docker container IP addresses. If no container is specified, shows all containers."
+	echo ""
+	echo "Arguments:"
+	echo "  container_name    Name of specific container to inspect (optional)"
+}
+
 docker-ip() {
 	query="$1"
 	if [ -z "${1}" ]; then
@@ -16,36 +25,19 @@ docker-ip() {
 	docker inspect --format "{{.Name}}|{{range \$i, \$v := .NetworkSettings.Networks}}{{if \$i}}|{{end}}{{\$v.IPAddress}}{{if \$v.GlobalIPv6Address}}|{{\$v.GlobalIPv6Address}}{{end}}{{end}}" $query  | cut -d '/' -f2 | sed 's/|/\t/g' | sort | column -t
 }
 
-## TODO use completion functions here
-# https://github.com/docker/cli/pull/4094
-# https://github.com/docker/cli/blob/master/contrib/completion/bash/docker
-
-
-# docker tail completions
-_complete_docker_containers () {
-	COMPREPLY=()
-	#cur="${COMP_WORDS[COMP_CWORD]}"
-	cur="$1"
-	comp_docker_containers="$(docker ps -a --format '{{.Names}}')"
-	COMPREPLY=( $(compgen -W "${comp_docker_containers}" -- "$cur"))
-	if [ "${#COMPREPLY}" -gt "0" ]; then
-    	echo "${COMPREPLY[*]}"
-	else
-		echo " " # space terminated the completion
-	fi
-	return 0
-}
-
 case "$1" in
 	docker-cli-plugin-metadata)
 		docker_cli_plugin_metadata
 		;;
-	__completeNoDesc)
-		#__docker_complete_containers_all --cur "${2##*=}"
-		arg=("${@:2}")
-		_complete_docker_containers "${arg[*]}"
+	__complete)
+		docker ps -a --format '{{.Names}}' | grep -v "^$"
 		;;
 	*)
-        docker-ip "$2"
+		# Check if second argument is help flag
+		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
+			usage
+		else
+			docker-ip "$2"
+		fi
 		;;
 esac

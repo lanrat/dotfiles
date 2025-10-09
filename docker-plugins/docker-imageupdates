@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+
+docker_cli_plugin_metadata() {
+	local vendor="lanrat"
+	local description="check for newer versions of local images"
+	cat <<-EOF
+	{"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
+EOF
+}
+
+usage() {
+	echo "Usage: docker imageupdates"
+	echo ""
+	echo "Check if newer versions are available for local Docker images."
+	echo "Does not pull images, only checks for updates from their registries."
+	echo ""
+	echo "Note: Some registries (ghcr.io, lscr.io, gcr.io) may require authentication"
+	echo "even for public repositories. Use 'docker login' if needed."
+}
+
+docker-imageupdates() {
+	echo "Checking for image updates..."
+	echo ""
+
+	# Get all local images with repository and tag info
+	local images
+	images=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep -v "<none>:<none>" | sort -u)
+
+	local found_updates=false
+	local images_with_updates=()
+	local update_count=0
+
+	while IFS= read -r image; do
+		# Skip if image is <none> or local-only
+		if [[ "$image" == *"<none>"* ]] || [[ "$image" == *"localhost"* ]] || [[ "$image" == *"127.0.0.1"* ]]; then
+			continue
+		fi
+
+		# Skip images with no tag specified (defaults to latest but shows as latest)
+		# We can check :latest tags by comparing digests
+
+		echo -n "Checking $image "
+
+		# Check if image was built locally (no RepoDigests means locally built)
+		local repo_digests
+		repo_digests=$(docker inspect "$image" 2>/dev/null | jq -r '.[0].RepoDigests | length' 2>/dev/null || echo "0")
+
+		if [[ "$repo_digests" == "0" ]]; then
+			echo "LOCAL BUILD (skipping)"
+			continue
+		fi
+
+		# Get local image digest
+		local local_digest
+		local_digest=$(docker images --no-trunc --quiet "$image" 2>/dev/null)
+
+		if [[ -z "$local_digest" ]]; then
+			echo "ERROR: Could not get local digest"
+			continue
+		fi
+
+		# Use docker pull to check for updates (faster and more reliable)
+		local pull_check
+		pull_check=$(timeout 5 docker pull "$image" 2>&1 | head -4 || true)
+
+		if [[ "$pull_check" == *"toomanyrequests"* ]] || [[ "$pull_check" == *"rate limit"* ]]; then
+			echo "RATE LIMITED"
+		elif [[ "$pull_check" == *"not found"* ]] || [[ "$pull_check" == *"repository does not exist"* ]]; then
+			echo "UNAVAILABLE (not found)"
+		elif [[ "$pull_check" == *"unauthorized"* ]] || [[ "$pull_check" == *"denied"* ]]; then
+			echo "UNAVAILABLE (private repository)"
+		elif [[ "$pull_check" == *"Image is up to date"* ]] || [[ "$pull_check" == *"Status: Image is up to date"* ]]; then
+			echo "up to date"
+		elif [[ "$pull_check" == *"Pulling from"* ]] || [[ "$pull_check" == *"Digest:"* ]] || [[ "$pull_check" == *"downloading"* ]]; then
+			echo "UPDATE AVAILABLE"
+			found_updates=true
+			images_with_updates+=("$image")
+			((update_count++))
+		elif [[ -z "$pull_check" ]]; then
+			echo "UNAVAILABLE (timeout)"
+		else
+			echo "UNAVAILABLE (unknown error)"
+		fi
+
+	done <<< "$images"
+
+	echo ""
+	if [[ "$found_updates" == "true" ]]; then
+		echo "Images with updates available ($update_count):"
+		for img in "${images_with_updates[@]}"; do
+			echo "  - $img"
+			# Get containers using this image
+			local containers
+			containers=$(docker ps -a --filter "ancestor=$img" --format "{{.Names}}" 2>/dev/null)
+			if [[ -n "$containers" ]]; then
+				while IFS= read -r container; do
+					echo "      Container: $container"
+				done <<< "$containers"
+			fi
+		done
+		echo ""
+		echo "Use 'docker pull <image>' to update them."
+	else
+		echo "All checked images are up to date."
+	fi
+}
+
+case "$1" in
+	docker-cli-plugin-metadata)
+		docker_cli_plugin_metadata
+		;;
+	__complete)
+		# No completion needed - command takes no arguments
+		;;
+	*)
+		# Check if second argument is help flag
+		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
+			usage
+		else
+			docker-imageupdates
+		fi
+		;;
+esac

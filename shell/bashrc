@@ -273,6 +273,7 @@ fi
 #[[ -s "$HOME/go/bin" ]] && export PATH="${PATH}:${HOME}/go/bin"
 [[ -s "$HOME/.local/bin" ]] && export PATH="${PATH}:${HOME}/.local/bin"
 [[ -s "$HOME/.platformio/penv/bin" ]] && export PATH="${PATH}:${HOME}/.platformio/penv/bin"
+[[ -s "$HOME/.npm-global/bin" ]] && export PATH="${PATH}:${HOME}/.npm-global/bin"
 
 
 # let postgresql use colors
@@ -280,6 +281,10 @@ export PG_COLOR=auto
 
 # disable docker Snyk
 export DOCKER_SCAN_SUGGEST=false
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 true # this ensures the bashrc always has a 0 exit code
 

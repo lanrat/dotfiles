@@ -8,11 +8,20 @@ docker_cli_plugin_metadata() {
 EOF
 }
 
+usage() {
+	echo "Usage: docker volumecd <volume_name>"
+	echo ""
+	echo "Show the mount point location of a Docker volume on the host."
+	echo ""
+	echo "Arguments:"
+	echo "  volume_name    Name of the volume"
+}
+
 docker-volumecd() {
     if [ ! $# -eq 1 ]
     then
-        echo "Usage: $(basename "$0") volume_name"
-        exit
+        usage
+        exit 1
     fi
 
     if ! docker volume ls -q | grep -q "^$1\$"; then
@@ -40,16 +49,19 @@ _complete_docker_volumes () {
 	return 0
 }
 
-
 case "$1" in
 	docker-cli-plugin-metadata)
 		docker_cli_plugin_metadata
 		;;
-	__completeNoDesc)
-		arg=("${@:2}")
-		_complete_docker_volumes "${arg[*]}"
+	__complete)
+		docker volume ls -q | grep -v "^$"
 		;;
 	*)
-        docker-volumecd "${@:2}"
+		# Check if second argument is help flag
+		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
+			usage
+		else
+			docker-volumecd "${@:2}"
+		fi
 		;;
 esac
