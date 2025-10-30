@@ -231,7 +231,7 @@ function link_environment.d {
     do
         bname=$(basename "$file")
         echo "linking env: $file"
-        make_link "$file" "$HOME/.environment.d/$bname"
+        make_link "$file" "$HOME/.config/environment.d/$bname"
     done
 }
 
