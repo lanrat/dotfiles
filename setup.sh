@@ -225,6 +225,16 @@ function link_claude {
     make_link "$SCRIPT_DIR/claude/ccstatusline/settings.json" "$HOME/.ccstatusline/settings.json"
 }
 
+function link_environment.d {
+    echo "Linking environment.d"
+    for file in "$SCRIPT_DIR"/environment.d/*
+    do
+        bname=$(basename "$file")
+        echo "linking env: $file"
+        make_link "$file" "$HOME/.environment.d/$bname"
+    done
+}
+
 function link_dev {
     run git
     run vim

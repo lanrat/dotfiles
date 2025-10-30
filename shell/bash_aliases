@@ -49,7 +49,6 @@ alias ssh-exit="ssh -O exit"
 completion-wrapper _ssh ssh-exit
 
 # make grep use color
-# DEPRECATED: export GREP_OPTIONS="--color=auto"
 alias grep='grep --color=auto'
 
 # search code faster

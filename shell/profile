@@ -33,14 +33,6 @@ if [ -d "$HOME/go/bin" ] ; then
     PATH="$HOME/go/bin:$PATH"
 fi
 
-
-# tell apps to use wayland if needed
-if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
-    # firefox
-    export MOZ_ENABLE_WAYLAND=1
-fi
-
-
 # Include local machine specific settings
 # shellcheck source=/dev/null
 if [ -f ~/.profile_local ]; then
