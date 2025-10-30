@@ -170,12 +170,6 @@ alias p6="ping6 2606:4700:4700::1111"
 # TODO code or code-server?
 alias code-server="code-server -e"
 
-# vscode wayland
-if command -v code &>/dev/null && [ "$(uname)" = "Linux" ]
-then
-    alias code="code --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations"
-fi
-
 # gedit alias
 if command -v gnome-text-editor &>/dev/null && [ "$(uname)" = "Linux" ]
 then
