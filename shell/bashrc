@@ -2,10 +2,16 @@
 # .bashrc
 # bashrc is executed for interactive non-login shells (gui-terminal, bash)
 # -----------
-# profiling: https://stackoverflow.com/questions/5014823/how-to-profile-a-bash-shell-script-slow-startup
 # shellcheck shell=bash
 
 #echo "bashrc start"
+
+if [ -n "$BASH_PROFILE_STARTUP" ]; then
+  # Use EPOCHREALTIME (Bash 5+) for timestamps without subprocess overhead
+  PS4='+ ${EPOCHREALTIME}\011 '
+  exec 3>&2 2>/tmp/bashstart.$$.log
+  set -x
+fi
 
 # If not running interactively, don't do anything
 case $- in
@@ -41,8 +47,18 @@ export DOCKER_SCAN_SUGGEST=false
 # -FX exit if all data fits in term
 export LESS="-SiRFXn"
 
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+# Lazy-load lesspipe for less
+if [ -x /usr/bin/lesspipe ]; then
+  _load_lesspipe() {
+    eval "$(SHELL=/bin/sh lesspipe)"
+    unset -f _load_lesspipe less
+  }
+
+  less() {
+    _load_lesspipe
+    less "$@"
+  }
+fi
 
 # -----------
 # Colors
@@ -171,7 +187,7 @@ if shopt -q progcomp; then
   if [ -r "/etc/bash_completion" ]; then
     . "/etc/bash_completion"
   fi
-  # bash completeion for brew on OSX
+  # bash completion for brew on OSX
   if [[ $OSTYPE == 'darwin'* ]] && type brew &>/dev/null; then
     HOMEBREW_PREFIX="$(brew --prefix)"
     if [ -r "${HOMEBREW_PREFIX}/etc/bash_completion" ]; then
@@ -278,9 +294,42 @@ fi
 # let postgresql use colors
 export PG_COLOR=auto
 
+# Lazy-load nvm to speed up shell startup
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Load nvm only on first use of nvm/node/npm/npx
+_load_nvm() {
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+  # Remove stub functions after loading real nvm
+  unset -f _load_nvm nvm node npm npx
+}
+
+# Stub functions that trigger nvm loading on first use
+nvm() {
+  _load_nvm
+  nvm "$@"
+}
+
+node() {
+  _load_nvm
+  node "$@"
+}
+
+npm() {
+  _load_nvm
+  npm "$@"
+}
+
+npx() {
+  _load_nvm
+  npx "$@"
+}
+
+if [ -n "$BASH_PROFILE_STARTUP" ]; then
+  set +x
+  exec 2>&3 3>&-
+fi
 
 true # this ensures the bashrc always has a 0 exit code
 
