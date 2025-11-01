@@ -22,31 +22,6 @@ esac
 # fix Ctrl-S freezing terminal (Ctrl-Q to resume)
 stty -ixon
 
-# -------------------
-# Default Apps
-# -------------------
-
-export PAGER='less'
-export EDITOR='vim'
-export P4DIFF='colordiff -u'
-
-
-# -------------------
-# App Settings
-# -------------------
-
-## TODO move these exports (above and below) to profile
-
-# let postgresql use colors
-export PG_COLOR=auto
-
-# disable docker Snyk
-export DOCKER_SCAN_SUGGEST=false
-
-#enable color, case-insensitive search, and no-wrapping in less
-# -FX exit if all data fits in term
-export LESS="-SiRFXn"
-
 # Lazy-load lesspipe for less
 if [ -x /usr/bin/lesspipe ]; then
   _load_lesspipe() {
@@ -286,43 +261,35 @@ then
     source ~/.bashrc_local
 fi
 
-#[[ -s "$HOME/go/bin" ]] && export PATH="${PATH}:${HOME}/go/bin"
-[[ -s "$HOME/.local/bin" ]] && export PATH="${PATH}:${HOME}/.local/bin"
-[[ -s "$HOME/.platformio/penv/bin" ]] && export PATH="${PATH}:${HOME}/.platformio/penv/bin"
-[[ -s "$HOME/.npm-global/bin" ]] && export PATH="${PATH}:${HOME}/.npm-global/bin"
-
-# let postgresql use colors
-export PG_COLOR=auto
-
 # Lazy-load nvm to speed up shell startup
 export NVM_DIR="$HOME/.nvm"
 
-# Load nvm only on first use of nvm/node/npm/npx
-_load_nvm() {
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-  # Remove stub functions after loading real nvm
-  unset -f _load_nvm nvm node npm npx
-}
-
 # Stub functions that trigger nvm loading on first use
 nvm() {
-  _load_nvm
+  unset -f nvm node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
   nvm "$@"
 }
 
 node() {
-  _load_nvm
+  unset -f nvm node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
   node "$@"
 }
 
 npm() {
-  _load_nvm
+  unset -f nvm node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
   npm "$@"
 }
 
 npx() {
-  _load_nvm
+  unset -f nvm node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
   npx "$@"
 }
 

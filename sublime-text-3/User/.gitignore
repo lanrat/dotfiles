@@ -1,8 +1,0 @@
-Package Control.*
-# Ignore everything
-*
-
-# But not these files...
-!.gitignore
-Preferences.sublime-settings
-Preferences.*
