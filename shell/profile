@@ -3,8 +3,6 @@
 # exists.
 # shellcheck shell=sh
 
-# echo "profile start"
-
 # test for brew path
 if [ -d "/opt/homebrew/bin" ] ; then
     PATH="/opt/homebrew/bin:$PATH"
@@ -33,18 +31,34 @@ if [ -d "$HOME/go/bin" ] ; then
     PATH="$HOME/go/bin:$PATH"
 fi
 
-
-# tell apps to use wayland if needed
-if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
-    # firefox
-    export MOZ_ENABLE_WAYLAND=1
+# platformio PATH
+if [ -d "$HOME/.platformio/penv/bin" ] ; then
+    PATH="$HOME/.platformio/penv/bin:$PATH"
 fi
 
+# npm global PATH
+if [ -d "$HOME/.npm-global/bin" ] ; then
+    PATH="$HOME/.npm-global/bin:$PATH"
+fi
+
+# -------------------
+# Environment Variables
+# -------------------
+
+# Default applications
+export PAGER='less'
+export EDITOR='vim'
+
+# Application settings
+export P4DIFF='colordiff -u'
+export PG_COLOR=auto
+export DOCKER_SCAN_SUGGEST=false
+
+# Less options: case-insensitive search, no-wrapping, exit if fits on screen
+export LESS="-SiRFXn"
 
 # Include local machine specific settings
 # shellcheck source=/dev/null
 if [ -f ~/.profile_local ]; then
     . ~/.profile_local
 fi
-
-#echo "profile end"

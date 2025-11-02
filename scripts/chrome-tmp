@@ -3,6 +3,8 @@ set -eu
 set -o pipefail
 if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
+# TODO switch to chrome guest mode --guest flag
+
 # pass -incognito for incognito mode
 TMP="/tmp"
 chrome="google-chrome"

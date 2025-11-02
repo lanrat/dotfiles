@@ -135,17 +135,6 @@ function link_docker-plugins {
     make_link "$SCRIPT_DIR/docker-plugins" "$HOME/.docker/cli-plugins"
 }
 
-function link_sublime3 {
-    echo "Linking Sublime Text"
-    BASE="$HOME/.config/sublime-text-3"
-    if [ "$(uname)" = "Darwin" ]; then
-        echo -e "\t Detected OSX"
-        ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" /usr/local/bin/subl
-        BASE="$HOME/Library/Application Support/Sublime Text 3"
-    fi
-    make_link "$SCRIPT_DIR/sublime-text-3/User" "$BASE/Packages/User"
-}
-
 function link_scripts {
     echo "Linking scripts"
     for script in "$SCRIPT_DIR"/scripts/*
@@ -186,15 +175,6 @@ function link_apps {
             echo "app $bname not found, skipping..."
         fi
     done
-    # for bambu studio
-    App="Bambu_Studio*.AppImage"
-    appimage=( $HOME/bin/$App )
-    echo ">> found: appimage: ${appimage[0]}"
-    if [ -f "${appimage[0]}" ]; then
-        app="bambu-studio.desktop"
-        bname="bambu-studio.desktop"
-        make_link "$SCRIPT_DIR/apps/$app" "$HOME/.local/share/applications/$bname"
-    fi
     # for OrcaSlicer
     App="OrcaSlicer*.AppImage"
     appimage=( $HOME/bin/$App )
@@ -225,6 +205,16 @@ function link_claude {
     make_link "$SCRIPT_DIR/claude/ccstatusline/settings.json" "$HOME/.ccstatusline/settings.json"
 }
 
+function link_environment.d {
+    echo "Linking environment.d"
+    for file in "$SCRIPT_DIR"/environment.d/*
+    do
+        bname=$(basename "$file")
+        echo "linking env: $file"
+        make_link "$file" "$HOME/.config/environment.d/$bname"
+    done
+}
+
 function link_dev {
     run git
     run vim
@@ -251,8 +241,13 @@ then
 fi
 
 # run all links
-for arg in "$args"
+for arg in "${args[@]}"
 do
     run "$arg"
 done
+
+# Ensure dotfiles have secure permissions (not group-writable)
+echo "Fixing dotfile permissions..."
+find "$SCRIPT_DIR" -type f -exec chmod g-w {} +
+echo "Done!"
 

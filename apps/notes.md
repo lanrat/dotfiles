@@ -32,3 +32,13 @@ gio launch file.desktop
 * `--enable-features=VaapiVideoEncoder` Video Encode: Hardware accelerated
 * `--enable-features=VaapiVideoDecode` does not seem to be needed anymore. (06-07-2024)
 * `--enable-features=WebRTCPipeWireCapturer` allow using pipewire for wayland screen share. Does not seem needed anymore (06-07-2024)
+
+
+## Enviroment
+
+New Wayland envirometn variable to enable wayland mode
+
+```
+ELECTRON_OZONE_PLATFORM_HINT=auto
+```
+

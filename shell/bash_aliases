@@ -49,7 +49,6 @@ alias ssh-exit="ssh -O exit"
 completion-wrapper _ssh ssh-exit
 
 # make grep use color
-# DEPRECATED: export GREP_OPTIONS="--color=auto"
 alias grep='grep --color=auto'
 
 # search code faster
@@ -169,12 +168,6 @@ alias p6="ping6 2606:4700:4700::1111"
 
 # TODO code or code-server?
 alias code-server="code-server -e"
-
-# vscode wayland
-if command -v code &>/dev/null && [ "$(uname)" = "Linux" ]
-then
-    alias code="code --ozone-platform-hint=auto --enable-features=WaylandWindowDecorations"
-fi
 
 # gedit alias
 if command -v gnome-text-editor &>/dev/null && [ "$(uname)" = "Linux" ]
