@@ -1,0 +1,102 @@
+#!/bin/bash
+
+# docker-clean: Clean up Docker resources
+# Usage: docker clean [--full] [--dry] [--help|-h]
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+DRY_RUN=false
+FULL=false
+
+show_help() {
+  echo -e "${GREEN}docker clean${NC} - Clean up Docker resources"
+  echo
+  echo -e "Usage: ${YELLOW}docker clean [--full] [--dry] [--help|-h]${NC}"
+  echo
+  echo "Options:"
+  echo "  --full        Run a full cleanup (removes all unused containers, images, volumes, and networks)"
+  echo "  --dry         Show what would be executed without actually executing anything"
+  echo "  --help, -h    Show this help message"
+  exit 0
+}
+
+docker_cli_plugin_metadata() {
+  cat <<EOF
+{
+  "SchemaVersion": "0.1.0",
+  "Vendor": "Jorge F. Sánchez <mail@jfsanchez.net>",
+  "Version": "1.0.0",
+  "ShortDescription": "Clean up Docker resources (containers, images, volumes, networks)"
+}
+EOF
+  exit 0
+}
+
+for arg in "$@"; do
+  case $arg in
+    docker-cli-plugin-metadata)
+      docker_cli_plugin_metadata
+      ;;
+    __complete)
+      echo "--full"
+      echo "--dry"
+      echo "--help"
+      echo "-h"
+      exit 0
+      ;;
+    clean)
+      continue
+      ;;
+    --full)
+      FULL=true
+      ;;
+    --dry)
+      DRY_RUN=true
+      ;;
+    --help|-h)
+      show_help
+      ;;
+    *)
+      echo -e "${RED}Unknown option: $arg${NC}"
+      echo "Run ${YELLOW}docker clean --help${NC} for usage."
+      exit 1
+      ;;
+  esac
+done
+
+function dry_echo() {
+  echo -e "${YELLOW}[DRY-RUN] Would run: $*${NC}"
+}
+
+function run() {
+  if [ "$DRY_RUN" = true ]; then
+    dry_echo "$@"
+  else
+    eval "$@"
+  fi
+}
+
+function regular_clean() {
+  echo -e "${YELLOW}Docker cleanup...${NC}"
+  run "docker container prune"
+  run "docker image prune"
+  run "docker network prune"
+  run "docker volume prune"
+  echo -e "${GREEN}Cleanup completed.${NC}"
+}
+
+function full_clean() {
+  echo -e "${RED}Full Docker cleanup...${NC}"
+  run "docker system prune -a --volumes -f"
+  echo -e "${GREEN}Cleanup completed.${NC}"
+}
+
+if [ "$FULL" = true ]; then
+  full_clean
+else
+  regular_clean
+fi
+

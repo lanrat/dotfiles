@@ -1,0 +1,105 @@
+#!/bin/bash
+if [[ "$1" == docker-cli-plugin-metadata ]] ; then
+exec cat <<META
+{
+     "SchemaVersion": "0.1.0",
+     "Vendor": "Michael P. Dubner",
+     "Version": "v2.35.1",
+     "ShortDescription": "Docker Netstat",
+     "URL": "https://github.com/pyhedgehog/docker-netstat"
+}
+META
+fi
+if [[ "$1" == __complete ]] ; then
+  docker ps -a --format '{{.Names}}' | grep -v "^$"
+  exit 0
+fi
+function help()
+{
+  cat <<HELP
+Usage:  docker netstat CONTAINER [netstat OPTIONS]
+
+Display the opened network connections of a container
+HELP
+  exit
+}
+function fullhelp()
+{
+  cat <<HELP
+Usage:  docker netstat CONTAINER [netstat OPTIONS]
+
+Display the opened network connections of a container
+
+\$ netstat --help
+HELP
+  netstat --help
+  exit
+}
+function usage()
+{
+  cat <<HELP
+Usage:  docker netstat NAME|ID [NAME|ID...] [netstat OPTIONS]
+
+Run 'docker netstat --help' for more information
+HELP
+  exit
+}
+if [[ "$1" == help ]] ; then
+  fullhelp
+fi
+if [[ " $* " = *' --help '* || " $* " = *' -h '* ]] ; then
+  help
+fi
+declare -a args cnames opts
+#args=("$@")
+i=1
+seencmd=false
+while [[ $i -le $# ]] ; do
+  if [[ "${!i}" == netstat ]] ; then
+    seencmd=true
+    i=$((i+1))
+    break
+  fi
+  args+=("${!i}")
+  i=$((i+1))
+done
+if [[ $i -gt $# ]] ; then
+  echo "docker: 'docker netstat' requires at least 1 argument";echo
+  usage
+fi
+args+=('-f{{.State.Pid}}')
+if [[ "${!i}" = --* ]] ; then
+  echo "unknown flag: ${!i}";echo
+  usage
+fi
+if [[ "${!i}" = -?* ]] ; then
+  echo "unknown shorthand flag: '$(expr substr "${!i}" 2 1)' in ${!i}";echo
+  usage
+fi
+while [[ $i -le $# ]] ; do
+  if [[ "${!i}" = -?* ]] ; then
+    break
+  fi
+  cnames+=("${!i}")
+  i=$((i+1))
+done
+while [[ $i -le $# ]] ; do
+  opts+=("${!i}")
+  i=$((i+1))
+done
+if [[ ${#opts[*]} = 0 ]] ; then
+  opts=(-antp)
+fi
+for con in "${cnames[@]}" ; do
+  cpid="$(docker container inspect "${args[@]}" "$con")"||continue
+  if [[ -z "$cpid" ]] ; then
+    echo "Error: No such object: $con" >&2
+    continue
+  fi
+  if ! [[ -e /proc/"$cpid" ]] ; then
+    echo "Error: For container $con got invalid PID: $cpid" >&2
+    continue
+  fi
+  test "${#cnames[*]}" -gt 1 && echo "netstat $opts for $con:"
+  sudo nsenter -t$cpid -n -p netstat "${opts[@]}"
+done
