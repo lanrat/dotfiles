@@ -22,7 +22,13 @@ docker-ip() {
 	if [ -z "${1}" ]; then
 		query="$(docker ps -a --format '{{.Names}}')"
 	fi
-	docker inspect --format "{{.Name}}|{{range \$i, \$v := .NetworkSettings.Networks}}{{if \$i}}|{{end}}{{\$v.IPAddress}}{{if \$v.GlobalIPv6Address}}|{{\$v.GlobalIPv6Address}}{{end}}{{end}}" $query  | cut -d '/' -f2 | sed 's/|/\t/g' | sort | column -t
+	{
+		echo "CONTAINER|IPv4|IPv6"
+		docker inspect --format '{{.Name}}|{{range $v := .NetworkSettings.Networks}}{{$v.IPAddress}}{{","}}{{end}}|{{range $v := .NetworkSettings.Networks}}{{$v.GlobalIPv6Address}}{{","}}{{end}}' $query \
+		| cut -d '/' -f2 \
+		| sed 's/,|/|/g; s/,$//; s/|,/|/g; s/,,*/,/g' \
+		| sort
+	} | sed 's/|/\t/g' | column -t
 }
 
 case "$1" in

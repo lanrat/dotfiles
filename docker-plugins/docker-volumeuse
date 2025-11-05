@@ -9,18 +9,68 @@ EOF
 }
 
 usage() {
-	echo "Usage: docker volumeuse"
+	echo "Usage: docker volumeuse [OPTIONS]"
 	echo ""
 	echo "Print all Docker volumes and the containers that use them."
+	echo ""
+	echo "Options:"
+	echo "  --unused        Show only unused volumes (not attached to any container)"
+	echo "  -q, --quiet     Only show volume names/IDs (no headers, no container info)"
 }
 
 docker-volume-use() {
-    VOLUMES="$(docker volume ls -q)"
-    for volume in $VOLUMES;
-    do
-        echo "$volume"
-        docker ps -a --filter volume="$volume" --format "\t{{.Names}}\t{{.ID}}"
+    local show_unused_only=false
+    local quiet_mode=false
+
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --unused)
+                show_unused_only=true
+                shift
+                ;;
+            -q|--quiet)
+                quiet_mode=true
+                shift
+                ;;
+            *)
+                shift
+                ;;
+        esac
     done
+
+    # Quiet mode: just output volume names
+    if [ "$quiet_mode" = true ]; then
+        VOLUMES="$(docker volume ls -q)"
+        for volume in $VOLUMES; do
+            CONTAINERS="$(docker ps -a --filter volume="$volume" --format "{{.Names}}")"
+            if [ -z "$CONTAINERS" ]; then
+                echo "$volume"
+            elif [ "$show_unused_only" = false ]; then
+                echo "$volume"
+            fi
+        done | sort -u
+        return
+    fi
+
+    # Normal mode: table format
+    {
+        echo "VOLUME|CONTAINER|CONTAINER_ID"
+        VOLUMES="$(docker volume ls -q)"
+        for volume in $VOLUMES;
+        do
+            CONTAINERS="$(docker ps -a --filter volume="$volume" --format "{{.Names}}|{{.ID}}")"
+            if [ -z "$CONTAINERS" ]; then
+                echo "$volume||"
+            else
+                if [ "$show_unused_only" = false ]; then
+                    echo "$CONTAINERS" | while read -r line; do
+                        echo "$volume|$line"
+                    done
+                fi
+            fi
+        done
+    } | column -ts\|
 }
 
 case "$1" in
@@ -28,14 +78,16 @@ case "$1" in
 		docker_cli_plugin_metadata
 		;;
 	__complete)
-		# No completion needed - command takes no arguments
+		echo "--unused"
+		echo "-q"
+		echo "--quiet"
 		;;
 	*)
 		# Check if second argument is help flag
 		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
 			usage
 		else
-			docker-volume-use
+			docker-volume-use "${@:2}"
 		fi
 		;;
 esac

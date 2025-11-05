@@ -9,18 +9,72 @@ EOF
 }
 
 usage() {
-	echo "Usage: docker imageuse"
+	echo "Usage: docker imageuse [OPTIONS]"
 	echo ""
 	echo "Print all Docker images and the containers that use them."
+	echo ""
+	echo "Options:"
+	echo "  --unused        Show only unused images (not used by any container)"
+	echo "  -q, --quiet     Only show image IDs (no headers, no container info)"
 }
 
 docker-images() {
-    IMAGES="$(docker image ls -q)"
-    for image in $IMAGES;
-    do
-        docker image ls --format "{{.Repository}}:{{.Tag}}\t{{.ID}}" | grep "$image"
-        docker ps -a --filter ancestor="$image" --format "\t{{.Names}}\t{{.ID}}"
+    local show_unused_only=false
+    local quiet_mode=false
+
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --unused)
+                show_unused_only=true
+                shift
+                ;;
+            -q|--quiet)
+                quiet_mode=true
+                shift
+                ;;
+            *)
+                shift
+                ;;
+        esac
     done
+
+    # Quiet mode: just output image IDs
+    if [ "$quiet_mode" = true ]; then
+        IMAGES="$(docker image ls -q)"
+        for image in $IMAGES; do
+            CONTAINERS="$(docker ps -a --filter ancestor="$image" --format "{{.Names}}")"
+            if [ -z "$CONTAINERS" ]; then
+                echo "$image"
+            elif [ "$show_unused_only" = false ]; then
+                echo "$image"
+            fi
+        done | sort -u
+        return
+    fi
+
+    # Normal mode: table format
+    {
+        echo "IMAGE|TAG|IMAGE_ID|CONTAINER|CONTAINER_ID"
+        IMAGES="$(docker image ls -q)"
+        for image in $IMAGES;
+        do
+            IMAGE_INFO="$(docker image ls --format "{{.Repository}}|{{.Tag}}|{{.ID}}" | grep "$image")"
+            CONTAINERS="$(docker ps -a --filter ancestor="$image" --format "{{.Names}}|{{.ID}}")"
+
+            REPO_TAG_ID=$(echo "$IMAGE_INFO" | head -1)
+
+            if [ -z "$CONTAINERS" ]; then
+                echo "$REPO_TAG_ID||"
+            else
+                if [ "$show_unused_only" = false ]; then
+                    echo "$CONTAINERS" | while read -r line; do
+                        echo "$REPO_TAG_ID|$line"
+                    done
+                fi
+            fi
+        done
+    } | column -ts\|
 }
 
 case "$1" in
@@ -28,14 +82,16 @@ case "$1" in
 		docker_cli_plugin_metadata
 		;;
 	__complete)
-		# No completion needed - command takes no arguments
+		echo "--unused"
+		echo "-q"
+		echo "--quiet"
 		;;
 	*)
 		# Check if second argument is help flag
 		if [[ "$2" == "--help" || "$2" == "-h" ]]; then
 			usage
 		else
-			docker-images
+			docker-images "${@:2}"
 		fi
 		;;
 esac

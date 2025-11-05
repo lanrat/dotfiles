@@ -22,7 +22,10 @@ docker-net() {
 	if [ -z "${1}" ]; then
 		query="$(docker network ls --format '{{.Name}}')"
 	fi
-	docker network inspect --format "{{.Name}}|{{.Driver}}|{{if (index .IPAM.Config)}}{{(index .IPAM.Config 0).Subnet}}{{end}}|{{range \$i, \$v := .Containers}}{{\$v.Name}}:{{\$v.IPv4Address}}|{{end}}" $query | column -ts\|
+	{
+		echo "NETWORK|DRIVER|SUBNET|CONTAINERS"
+		docker network inspect --format "{{.Name}}|{{.Driver}}|{{if (index .IPAM.Config)}}{{(index .IPAM.Config 0).Subnet}}{{end}}|{{range \$i, \$v := .Containers}}{{\$v.Name}}:{{\$v.IPv4Address}} {{end}}" $query
+	} | column -ts\|
 }
 
 case "$1" in
