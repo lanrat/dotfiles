@@ -6,4 +6,4 @@ USAGE: Run `./setup.sh <module to link>`
 
 ## Scripts
 
-Links commonly used scripts to `~/bin/`
+Links commonly used scripts to `~/.local/bin/`

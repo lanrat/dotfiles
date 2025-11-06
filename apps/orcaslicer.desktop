@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=OrcaSlicer
-Exec=sh -c '"$HOME"/bin/OrcaSlicer*.AppImage %U'
+Exec=sh -c '"$HOME"/.local/bin/OrcaSlicer*.AppImage %U'
 Terminal=false
 Type=Application
 Icon=applications-engineering

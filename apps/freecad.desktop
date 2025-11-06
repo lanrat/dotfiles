@@ -3,6 +3,6 @@ Type=Application
 Name=FreeCAD
 Comment=3D Design
 #Icon=
-Exec=sh -c '"$HOME"/bin/FreeCAD*.AppImage %U'
+Exec=sh -c '"$HOME"/.local/bin/FreeCAD*.AppImage %U'
 Terminal=false
 Categories=Utility

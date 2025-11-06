@@ -139,7 +139,7 @@ function link_scripts {
     do
         bname=$(basename "$script")
         name="${bname%.*}"
-        make_link "$script" "$HOME/bin/$name"
+        make_link "$script" "$HOME/.local/bin/$name"
     done
 }
 
@@ -175,11 +175,11 @@ function link_apps {
     done
 
 
-    ## AppImage files in ~/bin
+    ## AppImage files in ~/.local/bin
 
     # for OrcaSlicer
     App="OrcaSlicer*.AppImage"
-    appimage=( $HOME/bin/$App )
+    appimage=( $HOME/.local/bin/$App )
     echo ">> found: appimage: ${appimage[0]}"
     if [ -f "${appimage[0]}" ]; then
         app="orcaslicer.desktop"
@@ -190,7 +190,7 @@ function link_apps {
 
     # for FreeCad
     App="FreeCAD*.AppImage"
-    appimage=( $HOME/bin/$App )
+    appimage=( $HOME/.local/bin/$App )
     echo ">> found: appimage: ${appimage[0]}"
     if [ -f "${appimage[0]}" ]; then
         app="freecad.desktop"
