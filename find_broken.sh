@@ -3,6 +3,7 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 RM_FLAG=false
+BROKEN_COUNT=0
 
 # Parse arguments
 if [[ "$1" == "--rm" ]]; then
@@ -12,16 +13,18 @@ fi
 find_broken_symlinks() {
     local search_dir="$1"
     shift
-    find "$search_dir" "$@" -xtype l | while read -r link; do
+    while read -r link; do
         target=$(readlink -f "$link" || readlink "$link")
         # Check if resolved target starts with $DIR
         if [[ "$target" == "$DIR"* ]]; then
             echo "$link"
             if [[ "$RM_FLAG" == true ]]; then
                 rm "$link"
+            else
+                BROKEN_COUNT=$((BROKEN_COUNT + 1))
             fi
         fi
-    done
+    done < <(find "$search_dir" "$@" -xtype l 2>/dev/null)
 }
 
 find "$DIR" -xtype l | while read -r link; do
@@ -35,3 +38,9 @@ find_broken_symlinks "$HOME/.config/"
 find_broken_symlinks "$HOME/.local/"
 find_broken_symlinks "$HOME" -maxdepth 2
 
+# Display message if broken links were found and --rm flag was not used
+if [[ "$BROKEN_COUNT" -gt 0 ]] && [[ "$RM_FLAG" == false ]]; then
+    echo ""
+    echo "Found $BROKEN_COUNT broken symlink(s) pointing to $DIR"
+    echo "Run with --rm flag to remove them: $0 --rm"
+fi
