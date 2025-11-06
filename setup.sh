@@ -159,8 +159,8 @@ function link_appimage {
 
     # shellcheck disable=SC2206
     appimage=( $HOME/.local/bin/$pattern )
-    echo ">> found: appimage: ${appimage[0]}"
     if [ -f "${appimage[0]}" ]; then
+        echo ">> found: appimage: ${appimage[0]}"
         make_link "$SCRIPT_DIR/apps/$desktop_file" "$HOME/.local/share/applications/$desktop_file"
     fi
 }
