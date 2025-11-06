@@ -153,6 +153,18 @@ function link_iterm2 {
     "$SCRIPT_DIR/iterm2/iterm2.sh"
 }
 
+function link_appimage {
+    local pattern="$1"
+    local desktop_file="$2"
+
+    # shellcheck disable=SC2206
+    appimage=( $HOME/.local/bin/$pattern )
+    echo ">> found: appimage: ${appimage[0]}"
+    if [ -f "${appimage[0]}" ]; then
+        make_link "$SCRIPT_DIR/apps/$desktop_file" "$HOME/.local/share/applications/$desktop_file"
+    fi
+}
+
 function link_apps {
     echo "Linking apps"
     if [ "$(uname)" != "Linux" ]; then
@@ -176,27 +188,8 @@ function link_apps {
 
 
     ## AppImage files in ~/.local/bin
-
-    # for OrcaSlicer
-    App="OrcaSlicer*.AppImage"
-    appimage=( $HOME/.local/bin/$App )
-    echo ">> found: appimage: ${appimage[0]}"
-    if [ -f "${appimage[0]}" ]; then
-        app="orcaslicer.desktop"
-        bname="$app"
-        make_link "$SCRIPT_DIR/apps/$app" "$HOME/.local/share/applications/$bname"
-    fi
-
-
-    # for FreeCad
-    App="FreeCAD*.AppImage"
-    appimage=( $HOME/.local/bin/$App )
-    echo ">> found: appimage: ${appimage[0]}"
-    if [ -f "${appimage[0]}" ]; then
-        app="freecad.desktop"
-        bname="$app"
-        make_link "$SCRIPT_DIR/apps/$app" "$HOME/.local/share/applications/$bname"
-    fi
+    link_appimage "OrcaSlicer*.AppImage" "orcaslicer.desktop"
+    link_appimage "FreeCAD*.AppImage" "freecad.desktop"
 
     update-desktop-database "$HOME/.local/share/applications/"
 }

@@ -21,6 +21,7 @@ fi
 
 # Check if old bin exists and has contents
 if [ ! -d "$OLD_BIN" ]; then
+    # shellcheck disable=SC2088
     echo "~/bin doesn't exist, nothing to migrate"
     exit 0
 fi
@@ -29,6 +30,7 @@ fi
 file_count=$(find "$OLD_BIN" -mindepth 1 -maxdepth 1 | wc -l)
 
 if [ "$file_count" -eq 0 ]; then
+    # shellcheck disable=SC2088
     echo "~/bin is empty, removing directory..."
     rmdir "$OLD_BIN"
     echo "Migration complete!"
