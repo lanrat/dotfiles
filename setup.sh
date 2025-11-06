@@ -257,7 +257,7 @@ function auto {
     fi
 
     # Running in a desktop session (value will be "wayland" or "x11")
-    if [[ -n "${XDG_SESSION_TYPE:-}" ]]; then
+    if [[ "${XDG_SESSION_TYPE:-}" == "wayland" ]] || [[ "${XDG_SESSION_TYPE:-}" == "x11" ]]; then
         echo "${XDG_SESSION_TYPE:-} detected: Enabling desktop mode"
         args+=(linux_desktop)
     fi
