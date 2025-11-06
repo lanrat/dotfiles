@@ -253,7 +253,7 @@ function auto {
     # If running over ssh, assume server
     if [[ -n "${SSH_CONNECTION:-}" ]] || [[ -n "${SSH_CLIENT:-}" ]]; then
         echo 'SSH detected: Enabling server mode'
-        args+=(link_server)
+        args+=(server)
     fi
 
     # Running in a desktop session (value will be "wayland" or "x11")
