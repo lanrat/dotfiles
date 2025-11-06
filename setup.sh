@@ -10,9 +10,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 function run {
     c="${1%/}"
-    if [ "$c" == "sublime-text-3" ]; then
-        c="sublime3"
-    elif [ "$c" == "nvim" ]; then
+    if [ "$c" == "nvim" ]; then
         c="vim"
     fi
     c="link_$c"
@@ -213,6 +211,7 @@ function link_environment.d {
         echo "linking env: $file"
         make_link "$file" "$HOME/.config/environment.d/$bname"
     done
+    echo "> You need to log out and back it to have the new environment take effect."
 }
 
 function link_dev {
@@ -225,6 +224,25 @@ function link_dev {
     run sqlite
 }
 
+function link_server {
+    link_dev
+    run claude
+    run code-server
+    run docker-plugins
+    run ssh
+}
+
+
+function link_mac {
+    link_dev
+    run iterm2
+}
+
+function link_linux_desktop {
+    link_server
+    run environment.d
+}
+
 args=("$@")
 
 # test if running in codespaces
@@ -233,6 +251,23 @@ if [ "${CODESPACES-}" = true ] ; then
     args+=(dev)
 fi
 
+# If running over ssh, assume server
+if [[ -n "${SSH_CONNECTION:-}" ]] || [[ -n "${SSH_CLIENT:-}" ]]; then
+    echo 'SSH detected: Enabling server mode'
+    args+=(link_server)
+fi
+
+# Running in a desktop session (value will be "wayland" or "x11")
+if [[ -n "${XDG_SESSION_TYPE:-}" ]]; then
+    echo "${XDG_SESSION_TYPE:-} detected: Enabling desktop mode"
+    args+=(linux_desktop)
+fi
+
+# Running on macOS
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    echo 'macOS detected: Enabling Mac mode'
+    args+=(mac)
+fi
 
 if [ "${#args[@]}" -eq 0 ];
 then
