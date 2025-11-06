@@ -173,24 +173,28 @@ function link_apps {
             echo "app $bname not found, skipping..."
         fi
     done
+
+
+    ## AppImage files in ~/bin
+
     # for OrcaSlicer
     App="OrcaSlicer*.AppImage"
     appimage=( $HOME/bin/$App )
     echo ">> found: appimage: ${appimage[0]}"
     if [ -f "${appimage[0]}" ]; then
         app="orcaslicer.desktop"
-        bname="orcaslicer.desktop"
+        bname="$app"
         make_link "$SCRIPT_DIR/apps/$app" "$HOME/.local/share/applications/$bname"
     fi
 
 
-    # for freecad
+    # for FreeCad
     App="FreeCAD*.AppImage"
     appimage=( $HOME/bin/$App )
     echo ">> found: appimage: ${appimage[0]}"
     if [ -f "${appimage[0]}" ]; then
         app="freecad.desktop"
-        bname="freecad.desktop"
+        bname="$app"
         make_link "$SCRIPT_DIR/apps/$app" "$HOME/.local/share/applications/$bname"
     fi
 
@@ -240,6 +244,7 @@ function link_mac {
 
 function link_linux_desktop {
     link_server
+    run apps
     run environment.d
 }
 
