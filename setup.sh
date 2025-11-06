@@ -245,34 +245,36 @@ function link_linux_desktop {
 
 args=("$@")
 
-# test if running in codespaces
-if [ "${CODESPACES-}" = true ] ; then
-    echo 'Enabling codespaces mode'
-    args+=(dev)
-fi
+function auto {
+    # test if running in codespaces
+    if [ "${CODESPACES-}" = true ] ; then
+        echo 'Enabling codespaces mode'
+        args+=(dev)
+    fi
 
-# If running over ssh, assume server
-if [[ -n "${SSH_CONNECTION:-}" ]] || [[ -n "${SSH_CLIENT:-}" ]]; then
-    echo 'SSH detected: Enabling server mode'
-    args+=(link_server)
-fi
+    # If running over ssh, assume server
+    if [[ -n "${SSH_CONNECTION:-}" ]] || [[ -n "${SSH_CLIENT:-}" ]]; then
+        echo 'SSH detected: Enabling server mode'
+        args+=(link_server)
+    fi
 
-# Running in a desktop session (value will be "wayland" or "x11")
-if [[ -n "${XDG_SESSION_TYPE:-}" ]]; then
-    echo "${XDG_SESSION_TYPE:-} detected: Enabling desktop mode"
-    args+=(linux_desktop)
-fi
+    # Running in a desktop session (value will be "wayland" or "x11")
+    if [[ -n "${XDG_SESSION_TYPE:-}" ]]; then
+        echo "${XDG_SESSION_TYPE:-} detected: Enabling desktop mode"
+        args+=(linux_desktop)
+    fi
 
-# Running on macOS
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    echo 'macOS detected: Enabling Mac mode'
-    args+=(mac)
-fi
+    # Running on macOS
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo 'macOS detected: Enabling Mac mode'
+        args+=(mac)
+    fi
+}
 
 if [ "${#args[@]}" -eq 0 ];
 then
-    echo "Usage: $0 {all | CONFIG_TO_LINK}"
-    exit 1
+    echo "No arguments provided, running in auto mode"
+    auto
 fi
 
 # run all links
