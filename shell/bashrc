@@ -4,6 +4,13 @@
 # -----------
 # shellcheck shell=bash
 
+# Source .profile for non-login shells (GUI terminals)
+# Login shells already got .profile via .bash_profile
+# shellcheck source=/dev/null
+if ! shopt -q login_shell && [ -f ~/.profile ]; then
+    . ~/.profile
+fi
+
 #echo "bashrc start"
 
 if [ -n "$BASH_PROFILE_STARTUP" ]; then
@@ -196,7 +203,6 @@ function extract () {
       case "$1" in
           *.tar.bz2)   tar xvjf "$1"    ;;
           *.tar.gz)    tar xvzf "$1"    ;;
-          *.xz)        xz --decompress "$1" ;;
           *.bz2)       bunzip2 "$1"     ;;
           *.rar)       rar x "$1"       ;;
           *.gz)        gunzip "$1"      ;;
