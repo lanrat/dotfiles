@@ -1,0 +1,42 @@
+# this file lists paths that are ignored by my config management
+
+# gnome device specific settings
+org/gnome/desktop/background
+org/gnome/desktop/screensaver
+org/gnome/nm-applet
+org/gnome/power-manager
+org/gnome/settings-daemon/plugins/
+
+
+# included gnome apps
+org/gnome/eog/ui
+org/gnome/evince
+org/gnome/evolution-data-server
+org/gnome/gnome-system-monitor
+org/gnome/baobab/ui
+org/gnome/calculator
+org/gnome/clocks
+org/gnome/nautilus
+
+
+# other gnome stuff
+org/gnome/desktop/wm/keybindings
+org/gnome/desktop/input-sources
+org/gnome/desktop/notifications/application/
+org/gnome/portal/filechooser/
+com/mattjakeman/ExtensionManager
+org/gnome/desktop/app-folders
+org/gnome/control-center
+org/gnome/mutter/keybindings
+org/gnome/shell/extensions
+org/gnome/shell/world-clocks
+org/gnome/software
+org/gnome/system/location
+org/gtk/gtk4/settings/file-chooser
+org/gtk/settings/color-chooser
+org/gtk/settings/file-chooser
+
+
+# apps
+apps/
+com/ubuntu/update-notifier
