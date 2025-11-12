@@ -148,6 +148,28 @@ function link_ssh {
     # TODO
 }
 
+function link_gnome {
+    echo "Updating Gnome Settings"
+
+    mkdir -p "$SCRIPT_DIR/gnome/backups/"
+
+    # Find most recent backup
+    latest_backup=$(ls -t "$SCRIPT_DIR/gnome/backups/settings_backup_"*.ini 2>/dev/null | head -n1)
+
+    # Only create backup if different from last backup (or no backup exists)
+    if [ -z "$latest_backup" ] || ! diff -q <(dconf dump /) "$latest_backup" > /dev/null 2>&1; then
+        backup_date="$(date +%Y-%m-%d_%H-%M-%S)"
+        backup_filename="settings_backup_$backup_date.ini"
+        echo ">> Creating a backup: $backup_filename"
+        dconf dump / > "$SCRIPT_DIR/gnome/backups/$backup_filename"
+    else
+        echo ">> No changes detected, skipping backup"
+    fi
+
+    echo ">> Importing Settings"
+    dconf load / < "$SCRIPT_DIR/gnome/settings.ini"
+}
+
 function link_iterm2 {
     echo "Linking iterm2"
     "$SCRIPT_DIR/iterm2/iterm2.sh"
@@ -239,6 +261,11 @@ function link_linux_desktop {
     link_server
     run apps
     run environment.d
+
+    # if dconf for gnome is present, restore gnome settings
+    if command -v "dconf" &> /dev/null; then
+        run gnome
+    fi
 }
 
 args=("$@")
