@@ -24,10 +24,42 @@ def should_ignore(path: str, ignored_paths: set) -> bool:
     return any(path.startswith(ign + '/') for ign in ignored_paths)
 
 
+def load_ignored_keys(filepath: Path) -> dict:
+    """
+    Load ignored keys from ignored_keys.ini
+
+    Returns:
+        Dict mapping section -> set of ignored keys
+    """
+    ignored_keys = {}
+
+    if not filepath.exists():
+        return ignored_keys
+
+    config = configparser.ConfigParser()
+    config.optionxform = str  # Preserve case
+
+    try:
+        config.read(filepath)
+        for section in config.sections():
+            ignored_keys[section] = set(config.options(section))
+    except configparser.Error as e:
+        print(f"Warning: Error reading {filepath}: {e}", file=sys.stderr)
+
+    return ignored_keys
+
+
 def compare_section_values(section: str, system_config: configparser.ConfigParser,
-                          settings_config: configparser.ConfigParser):
+                          settings_config: configparser.ConfigParser,
+                          ignored_keys: dict):
     """
     Compare key/values within a section
+
+    Args:
+        section: Section name to compare
+        system_config: System configuration
+        settings_config: Settings.ini configuration
+        ignored_keys: Dict mapping section -> set of ignored keys
 
     Returns:
         Tuple of (keys_only_in_settings, keys_only_in_system, keys_with_diff_values)
@@ -36,12 +68,16 @@ def compare_section_values(section: str, system_config: configparser.ConfigParse
     system_items = dict(system_config.items(section))
     settings_items = dict(settings_config.items(section))
 
+    # Get keys to ignore for this section
+    section_ignored = ignored_keys.get(section, set())
+
     system_keys = set(system_items.keys())
     settings_keys = set(settings_items.keys())
 
-    only_in_settings = settings_keys - system_keys
-    only_in_system = system_keys - settings_keys
-    common_keys = settings_keys & system_keys
+    # Filter out ignored keys
+    only_in_settings = (settings_keys - system_keys) - section_ignored
+    only_in_system = (system_keys - settings_keys) - section_ignored
+    common_keys = (settings_keys & system_keys) - section_ignored
 
     diff_values = {}
     for key in common_keys:
@@ -79,6 +115,10 @@ def main():
         ignored = {line.strip().rstrip('/')
                   for line in ignored_file.read_text().splitlines()
                   if line.strip() and not line.startswith('#')}
+
+    # Load ignored keys
+    ignored_keys_file = script_dir / 'ignored_keys.ini'
+    ignored_keys = load_ignored_keys(ignored_keys_file)
 
     # Check for configuration errors: paths in settings.ini that are ignored
     all_settings_paths = set(settings_config.sections())
@@ -134,7 +174,7 @@ def main():
         paths_with_diffs = []
         for section in sorted(in_both):
             only_in_settings_keys, only_in_system_keys, diff_values = \
-                compare_section_values(section, system_config, settings_config)
+                compare_section_values(section, system_config, settings_config, ignored_keys)
 
             if only_in_settings_keys or only_in_system_keys or diff_values:
                 paths_with_diffs.append((section, only_in_settings_keys,
