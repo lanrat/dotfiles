@@ -202,6 +202,9 @@ function link_gnome {
     echo ">> Importing Settings"
     dconf load / < "$SCRIPT_DIR/gnome/settings.ini"
     echo ">> Settings imported successfully!"
+
+    # check extensions
+    $SCRIPT_DIR/gnome/extensions.sh
 }
 
 function link_iterm2 {

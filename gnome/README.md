@@ -6,8 +6,12 @@
 - `ingored_paths.txt` - Paths to ignore during comparison
 - `ignored_keys.ini` - Specific keys to ignore (device-specific settings)
 - `compare_settings.py` - Compare current system settings with settings.ini
+- `extensions.txt` - List of GNOME extensions to track (supports comments with #)
+- `extensions.sh` - Manage GNOME extensions
 
 ## Usage
+
+### Compare Settings
 
 Compare current system settings with tracked settings:
 
@@ -24,6 +28,28 @@ The script will show:
 - Warning if any paths in `settings.ini` are also ignored
 
 Device-specific keys listed in `ignored_keys.ini` are filtered out from the comparison.
+
+### Manage Extensions
+
+Compare and install extensions:
+
+```bash
+./extensions.sh
+```
+
+The script will:
+1. Compare enabled extensions with `extensions.txt`
+2. Prompt to install any missing extensions
+
+You can also run individual functions:
+
+```bash
+# Just compare extensions
+source extensions.sh && compare_extensions
+
+# Just install missing extensions
+source extensions.sh && install_missing_extensions
+```
 
 ## Managing Settings
 

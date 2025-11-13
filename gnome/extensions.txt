@@ -1,0 +1,15 @@
+Bluetooth-Battery-Meter@maniacx.github.com
+tiling-assistant@ubuntu.com
+launch-new-instance@gnome-shell-extensions.gcampax.github.com
+custom-hot-corners-extended@G-dH.github.com
+caffeine@patapon.info
+
+# not sure if this is still needed
+#bluetooth-quick-connect@bjarosze.gmail.com
+
+
+# installed but not required
+#reorder-workspaces@jer.dev
+#notification-position@github.com
+#notification-timeout@chlumskyvaclav.gmail.com
+#Move_Clock@rmy.pobox.com
