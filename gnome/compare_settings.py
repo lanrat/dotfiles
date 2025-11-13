@@ -166,6 +166,7 @@ def main():
         print("\n✓ All paths match!")
 
     # Compare values for common paths
+    has_differences = False
     if in_both:
         print(f"\n{'=' * 70}")
         print(f"Value Comparison for Common Paths ({len(in_both)} paths)")
@@ -181,30 +182,37 @@ def main():
                                        only_in_system_keys, diff_values))
 
         if paths_with_diffs:
+            has_differences = True
             for section, only_in_settings_keys, only_in_system_keys, diff_values in paths_with_diffs:
                 print(f"\n[{section}]")
 
                 if only_in_settings_keys:
-                    print("  Keys in settings.ini but NOT in system:")
+                    print("Keys in settings.ini but NOT in system:")
                     for key in sorted(only_in_settings_keys):
                         value = settings_config.get(section, key)
-                        print(f"    - {key}={value}")
-
-                if only_in_system_keys:
-                    print("  Keys in system but NOT in settings.ini:")
-                    for key in sorted(only_in_system_keys):
-                        value = system_config.get(section, key)
-                        print(f"    + {key}={value}")
+                        print(f"  - {key}={value}")
 
                 if diff_values:
-                    print("  Keys with different values:")
+                    print("Keys with different values:")
                     for key in sorted(diff_values.keys()):
                         settings_val, system_val = diff_values[key]
-                        print(f"    ~ {key}")
-                        print(f"        settings.ini: {settings_val}")
-                        print(f"        system:       {system_val}")
+                        print(f"  ~ {key}")
+                        print(f"      settings.ini: {settings_val}")
+                        print(f"      system:       {system_val}")
+
+                if only_in_system_keys:
+                    print("Keys in system but NOT in settings.ini:")
+                    for key in sorted(only_in_system_keys):
+                        value = system_config.get(section, key)
+                        print(f"  + {key}={value}")
         else:
             print("\n✓ All values match for common paths!")
+
+    # Exit with status code 1 if there are any differences
+    if only_in_settings or only_in_system or has_differences:
+        sys.exit(1)
+    else:
+        sys.exit(0)
 
 
 if __name__ == '__main__':

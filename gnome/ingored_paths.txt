@@ -17,6 +17,13 @@ org/gnome/baobab/ui
 org/gnome/calculator
 org/gnome/clocks
 org/gnome/nautilus
+org/gnome/Mines
+org/gnome/Totem
+org/gnome/calendar
+org/gnome/cheese
+org/gnome/deja-dup
+org/gnome/file-roller
+org/gnome/shotwell
 
 
 # other gnome stuff
