@@ -1,5 +1,5 @@
 Bluetooth-Battery-Meter@maniacx.github.com
-tiling-assistant@ubuntu.com
+tiling-assistant@leleat-on-github
 launch-new-instance@gnome-shell-extensions.gcampax.github.com
 custom-hot-corners-extended@G-dH.github.com
 caffeine@patapon.info
