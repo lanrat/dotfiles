@@ -151,6 +151,12 @@ function link_ssh {
 function link_gnome {
     echo "Updating Gnome Settings"
 
+    # double check that this is really gnome
+    if [[ "$XDG_CURRENT_DESKTOP" != *"GNOME"* ]]; then
+        echo "Gnome not running, detected $XDG_CURRENT_DESKTOP"
+        return
+    fi
+
     # Check if dconf is available
     if ! command -v dconf &> /dev/null; then
         echo "Error: dconf command not found. Is GNOME installed?"
