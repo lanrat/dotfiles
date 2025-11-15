@@ -69,25 +69,31 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
+    # Define color codes for prompt components
     reset_c='\e[0m'
     path_c='\e[0;36m'         # Cyan
     host_c='\e[0;32m'         # Green
     user_c='\e[0;34m'         # Blue
     gray_c='\e[1;30m'
     red_c='\e[0;31m'
+    # Set prompt character (# for root, $ for normal user)
     p='\$'
     if [[ $EUID -eq 0 ]];
     then
         p='#'
         user_c=$red_c # root user is red
     fi
-    PS1="\[$user_c\]\u\[$gray_c\]@\[$host_c\]\h\[$gray_c\]:\[$path_c\]\w\$(EXIT=\$?; if [ \$EXIT != 0 ]; then echo -en \[\e[0\;31m\][\$EXIT]\[$reset_c\]; fi;)\[$gray_c\]$p\[$reset_c\] "
+    # Build PS1: user@host:path[exitcode]$
+    # Exit code only shown on non-zero (failures)
+    PS1="\[$user_c\]\u\[$gray_c\]@\[$host_c\]\h\[$gray_c\]:\[$path_c\]\w\$(EXIT=\$?; [ \$EXIT != 0 ] && printf '\[\e[0;31m\][%s]\[$reset_c\]' \"\$EXIT\")\[$gray_c\]$p\[$reset_c\] "
+    # PS2: continuation prompt for multi-line commands
     # vscode seems to double encode PS2 which breaks it, only set it on normal terms
     if [ "$TERM_PROGRAM" != "vscode" ]; then
       PS2="\[$path_c\]>\[$reset_c\] "
     fi
     unset reset_c user_c host_c path_c
 else
+    # Fallback prompt without colors
     PS1='\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
