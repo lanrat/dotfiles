@@ -36,9 +36,8 @@ gio launch file.desktop
 
 ## Enviroment
 
-New Wayland envirometn variable to enable wayland mode
+New Wayland environment variable to enable wayland mode
 
-```
+```shell
 ELECTRON_OZONE_PLATFORM_HINT=auto
 ```
-
