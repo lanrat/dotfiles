@@ -171,11 +171,12 @@ function link_gnome {
 
     # Run comparison to show what will change
     echo ">> Checking what will change..."
+    local skip_settings_import=false
     if [ -x "$SCRIPT_DIR/gnome/compare_settings.py" ]; then
         if "$SCRIPT_DIR/gnome/compare_settings.py"; then
             # Exit code 0 means no differences
             echo ">> No changes to import, settings already match!"
-            return 0
+            skip_settings_import=true
         else
             # Exit code 1 means there are differences
             echo ""
@@ -183,31 +184,33 @@ function link_gnome {
             echo
             if [[ ! $REPLY =~ ^[Yy]$ ]]; then
                 echo "Import cancelled"
-                return 0
+                skip_settings_import=true
             fi
         fi
     else
         echo "Warning: compare_settings.py not found or not executable, skipping comparison check"
     fi
 
-    mkdir -p "$SCRIPT_DIR/gnome/backups/"
+    if [ "$skip_settings_import" = false ]; then
+        mkdir -p "$SCRIPT_DIR/gnome/backups/"
 
-    # Find most recent backup
-    latest_backup=$(ls -t "$SCRIPT_DIR/gnome/backups/settings_backup_"*.ini 2>/dev/null | head -n1 || true)
+        # Find most recent backup
+        latest_backup=$(ls -t "$SCRIPT_DIR/gnome/backups/settings_backup_"*.ini 2>/dev/null | head -n1 || true)
 
-    # Only create backup if different from last backup (or no backup exists)
-    if [ -z "$latest_backup" ] || ! diff -q <(dconf dump /) "$latest_backup" > /dev/null 2>&1; then
-        backup_date="$(date +%Y-%m-%d_%H-%M-%S)"
-        backup_filename="settings_backup_$backup_date.ini"
-        echo ">> Creating a backup: $backup_filename"
-        dconf dump / > "$SCRIPT_DIR/gnome/backups/$backup_filename"
-    else
-        echo ">> No changes detected, skipping backup"
+        # Only create backup if different from last backup (or no backup exists)
+        if [ -z "$latest_backup" ] || ! diff -q <(dconf dump /) "$latest_backup" > /dev/null 2>&1; then
+            backup_date="$(date +%Y-%m-%d_%H-%M-%S)"
+            backup_filename="settings_backup_$backup_date.ini"
+            echo ">> Creating a backup: $backup_filename"
+            dconf dump / > "$SCRIPT_DIR/gnome/backups/$backup_filename"
+        else
+            echo ">> No changes detected, skipping backup"
+        fi
+
+        echo ">> Importing Settings"
+        dconf load / < "$SCRIPT_DIR/gnome/settings.ini"
+        echo ">> Settings imported successfully!"
     fi
-
-    echo ">> Importing Settings"
-    dconf load / < "$SCRIPT_DIR/gnome/settings.ini"
-    echo ">> Settings imported successfully!"
 
     # check extensions
     $SCRIPT_DIR/gnome/extensions.sh
