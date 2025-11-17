@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# cspell:words vimrc psql iterm appimage bname dconf
 set -eu
 set -o pipefail
 if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
@@ -150,70 +151,7 @@ function link_ssh {
 
 function link_gnome {
     echo "Updating Gnome Settings"
-
-    # double check that this is really gnome
-    if [[ "$XDG_CURRENT_DESKTOP" != *"GNOME"* ]]; then
-        echo "Gnome not running, detected $XDG_CURRENT_DESKTOP"
-        return
-    fi
-
-    # Check if dconf is available
-    if ! command -v dconf &> /dev/null; then
-        echo "Error: dconf command not found. Is GNOME installed?"
-        exit 1
-    fi
-
-    # Validate settings.ini exists and is readable
-    if [ ! -f "$SCRIPT_DIR/gnome/settings.ini" ]; then
-        echo "Error: settings.ini not found at $SCRIPT_DIR/gnome/settings.ini"
-        exit 1
-    fi
-
-    # Run comparison to show what will change
-    echo ">> Checking what will change..."
-    local skip_settings_import=false
-    if [ -x "$SCRIPT_DIR/gnome/compare_settings.py" ]; then
-        if "$SCRIPT_DIR/gnome/compare_settings.py"; then
-            # Exit code 0 means no differences
-            echo ">> No changes to import, settings already match!"
-            skip_settings_import=true
-        else
-            # Exit code 1 means there are differences
-            echo ""
-            read -p "Do you want to proceed with importing settings? (y/N) " -n 1 -r
-            echo
-            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                echo "Import cancelled"
-                skip_settings_import=true
-            fi
-        fi
-    else
-        echo "Warning: compare_settings.py not found or not executable, skipping comparison check"
-    fi
-
-    if [ "$skip_settings_import" = false ]; then
-        mkdir -p "$SCRIPT_DIR/gnome/backups/"
-
-        # Find most recent backup
-        latest_backup=$(ls -t "$SCRIPT_DIR/gnome/backups/settings_backup_"*.ini 2>/dev/null | head -n1 || true)
-
-        # Only create backup if different from last backup (or no backup exists)
-        if [ -z "$latest_backup" ] || ! diff -q <(dconf dump /) "$latest_backup" > /dev/null 2>&1; then
-            backup_date="$(date +%Y-%m-%d_%H-%M-%S)"
-            backup_filename="settings_backup_$backup_date.ini"
-            echo ">> Creating a backup: $backup_filename"
-            dconf dump / > "$SCRIPT_DIR/gnome/backups/$backup_filename"
-        else
-            echo ">> No changes detected, skipping backup"
-        fi
-
-        echo ">> Importing Settings"
-        dconf load / < "$SCRIPT_DIR/gnome/settings.ini"
-        echo ">> Settings imported successfully!"
-    fi
-
-    # check extensions
-    $SCRIPT_DIR/gnome/extensions.sh
+    "$SCRIPT_DIR/gnome/setup_gnome.sh"
 }
 
 function link_iterm2 {

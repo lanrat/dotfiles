@@ -34,7 +34,7 @@ gio launch file.desktop
 * `--enable-features=WebRTCPipeWireCapturer` allow using pipewire for wayland screen share. Does not seem needed anymore (06-07-2024)
 
 
-## Enviroment
+## Environment
 
 New Wayland environment variable to enable wayland mode
 

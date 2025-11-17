@@ -2,7 +2,6 @@ Bluetooth-Battery-Meter@maniacx.github.com
 bluetooth-quick-connect@bjarosze.gmail.com
 tiling-assistant@leleat-on-github
 launch-new-instance@gnome-shell-extensions.gcampax.github.com
-custom-hot-corners-extended@G-dH.github.com
 caffeine@patapon.info
 Move_Clock@rmy.pobox.com
 
@@ -10,4 +9,4 @@ Move_Clock@rmy.pobox.com
 #reorder-workspaces@jer.dev
 #notification-position@github.com
 #notification-timeout@chlumskyvaclav.gmail.com
-
+#custom-hot-corners-extended@G-dH.github.com
