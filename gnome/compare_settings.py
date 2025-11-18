@@ -166,7 +166,8 @@ def main():
         print("\n✓ All paths match!")
 
     # Compare values for common paths
-    has_differences = False
+    has_import_worthy_differences = False
+    has_system_only_keys = False
     if in_both:
         print(f"\n{'=' * 70}")
         print(f"Value Comparison for Common Paths ({len(in_both)} paths)")
@@ -181,8 +182,13 @@ def main():
                 paths_with_diffs.append((section, only_in_settings_keys,
                                        only_in_system_keys, diff_values))
 
+                # Track what kind of differences we have
+                if only_in_settings_keys or diff_values:
+                    has_import_worthy_differences = True
+                if only_in_system_keys:
+                    has_system_only_keys = True
+
         if paths_with_diffs:
-            has_differences = True
             for section, only_in_settings_keys, only_in_system_keys, diff_values in paths_with_diffs:
                 print(f"\n[{section}]")
 
@@ -208,10 +214,18 @@ def main():
         else:
             print("\n✓ All values match for common paths!")
 
-    # Exit with status code 1 if there are any differences
-    if only_in_settings or only_in_system or has_differences:
+    # Exit with different status codes based on type of differences:
+    # 0 = no differences
+    # 1 = differences that should trigger import (settings.ini has changes for system)
+    # 2 = only system has extra settings/keys (no need to import)
+    if only_in_settings or has_import_worthy_differences:
+        # There are settings to import from settings.ini
         sys.exit(1)
+    elif only_in_system or has_system_only_keys:
+        # Only system has extra settings/keys, no need to import
+        sys.exit(2)
     else:
+        # No differences at all
         sys.exit(0)
 
 

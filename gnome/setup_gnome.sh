@@ -23,12 +23,19 @@ function setup_gnome {
     echo ">> Checking what will change..."
     local skip_settings_import=false
     if [ -x "$SCRIPT_DIR/compare_settings.py" ]; then
-        if "$SCRIPT_DIR/compare_settings.py"; then
+        "$SCRIPT_DIR/compare_settings.py"
+        local exit_code=$?
+
+        if [ $exit_code -eq 0 ]; then
             # Exit code 0 means no differences
             echo ">> No changes to import, settings already match!"
             skip_settings_import=true
+        elif [ $exit_code -eq 2 ]; then
+            # Exit code 2 means only system has extra settings (not in settings.ini)
+            echo ">> Only system has extra settings not in settings.ini, skipping import"
+            skip_settings_import=true
         else
-            # Exit code 1 means there are differences
+            # Exit code 1 means there are differences to import
             echo ""
             read -p "Do you want to proceed with importing settings? (y/N) " -n 1 -r
             echo
