@@ -9,29 +9,48 @@ EOF
 }
 
 usage() {
-	echo "Usage: docker volumesize <volume_name...>"
+	echo "Usage: docker volumesize [OPTIONS] <volume_name...>"
 	echo ""
 	echo "Show the size of one or more Docker volumes."
+	echo ""
+	echo "Options:"
+	echo "  -a, --all      Show size of all volumes"
 	echo ""
 	echo "Arguments:"
 	echo "  volume_name    Name(s) of the volume(s) to check size"
 }
 
+show-volume-size() {
+    local volume="$1"
+    if ! docker volume ls -q | grep -q "^$volume\$"; then
+        echo "volume $volume does not exist!"
+        return 1
+    fi
+    docker run --rm --name "volume-size-$volume" --volume "$volume:/$volume/:ro" bash du -sh /$volume
+}
+
 docker-volumesize() {
-    if [ $# -lt 1 ]
-    then
+    if [ $# -lt 1 ]; then
         usage
         exit 1
     fi
 
-    for image in "$@"; do
-        if ! docker volume ls -q | grep -q "^$image\$"; then
-            echo "volume $image does not exist!"
-            continue
-            #exit 1
+    # Check for --all or -a flag
+    if [[ "$1" == "--all" || "$1" == "-a" ]]; then
+        local volumes
+        volumes=$(docker volume ls -q | grep -v "^$")
+        if [ -z "$volumes" ]; then
+            echo "No volumes found."
+            exit 0
         fi
+        for volume in $volumes; do
+            show-volume-size "$volume"
+        done
+        exit 0
+    fi
 
-        docker run --rm --name "volume-size-$1" --volume "$image:/$image/:ro" bash du -sh /$image
+    for volume in "$@"; do
+        show-volume-size "$volume"
     done
 }
 
@@ -40,6 +59,8 @@ case "$1" in
 		docker_cli_plugin_metadata
 		;;
 	__complete)
+		echo "-a"
+		echo "--all"
 		docker volume ls -q | grep -v "^$"
 		;;
 	*)
