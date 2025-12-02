@@ -4,6 +4,7 @@ set -eu
 set -o pipefail
 if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+BACKUP_DIR="$SCRIPT_DIR/.backups/$(date +%Y%m%d%H%M%S)"
 
 #
 # helper functions
@@ -35,14 +36,15 @@ function make_link {
     target="$1"
     src="$2"
 
-    if [ -L "$src" ];
-    then
+    if [ -L "$src" ]; then
         rm "$src"
     fi
-    if [ -e "$src" ];
-    then
-        echo "$src already exists, making backup $src.bak"
-        mv "$src" "$src.bak"
+    if [ -e "$src" ]; then
+        mkdir -p "$BACKUP_DIR"
+        backup_path="$BACKUP_DIR$src"
+        mkdir -p "$(dirname "$backup_path")"
+        echo "$src already exists, backing up to $backup_path"
+        mv "$src" "$backup_path"
     fi
     parent_dir=$(dirname "$src")
     mkdir -p "$parent_dir"
