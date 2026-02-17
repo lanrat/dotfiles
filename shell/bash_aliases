@@ -68,7 +68,7 @@ function cgrep
     # only lowercase searched, case-insensitive
     f="${f}i"
   fi
-  grep --exclude-dir=.git -$f "${args[@]}"
+  grep --exclude-dir=.git --exclude-dir=.venv -$f "${args[@]}"
 }
 
 # allow running unsigned binary on macOS
