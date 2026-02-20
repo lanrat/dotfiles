@@ -219,6 +219,18 @@ function link_environment.d {
     echo "> You need to log out and back it to have the new environment take effect."
 }
 
+function link_bash-completion {
+    echo "Linking bash-completion"
+    mkdir -p "$HOME/.local/share/bash-completion/completions"
+
+    # 1Password CLI
+    # Re-run setup.sh if op is updated to regenerate completions
+    if command -v op &> /dev/null; then
+        echo "Generating op completion"
+        op completion bash > "$HOME/.local/share/bash-completion/completions/op"
+    fi
+}
+
 function link_dev {
     run git
     run vim
@@ -227,6 +239,7 @@ function link_dev {
     run tmux
     run psql
     run sqlite
+    run bash-completion
 }
 
 function link_server {
