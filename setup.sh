@@ -16,7 +16,7 @@ function run {
         c="vim"
     fi
     c="link_$c"
-    eval "$c"
+    "$c"
 }
 
 function link_all {
