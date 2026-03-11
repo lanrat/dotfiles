@@ -1,0 +1,264 @@
+#!/usr/bin/env bash
+set -e
+
+docker_cli_plugin_metadata() {
+    local vendor="lanrat"
+    local description="manage labels on docker volumes"
+    cat <<-EOF
+    {"SchemaVersion":"0.1.0","Vendor":"${vendor}","ShortDescription":"${description}"}
+EOF
+}
+
+usage() {
+    echo "Usage: docker volumelabel <volume_name> [OPTIONS]"
+    echo ""
+    echo "Add, update, or remove labels on an existing Docker volume."
+    echo "Recreates the volume with updated labels while preserving data."
+    echo "With no options, lists the current labels on the volume."
+    echo ""
+    echo "Options:"
+    echo "  -a, --add <key=value>    Add or update a label"
+    echo "  -r, --remove <key>       Remove a label"
+    echo "  -e, --export-tar <path>  Export volume data to a local tar.gz archive"
+    echo "  -d, --dry-run            Print the creation command and exit"
+    echo "  -y, --yes                Skip confirmation prompt"
+}
+
+docker-volumelabel() {
+    if [[ $# -lt 1 ]]; then
+        usage
+        exit 1
+    fi
+
+    VOL_NAME="$1"
+    shift
+
+    # Default variables
+    DRY_RUN=false
+    EXPORT_PATH=""
+    SKIP_CONFIRM=false
+    HAS_CHANGES=false
+
+    # 1. Verify the volume exists
+    if ! docker volume inspect "$VOL_NAME" >/dev/null 2>&1; then
+        echo "Error: Docker volume '$VOL_NAME' does not exist."
+        exit 1
+    fi
+
+    # 2. Extract Driver, Options, and Labels into arrays to preserve them
+    DRIVER=$(docker volume inspect "$VOL_NAME" --format '{{.Driver}}')
+
+    declare -A VOL_OPTS
+    while IFS='=' read -r key value; do
+        [[ -n "$key" ]] && VOL_OPTS["$key"]="$value"
+    done < <(docker volume inspect "$VOL_NAME" --format '{{if .Options}}{{range $k, $v := .Options}}{{$k}}={{$v}}{{"\n"}}{{end}}{{end}}')
+
+    declare -A VOL_LABELS
+    while IFS='=' read -r key value; do
+        [[ -n "$key" ]] && VOL_LABELS["$key"]="$value"
+    done < <(docker volume inspect "$VOL_NAME" --format '{{if .Labels}}{{range $k, $v := .Labels}}{{$k}}={{$v}}{{"\n"}}{{end}}{{end}}')
+
+    # 3. Parse user arguments
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --add|-a)
+                if [[ -z "${2-}" || "$2" == -* ]]; then
+                    echo "Error: $1 requires a key=value argument"
+                    exit 1
+                fi
+                IFS='=' read -r k v <<< "$2"
+                VOL_LABELS["$k"]="$v"
+                HAS_CHANGES=true
+                shift 2
+                ;;
+            --remove|-r)
+                if [[ -z "${2-}" || "$2" == -* ]]; then
+                    echo "Error: $1 requires a key argument"
+                    exit 1
+                fi
+                unset VOL_LABELS["$2"]
+                HAS_CHANGES=true
+                shift 2
+                ;;
+            --export-tar|-e)
+                if [[ -z "${2-}" || "$2" == -* ]]; then
+                    echo "Error: $1 requires a path argument"
+                    exit 1
+                fi
+                EXPORT_PATH="$2"
+                shift 2
+                ;;
+            --dry-run|-d)
+                DRY_RUN=true
+                shift 1
+                ;;
+            --yes|-y)
+                SKIP_CONFIRM=true
+                shift 1
+                ;;
+            *)
+                echo "Unknown option: $1"
+                exit 1
+                ;;
+        esac
+    done
+
+    # If no label changes requested, list current labels and exit
+    if [[ "$HAS_CHANGES" == false && -z "$EXPORT_PATH" ]]; then
+        if [[ ${#VOL_LABELS[@]} -eq 0 ]]; then
+            echo "Volume '$VOL_NAME' has no labels."
+        else
+            echo "Labels for volume '$VOL_NAME':"
+            for k in "${!VOL_LABELS[@]}"; do
+                echo "  $k=${VOL_LABELS[$k]}"
+            done
+        fi
+        exit 0
+    fi
+
+    # 4. Construct the new docker volume create command
+    CREATE_CMD=("docker" "volume" "create" "--driver" "$DRIVER")
+    for k in "${!VOL_OPTS[@]}"; do
+        CREATE_CMD+=("--opt" "$k=${VOL_OPTS[$k]}")
+    done
+    for k in "${!VOL_LABELS[@]}"; do
+        CREATE_CMD+=("--label" "$k=${VOL_LABELS[$k]}")
+    done
+    CREATE_CMD+=("$VOL_NAME")
+
+    # 5. Handle Dry Run
+    if [[ "$DRY_RUN" == true ]]; then
+        echo "--- DRY RUN MODE ---"
+        echo "The following command would be executed to recreate the volume:"
+        echo "${CREATE_CMD[@]}"
+        exit 0
+    fi
+
+    # 6. Confirmation prompt
+    if [[ "$SKIP_CONFIRM" != true ]]; then
+        echo "This will recreate volume '$VOL_NAME' with updated labels."
+        read -p "Continue? [y/N] " confirm
+        if [[ "$confirm" != [yY] ]]; then
+            echo "Aborted."
+            exit 0
+        fi
+    fi
+
+    # 7. Container Management (Freeze I/O)
+    mapfile -t ATTACHED_CONTAINERS < <(docker ps -a --filter volume="$VOL_NAME" --format '{{.Names}}')
+    if [[ ${#ATTACHED_CONTAINERS[@]} -gt 0 ]]; then
+        echo "-> Found attached containers. Stopping them to freeze I/O..."
+        # Only stop running ones to avoid errors
+        mapfile -t RUNNING < <(docker ps --filter volume="$VOL_NAME" --format '{{.Names}}')
+        if [[ ${#RUNNING[@]} -gt 0 ]]; then
+            docker stop "${RUNNING[@]}" >/dev/null
+        fi
+    fi
+
+    # 8. Local Tarball Export (Optional)
+    if [[ -n "$EXPORT_PATH" ]]; then
+        # Resolve absolute path for Docker bind mount
+        ABS_PATH=$(realpath "$EXPORT_PATH" 2>/dev/null || readlink -m "$EXPORT_PATH")
+        B_DIR=$(dirname "$ABS_PATH")
+        B_FILE=$(basename "$ABS_PATH")
+        echo "-> Exporting archive to $ABS_PATH..."
+        docker run --rm -v "$VOL_NAME:/from" -v "$B_DIR:/backup" alpine tar czf "/backup/$B_FILE" -C /from .
+    fi
+
+    # 9. Temporary Docker Backup
+    TEMP_VOL="${VOL_NAME}_temp_backup_$(date +%s)"
+    VOLUME_REMOVED=false
+
+    cleanup_on_failure() {
+        local exit_code=$?
+        if [[ "$exit_code" -eq 0 ]]; then
+            return
+        fi
+        echo ""
+        echo "=========================================================="
+        echo "ERROR: Volume recreation failed (exit code $exit_code)."
+        echo ""
+        echo "Your data is safe in the temporary backup volume:"
+        echo "  $TEMP_VOL"
+        echo ""
+        if [[ "$VOLUME_REMOVED" == true ]]; then
+            echo "The original volume '$VOL_NAME' was already removed."
+            echo "To restore your data manually:"
+            echo "  1. Recreate the volume:  docker volume create $VOL_NAME"
+            echo "  2. Copy data back:       docker run --rm -v $TEMP_VOL:/from -v $VOL_NAME:/to alpine ash -c 'cp -a /from/. /to/'"
+            echo "  3. Remove temp volume:   docker volume rm $TEMP_VOL"
+        else
+            echo "The original volume '$VOL_NAME' is still intact."
+            echo "To clean up the temp volume:  docker volume rm $TEMP_VOL"
+        fi
+        echo "=========================================================="
+    }
+    trap cleanup_on_failure EXIT
+
+    echo "-> Creating temporary backup volume ($TEMP_VOL)..."
+    docker volume create "$TEMP_VOL" >/dev/null
+
+    echo "-> Copying data to temporary backup..."
+    docker run --rm -v "$VOL_NAME:/from" -v "$TEMP_VOL:/to" alpine ash -c "cp -a /from/. /to/"
+
+    # 10. Handle Docker's Volume Removal Limitation
+    if [[ ${#ATTACHED_CONTAINERS[@]} -gt 0 ]]; then
+        echo ""
+        echo "=========================================================="
+        echo "ACTION REQUIRED: Docker prevents deleting volumes if ANY "
+        echo "containers (even stopped ones) are attached to it."
+        echo "Attached containers: "
+        printf '  - %s\n' "${ATTACHED_CONTAINERS[@]}"
+        echo "Please remove these containers in another terminal window "
+        echo "(e.g., 'docker compose down' or 'docker rm')."
+        echo "=========================================================="
+        read -p "Press Enter when the containers are removed to proceed..."
+    fi
+
+    echo "-> Removing original volume..."
+    docker volume rm "$VOL_NAME" >/dev/null
+    VOLUME_REMOVED=true
+
+    echo "-> Recreating original volume with preserved options and new labels..."
+    "${CREATE_CMD[@]}" >/dev/null
+
+    echo "-> Restoring data from temporary backup..."
+    docker run --rm -v "$TEMP_VOL:/from" -v "$VOL_NAME:/to" alpine ash -c "cp -a /from/. /to/"
+
+    echo "-> Cleaning up temporary backup volume..."
+    docker volume rm "$TEMP_VOL" >/dev/null
+
+    # Clear the trap on success
+    trap - EXIT
+
+    echo "Success! Volume '$VOL_NAME' has been updated."
+    echo "You can now recreate/start your containers."
+}
+
+case "$1" in
+    docker-cli-plugin-metadata)
+        docker_cli_plugin_metadata
+        ;;
+    __complete)
+        # $1=__complete, $2=volumelabel, $3=first_arg, etc.
+        if [[ ${#@} -le 3 ]]; then
+            # Completing first argument - show volume names
+            docker volume ls -q | grep -v "^$"
+        else
+            # Completing flags
+            echo "--add"
+            echo "--remove"
+            echo "--export-tar"
+            echo "--dry-run"
+            echo "--yes"
+        fi
+        ;;
+    *)
+        # Check if second argument is help flag
+        if [[ "$2" == "--help" || "$2" == "-h" ]]; then
+            usage
+        else
+            docker-volumelabel "${@:2}"
+        fi
+        ;;
+esac
