@@ -234,5 +234,15 @@ function ppgrep() { pgrep "$@" | xargs --no-run-if-empty ps fp; }
 unset -f completion-wrapper
 
 # create or enter python virtualenv
-alias py-venv='if [ ! -f .venv/bin/activate ]; then python3 -m venv .venv; fi && source .venv/bin/activate'
+py-venv() {
+    local dir="${1:-.}"
+    if [ ! -d "$dir" ]; then
+        echo "py-venv: directory '$dir' does not exist" >&2
+        return 1
+    fi
+    if [ ! -f "$dir/.venv/bin/activate" ]; then
+        python3 -m venv "$dir/.venv"
+    fi
+    source "$dir/.venv/bin/activate"
+}
 
