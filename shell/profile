@@ -27,10 +27,6 @@ if [ -d "$HOME/go/bin" ] ; then
     PATH="$HOME/go/bin:$PATH"
 fi
 
-# platformio PATH
-if [ -d "$HOME/.platformio/penv/bin" ] ; then
-    PATH="$HOME/.platformio/penv/bin:$PATH"
-fi
 
 # npm global PATH
 if [ -d "$HOME/.npm-global/bin" ] ; then
@@ -58,3 +54,8 @@ export LESS="-SiRFXn"
 if [ -f ~/.profile_local ]; then
     . ~/.profile_local
 fi
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/lanrat/.lmstudio/bin"
+# End of LM Studio CLI section
+
