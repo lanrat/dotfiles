@@ -72,6 +72,7 @@ function get_submodule {
 
 function link_code-server {
     make_link "$SCRIPT_DIR/code-server" "$HOME/.config/code-server"
+    mkdir -p "$HOME/.local/code-server"
 }
 
 function link_vim {
