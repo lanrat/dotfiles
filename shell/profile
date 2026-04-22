@@ -55,7 +55,7 @@ if [ -f ~/.profile_local ]; then
     . ~/.profile_local
 fi
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/home/lanrat/.lmstudio/bin"
-# End of LM Studio CLI section
+# disable github cli telemetry
+export GH_TELEMETRY=false
+export DO_NOT_TRACK=true
 
