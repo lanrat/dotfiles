@@ -73,6 +73,9 @@ function get_submodule {
 function link_code-server {
     make_link "$SCRIPT_DIR/code-server" "$HOME/.config/code-server"
     mkdir -p "$HOME/.local/code-server"
+    echo "To enable code-server user service, run:"
+    echo "systemctl --user enable --now code-server"
+    echo ""
 }
 
 function link_vim {
