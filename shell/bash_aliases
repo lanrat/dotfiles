@@ -241,7 +241,14 @@ py-venv() {
         return 1
     fi
     if [ ! -f "$dir/.venv/bin/activate" ]; then
-        python3 -m venv "$dir/.venv"
+        echo "py-venv: no virtualenv found at '$dir/.venv'" >&2
+        local reply
+        read -r -p "create one? [y/N] " reply
+        case "$reply" in
+            [yY]|[yY][eE][sS]) ;;
+            *) echo "py-venv: aborted" >&2; return 1 ;;
+        esac
+        python3 -m venv "$dir/.venv" || return 1
     fi
     source "$dir/.venv/bin/activate"
 }
